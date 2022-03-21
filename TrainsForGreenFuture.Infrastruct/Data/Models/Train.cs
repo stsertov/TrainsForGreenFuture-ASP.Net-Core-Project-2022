@@ -4,7 +4,7 @@
     using System.ComponentModel.DataAnnotations.Schema;
     using TrainsForGreenFuture.Infrastructure.Data.Models.Enum;
 
-    public class TrainCar
+    public class Train
     {
         [Key]
         public int Id { get; set; }
@@ -19,13 +19,14 @@
 
         public Category Category { get; set; }
 
+        public int TrainCarCount { get; set; }
+
+        public LuxuryLevel LuxuryLevel { get; set; }
+
+        [Required]
+        public EngineType EngineType { get; set; }
+
         public int Interrail { get; set; }
-
-        public int? SeatCount { get; set; }
-
-        public int? MaxWeightCapacity { get; set; }
-
-        public LuxuryLevel? LuxuryLevel { get; set; }
 
         [Required]
         public string Picture { get; set; }
