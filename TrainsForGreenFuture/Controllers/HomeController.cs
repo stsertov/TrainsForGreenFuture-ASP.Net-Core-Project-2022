@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
-using TrainsForGreenFuture.Models;
-
-namespace TrainsForGreenFuture.Controllers
+﻿namespace TrainsForGreenFuture.Controllers
 {
+    using Microsoft.AspNetCore.Mvc;
+    using System.Diagnostics;
+    using TrainsForGreenFuture.Models;
+
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

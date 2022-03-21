@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using TrainsForGreenFuture.Data;
+using TrainsForGreenFuture.Infrastructure.Data;
+using TrainsForGreenFuture.Infrastructure.Data.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,17 +16,25 @@ builder.Services.AddDbContext<TrainsDbContext>(options =>
 builder.Services
     .AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options =>
+builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
      options.SignIn.RequireConfirmedAccount = true)
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<TrainsDbContext>();
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddMemoryCache();
+
+builder.Services.AddControllersWithViews(options =>
+{
+    options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
+});
+
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    app.UseDeveloperExceptionPage();
     app.UseMigrationsEndPoint();
 }
 else
@@ -34,17 +44,25 @@ else
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
-app.UseStaticFiles();
 
-app.UseRouting();
+app
+    .UseHttpsRedirection()
+    .UseStaticFiles()
+    .UseRouting()
+    .UseAuthentication()
+    .UseAuthorization()
+    .UseEndpoints(endpoints =>
+    {
+        endpoints.MapControllerRoute(
+            name: "area",
+            pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
-app.UseAuthentication();
-app.UseAuthorization();
+        endpoints.MapControllerRoute(
+            name: "default",
+            pattern: "{controller=Home}/{action=Index}/{id?}");
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
-app.MapRazorPages();
+        endpoints.MapRazorPages();
+
+    });
 
 app.Run();

@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TrainsForGreenFuture.Core\TrainsForGreenFuture.Core.csproj" />
+    <ProjectReference Include="..\TrainsForGreenFuture.Infrastruct\TrainsForGreenFuture.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
