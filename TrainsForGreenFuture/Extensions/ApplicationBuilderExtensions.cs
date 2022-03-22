@@ -15,7 +15,7 @@
             MigrateDatabase(services);
 
             SeedCategories(services);
-
+            SeedInterrails(services); 
 
             return app;
         }
@@ -42,6 +42,20 @@
                 new Category { Name = "Cargo" },
                 new Category { Name = "Sleeper"},
                 new Category { Name = "Restaurant"}
+            });
+
+            data.SaveChanges();
+        }
+
+        public static void SeedInterrails(IServiceProvider services)
+        {
+            var data = services.GetRequiredService<TrainsDbContext>();
+
+            data.Interrails.AddRange(new[]
+            {
+                new Interrail { Length = 760 },
+                new Interrail { Length = 1435 },
+                new Interrail { Length = 1520 }
             });
 
             data.SaveChanges();
