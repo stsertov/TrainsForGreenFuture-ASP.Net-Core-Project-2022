@@ -4,7 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>aspnet-TrainsForGreenFuture-44E58A5A-40D4-4712-8B2B-B3DAA9E27CC8</UserSecretsId>
+    <UserSecretsId>TrainsForGreenFuture</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

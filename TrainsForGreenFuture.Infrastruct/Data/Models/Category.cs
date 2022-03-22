@@ -10,6 +10,5 @@
         [Required]
         public string Name { get; set; }
 
-        public int CargoWeight { get; set; }
     }
 }

@@ -1,12 +1,12 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using TrainsForGreenFuture.Extensions;
 using TrainsForGreenFuture.Infrastructure.Data;
-using TrainsForGreenFuture.Infrastructure.Data.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+//Add services to the container.
 var connectionString = builder.Configuration
     .GetConnectionString("DefaultConnection");
 
@@ -16,7 +16,7 @@ builder.Services.AddDbContext<TrainsDbContext>(options =>
 builder.Services
     .AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
+builder.Services.AddDefaultIdentity<IdentityUser>(options =>
      options.SignIn.RequireConfirmedAccount = true)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<TrainsDbContext>();
@@ -31,6 +31,7 @@ builder.Services.AddControllersWithViews(options =>
 
 var app = builder.Build();
 
+app.DatabaseCreator();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

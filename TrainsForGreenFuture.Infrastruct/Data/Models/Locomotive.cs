@@ -16,11 +16,6 @@
 
         public int Series { get; set; }
 
-        [ForeignKey(nameof(Category))]
-        public int CategoryId { get; set; }
-
-        public Category Category { get; set; }
-
         [Required]
         public EngineType EngineType { get; set; }
 
