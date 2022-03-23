@@ -66,5 +66,13 @@
             public const int minLength = 760; 
             public const int maxLength = 1520; 
         }
+
+        public class User
+        {
+            public const int nameMinLength = 2;
+            public const int nameMaxLength = 25;
+            public const int companyMinLength = 5;
+            public const int companyMaxLength = 35;
+        }
     }
 }

@@ -2,9 +2,10 @@
 {
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
+    using TrainsForGreenFuture.Infrastructure.Data.Identity;
     using TrainsForGreenFuture.Infrastructure.Data.Models;
 
-    public class TrainsDbContext : IdentityDbContext
+    public class TrainsDbContext : IdentityDbContext<User>
     {
         public TrainsDbContext(DbContextOptions<TrainsDbContext> options)
             : base(options)
