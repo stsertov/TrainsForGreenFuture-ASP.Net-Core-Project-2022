@@ -20,6 +20,8 @@ using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using TrainsForGreenFuture.Infrastructure.Data.Identity;
 
+using static TrainsForGreenFuture.Infrastructure.Data.DataConstants.User;
+
 namespace TrainsForGreenFuture.Areas.Identity.Pages.Account
 {
     public class RegisterModel : PageModel
@@ -75,6 +77,19 @@ namespace TrainsForGreenFuture.Areas.Identity.Pages.Account
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
             [Required]
+            [StringLength(nameMaxLength, MinimumLength = nameMinLength)]
+            public string FirstName { get; set; }
+
+
+            [Required]
+            [StringLength(nameMaxLength, MinimumLength = nameMinLength)]
+            public string LastName { get; set; }
+
+
+            [StringLength(companyMaxLength, MinimumLength = companyMinLength)]
+            public string Company { get; set; }
+
+            [Required]
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
@@ -84,7 +99,7 @@ namespace TrainsForGreenFuture.Areas.Identity.Pages.Account
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
             [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [StringLength(passwordMaxLength, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = passwordMinLength)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
             public string Password { get; set; }
@@ -112,8 +127,14 @@ namespace TrainsForGreenFuture.Areas.Identity.Pages.Account
             {
                 var user = CreateUser();
 
+                if (Input.Company == null)
+                    user.Company = Input.FirstName  +
+                        " " + Input.LastName;
+
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+                user.FirstName = Input.FirstName;
+                user.LastName = Input.LastName;
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)

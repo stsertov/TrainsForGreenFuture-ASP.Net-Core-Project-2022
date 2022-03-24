@@ -71,6 +71,8 @@
         {
             public const int nameMinLength = 2;
             public const int nameMaxLength = 25;
+            public const int passwordMinLength = 3;
+            public const int passwordMaxLength = 100;
             public const int companyMinLength = 5;
             public const int companyMaxLength = 35;
         }

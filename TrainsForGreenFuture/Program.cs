@@ -18,7 +18,11 @@ builder.Services
     .AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<User>(options =>
-     options.SignIn.RequireConfirmedAccount = true)
+{
+    options.Password.RequireUppercase = false;
+    options.Password.RequiredLength = 3;
+    options.Password.RequireNonAlphanumeric = false;
+    })
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<TrainsDbContext>();
 
