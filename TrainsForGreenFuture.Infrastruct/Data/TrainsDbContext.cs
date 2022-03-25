@@ -59,13 +59,13 @@
             });
 
             builder.Entity<Locomotive>()
-                .Property(b => b.Price).HasPrecision(12, 10);
+                .Property(b => b.Price).HasPrecision(12, 2);
 
             builder.Entity<TrainCar>()
-                .Property(b => b.Price).HasPrecision(12, 10);
+                .Property(b => b.Price).HasPrecision(12, 2);
 
             builder.Entity<Train>()
-                .Property(b => b.Price).HasPrecision(12, 10);
+                .Property(b => b.Price).HasPrecision(12, 2);
 
 
             base.OnModelCreating(builder);
