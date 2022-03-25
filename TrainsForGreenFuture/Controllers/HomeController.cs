@@ -29,20 +29,24 @@
                     TypeName = "Locomotives", 
                     ImageUrl = "https://bit.ly/3iyFDsz", 
                     Count = dbContext.Locomotives.Count(), 
-                    UrlRef = "/Locomotives/All"},
+                    UrlRef = "/Locomotives/All",
+                    AddUrlRef = "/Locomotives/Add"},
                 new TrainsGenericViewModel
                 {
                     TypeName = "Train Cars",
                 ImageUrl = "https://bit.ly/3tEPiEk",
                     Count = dbContext.TrainCars.Count(), 
-                    UrlRef = "/TrainCars/All"
+                    UrlRef = "/TrainCars/All",
+                    AddUrlRef = "/TrainCars/Add"
                 },
                 new TrainsGenericViewModel
                 {
                     TypeName = "Trains",
                     ImageUrl = "https://bit.ly/35bwR0z",
                     Count = dbContext.Trains.Count(), 
-                    UrlRef = "/Trains/All"}
+                    UrlRef = "/Trains/All",
+                    AddUrlRef = "/Trains/Add"
+                }
             };
 
             return View(genericTrains);
