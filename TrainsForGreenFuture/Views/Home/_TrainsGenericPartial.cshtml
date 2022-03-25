@@ -1,17 +1,20 @@
-﻿@model TrainsGenericViewModel
+﻿@model IEnumerable<TrainsGenericViewModel>
 
+@foreach (var train in @Model)
+{
 <div class="card col-6 col-lg-3 game-card">
-        <img  class="card-img-top img-fluid card-image rounded" src="@Model.ImageUrl"
+        <img  class="card-img-top img-fluid card-image rounded" src="@train.ImageUrl"
              alt="Responsive image"
              data-toggle="tooltip"
-             data-placement="bottom" title="@Model.TypeName">
+             data-placement="bottom" title="@train.TypeName">
         <div class="card-body">
             <ul class="list-group list-group-flush">
-                <li class="list-group-item text-center">@Model.TypeName</li>
+                <li class="list-group-item text-center">@train.TypeName</li>
                 <li class="list-group-item">
-                    <span class="bg-green col-sm">Available: @Model.Count</span>
+                    <span class="bg-green col-sm">Available: @train.Count</span>
                 </li>
             </ul>
-            <a href="@Model.UrlRef" class="btn btn-block btn-primary" style="width: 120px; height: auto;">@Model.TypeName</a>
+            <a href="@train.UrlRef" class="btn btn-block btn-primary" style="width: 120px; height: auto;">@train.TypeName</a>
         </div>
     </div>
+}

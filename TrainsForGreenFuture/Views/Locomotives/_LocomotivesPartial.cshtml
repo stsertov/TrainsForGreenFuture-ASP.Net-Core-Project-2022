@@ -1,0 +1,27 @@
+﻿@model IEnumerable<LocomotiveViewModel>
+
+<div class="row">
+    @foreach (var locomotive in Model)
+    {
+        <div class="col-md-4">
+            <div class="card mb-3">
+                <img class="card-img-top" src="@locomotive.Picture" alt="@locomotive.Model @locomotive.Series - @locomotive.Year (@locomotive.EngineType)">
+                <div class="card-body text-center">
+                    <h5 class="card-title text-center">@locomotive.Year  @locomotive.Model @locomotive.Series (@locomotive.EngineType)</h5>
+                    <a asp-controller="Locomotives" asp-action="Details" asp-route-id="@locomotive.Id" class="btn btn-info">View</a>
+                    <a asp-controller="Locomotives" asp-action="Order" asp-route-id="@locomotive.Id" class="btn btn-primary">Order</a>
+                    <a asp-controller="Locomotives" asp-action="Edit" asp-route-id="@locomotive.Id" class="btn btn-warning">Edit</a>
+                    <a asp-controller="Locomotives" asp-action="Delete" asp-route-id="@locomotive.Id" class="btn btn-danger">Remove</a>
+                    @*@if (ViewBag.AllowCarEdit == true || User.IsAdmin() || User.IsEngineer())
+                    {
+                        <a asp-controller="Locomotives" asp-action="Edit" asp-route-id="@locomotive.Id" class="btn btn-warning">Edit</a>
+                        @if(User.IsAdmin())
+                        {
+                        <a asp-controller="Locomotives" asp-action="Delete" asp-route-id="@locomotive.Id" class="btn btn-danger">Remove</a>
+                        }
+                    }*@
+                </div>
+            </div>
+        </div>
+    }
+</div>
