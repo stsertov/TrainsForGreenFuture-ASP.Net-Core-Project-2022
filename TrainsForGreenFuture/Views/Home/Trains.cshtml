@@ -1,12 +1,17 @@
-﻿@*@model List<TrainsGenericViewModel>*@
+﻿@model List<TrainsGenericViewModel>
 @{
+
     ViewBag.Title = "Trains";
-    //<model="@Model">
 }
 <h1 class="text-center mt-2">Our Trains</h1>
 <div class="row mt-4 mb-6">
+    @foreach (var train in @Model)
+    {
+        <partial name="_TrainsGenericPartial" model="@train" />
+    }
+@*
     <div class="card col-6 col-lg-3 game-card">
-        <img src="~/images/Locomotives.png" class="card-img-top img-fluid card-image rounded"
+        <img src="~/images/locomotives.png" class="card-img-top img-fluid card-image rounded"
              alt="Responsive image"
              data-toggle="tooltip"
              data-placement="bottom" title="Locomotives">
@@ -22,7 +27,7 @@
     </div>
 
     <div class="card col-6 col-lg-3 game-card">
-        <img src="~/images/Train Cars.png" class="card-img-top img-fluid card-image rounded"
+        <img src="~/images/traincars.png" class="card-img-top img-fluid card-image rounded"
              alt="Responsive image"
              data-toggle="tooltip"
              data-placement="bottom" title="Train Cars">
@@ -38,7 +43,7 @@
     </div>
 
     <div class="card col-6 col-lg-3 game-card">
-        <img src="~/images/Trains.png" class="card-img-top img-fluid card-image rounded"
+        <img src="~/images/trains.png" class="card-img-top img-fluid card-image rounded"
              alt="Responsive image"
              data-toggle="tooltip"
              data-placement="bottom" title="Trains">
@@ -51,10 +56,6 @@
             </ul>
             <a href="/Trains/All" class="btn btn-block btn-primary">Trains</a>
         </div>
-    </div>
+    </div>*@
 
-    @*@foreach (var train in @Model)
-        {
-        <partial name="_TrainsGenericPartial" model="@train"/>
-        }*@
 </div>

@@ -4,6 +4,8 @@
     {
         public string TypeName { get; init; }
 
+        public string ImageUrl { get; set; }
+
         public string UrlRef { get; init; }
 
         public int Count { get; init; }

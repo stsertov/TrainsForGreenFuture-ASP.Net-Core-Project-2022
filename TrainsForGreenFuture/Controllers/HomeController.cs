@@ -22,13 +22,30 @@
 
         public IActionResult Trains()
         {
-            //var genericTrains = new List<TrainsGenericViewModel>()
-            //{
-            //    new TrainsGenericViewModel{TypeName = "Locomotives", Count = dbContext.Locomotives.Count(), UrlRef = "/Locomotives/All"},
-            //    new TrainsGenericViewModel{TypeName = "Train Cars", Count = dbContext.TrainCars.Count(), UrlRef = "/TrainCars/All"},
-            //    new TrainsGenericViewModel{TypeName = "Trains", Count = dbContext.Trains.Count(), UrlRef = "/Trains/All"}
-            //};
-            return View();
+            var genericTrains = new List<TrainsGenericViewModel>()
+            {
+                new TrainsGenericViewModel
+                {
+                    TypeName = "Locomotives", 
+                    ImageUrl = "https://localhost:7260/images/locomotives.png", 
+                    Count = dbContext.Locomotives.Count(), 
+                    UrlRef = "/Locomotives/All"},
+                new TrainsGenericViewModel
+                {
+                    TypeName = "Train Cars",
+                ImageUrl = "https://localhost:7260/images/traincars.png",
+                    Count = dbContext.TrainCars.Count(), 
+                    UrlRef = "/TrainCars/All"
+                },
+                new TrainsGenericViewModel
+                {
+                    TypeName = "Trains",
+                    ImageUrl = "https://localhost:7260/images/trains.png",
+                    Count = dbContext.Trains.Count(), 
+                    UrlRef = "/Trains/All"}
+            };
+
+            return View(genericTrains);
         }
 
         public IActionResult Renovation()
