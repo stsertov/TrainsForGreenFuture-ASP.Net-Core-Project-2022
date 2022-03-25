@@ -20,6 +20,7 @@
             SeedCategories(services);
             SeedInterrails(services);
             SeedAdminUser(services);
+            SeedEngineerUser(services);
             return app;
         }
 
@@ -67,6 +68,11 @@
 
         public static void SeedAdminUser(IServiceProvider services)
         {
+            Task.Run (async () => 
+            await ApplyRole(services, AdministratorRole))
+                .GetAwaiter()
+                .GetResult();          
+
             const string username = "abraham";
             const string adminPassword = "admin12";
 
@@ -75,7 +81,7 @@
                 Email = username,
                 FirstName = username,
                 LastName = adminPassword,
-                Company = username + adminPassword,
+                Company = "Trains For Green Future",
                 UserName = username
             };
 
@@ -96,6 +102,67 @@
                 .AddToRoleAsync(user, AdministratorRole))
                 .GetAwaiter()
                 .GetResult();
+        }
+
+        public static void SeedEngineerUser(IServiceProvider services)
+        {
+            Task.Run(async () =>
+            await ApplyRole(services, EngineerRole))
+                .GetAwaiter()
+                .GetResult();
+
+            const string username = "engineer";
+            const string engineerPassword = "engineer11";
+
+            var user = new User
+            {
+                Email = username,
+                FirstName = username,
+                LastName = engineerPassword,
+                Company = "Trains For Green Future",
+                UserName = username
+            };
+
+            var db = services
+                .GetRequiredService<TrainsDbContext>();
+
+            if (db.Users.Any(x => x.UserName == username))
+                return;
+
+            db.Users.Add(user);
+            db.SaveChanges();
+
+            var userManager = services
+                .GetRequiredService<UserManager<User>>();
+
+            Task.Run(async () =>
+                await userManager
+                .AddToRoleAsync(user, EngineerRole))
+                .GetAwaiter()
+                .GetResult();
+        }
+
+        public static void SeedLocomotives(IServiceProvider services)
+        {
+            var locomotives = new []
+            {
+                new Locomotive(),
+                new Locomotive(),
+                new Locomotive()
+            };
+
+
+        }
+        private static async Task ApplyRole(IServiceProvider services, string roleName)
+        {
+            var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+
+            if (await roleManager.RoleExistsAsync(roleName))
+                return;
+
+            var role = new IdentityRole { Name = roleName };
+
+            await roleManager.CreateAsync(role);
         }
     }
 }
