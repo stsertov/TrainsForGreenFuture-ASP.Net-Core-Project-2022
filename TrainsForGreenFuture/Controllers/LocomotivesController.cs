@@ -3,8 +3,8 @@
     using AutoMapper;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
     using System.Linq;
-    using TrainsForGreenFuture.Areas.Identity.Pages.Account;
     using TrainsForGreenFuture.Infrastructure.Data;
     using TrainsForGreenFuture.Infrastructure.Data.Models;
     using TrainsForGreenFuture.Infrastructure.Data.Models.Enum;
@@ -24,6 +24,7 @@
         public IActionResult All()
         {
             var dbTrains = context.Locomotives
+                .Include(l => l.Interrail)
                 .Where(l => !l.IsForRenovation)
                 .ToList();
 
@@ -72,6 +73,7 @@
         public IActionResult Details(int id)
         {
             var dbLocomotive = context.Locomotives
+                .Include(l => l.Interrail)
                 .FirstOrDefault(l => !l.IsForRenovation && l.Id == id);
 
             var locomotive = mapper.Map<LocomotiveViewModel>(dbLocomotive);
@@ -89,7 +91,8 @@
         public IActionResult Edit(int id)
         {
             var dbLocomotive = context.Locomotives
-                 .FirstOrDefault(l => l.Id == id && !l.IsForRenovation);
+                .Include(l => l.Interrail)
+                .FirstOrDefault(l => l.Id == id && !l.IsForRenovation);
 
             if (dbLocomotive == null)
                 return Redirect("/Locomotives/All");
@@ -113,7 +116,9 @@
                 return View(newLocomotive);
             }
 
-            var locomotive = context.Locomotives.FirstOrDefault(l => l.Id == id && !l.IsForRenovation);
+            var locomotive = context.Locomotives
+                .Include(l => l.Interrail)
+                .FirstOrDefault(l => l.Id == id && !l.IsForRenovation);
 
             if (locomotive == null)
                 return View(newLocomotive);
@@ -135,12 +140,13 @@
 
         public IActionResult Order(int id)
         {
-            if(!User.Identity.IsAuthenticated)
+            if (!User.Identity.IsAuthenticated)
             {
                 return Redirect($"/Identity/Account/Login/?returnUrl=/Locomotives/Order/{id}");
             }
 
             var dbLocomotive = context.Locomotives
+                .Include(l => l.Interrail)
                 .FirstOrDefault(l => !l.IsForRenovation && l.Id == id);
 
             var locomotive = mapper.Map<LocomotiveViewModel>(dbLocomotive);
@@ -160,12 +166,13 @@
 
             return Redirect("/Home/Trains");
         }
-        
+
         [Authorize(Roles = AdministratorRole)]
         public IActionResult Delete(int id)
         {
 
             var locomotive = context.Locomotives
+                .Include(l => l.Interrail)
                 .FirstOrDefault(l => l.Id == id);
 
             if (locomotive != null)

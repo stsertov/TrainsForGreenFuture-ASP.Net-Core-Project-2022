@@ -24,7 +24,7 @@
             public const int Interrail = 1435;
             public const int TopSpeed = 300;
             public const string Image = "https://bit.ly/3JF7uTN";
-            public const string Description = "Orion is our most ambitiuos locomotive yet. It has everything that you would want from a locomotive.";
+            public const string Description = "Orion is our most ambitiuos locomotive so far. It has everything you would want from a locomotive.";
             public const decimal Price = 4500000m;
         }
         public class Leo
@@ -36,7 +36,7 @@
             public const int Interrail = 1435;
             public const int TopSpeed = 250;
             public const string Image = "https://bit.ly/3iCxT8M";
-            public const string Description = "Leo is our hybrid locomotive. Both strong and eco it is good solution for far away travels where the electric net is not build yet. is our most ambitiuos locomotive yet.";
+            public const string Description = "Leo is our hybrid locomotive. Both strong and eco it is good solution for far away travels where the electric net is not build yet.";
             public const decimal Price = 4000000m;
         }
     }
