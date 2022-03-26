@@ -75,17 +75,8 @@
                 .GetAwaiter()
                 .GetResult();
 
-            const string username = "abraham";
-            const string adminPassword = "admin12";
-
-            var user = new User
-            {
-                Email = username,
-                FirstName = username,
-                LastName = adminPassword,
-                Company = "Trains For Green Future",
-                UserName = username
-            };
+            const string username = "sertov";
+            const string adminPassword = "sertov11";
 
             var db = services
                 .GetRequiredService<TrainsDbContext>();
@@ -93,14 +84,29 @@
             if (db.Users.Any(x => x.UserName == username))
                 return;
 
+            var user = new User
+            {
+                Email = "sertov@sertov.com",
+                FirstName = username,
+                LastName = adminPassword,
+                Company = "Trains 4 Green Future",
+                UserName = "sertov@sertov.com"
+            };
+
+            var passwordHash = services
+                .GetRequiredService<IPasswordHasher<User>>()
+                .HashPassword(user, adminPassword);
+
+            user.PasswordHash = passwordHash;
+
             db.Users.Add(user);
             db.SaveChanges();
 
             var userManager = services
-                .GetRequiredService<UserManager<User>>();
+               .GetRequiredService<UserManager<User>>();
 
             Task.Run(async () =>
-                await userManager
+               await userManager
                 .AddToRoleAsync(user, AdministratorRole))
                 .GetAwaiter()
                 .GetResult();
@@ -116,20 +122,26 @@
             const string username = "engineer";
             const string engineerPassword = "engineer11";
 
-            var user = new User
-            {
-                Email = username,
-                FirstName = username,
-                LastName = engineerPassword,
-                Company = "Trains For Green Future",
-                UserName = username
-            };
-
             var db = services
                 .GetRequiredService<TrainsDbContext>();
 
             if (db.Users.Any(x => x.UserName == username))
                 return;
+
+            var user = new User
+            {
+                Email = "engineer@engineer.com",
+                FirstName = username,
+                LastName = engineerPassword,
+                Company = "Trains For Green Future",
+                UserName = "engineer@engineer.com"
+            };
+
+            var passwordHash = services
+                .GetRequiredService<IPasswordHasher<User>>()
+                .HashPassword(user, engineerPassword);
+
+            user.PasswordHash = passwordHash;
 
             db.Users.Add(user);
             db.SaveChanges();
@@ -152,7 +164,8 @@
             if (dbContext.Locomotives.Any())
                 return;
 
-            var defaultInterrail = dbContext.Interrails.FirstOrDefault(i => i.Length == 1435);
+            var defaultInterrail = dbContext.Interrails
+                .FirstOrDefault(i => i.Length == 1435);
 
             var locomotives = new[]
             {
