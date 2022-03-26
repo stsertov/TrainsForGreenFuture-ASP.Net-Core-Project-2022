@@ -34,7 +34,15 @@
         }
 
         public IActionResult Add()
-            => View();
+        {
+            var interrails = context.Interrails.ToList();
+            var locomotive = new LocomotiveFormModel
+            {
+                Interrails = interrails
+            };
+
+            return View(locomotive);
+        }
 
         [HttpPost]
         public IActionResult Add(LocomotiveFormModel locomotive)
@@ -44,23 +52,28 @@
                 ModelState.AddModelError(locomotive.EngineType, "We do not offer this engine type.");
             }
 
+            if(!context.Interrails.Any(i => i.Id == locomotive.InterrailId))
+            {
+                ModelState.AddModelError("Invalid Interrail", "Interrail is invalid.");
+            }
 
             if (!ModelState.IsValid)
-            {
+            { 
+                locomotive.Interrails = context.Interrails.ToList();
                 return View(locomotive);
             }
 
             var dbLocomotive = new Locomotive
             {
                 Model = locomotive.Model,
-                Year = locomotive.Year,
-                Series = locomotive.Series,
+                Year = locomotive.Year.Value,
+                Series = locomotive.Series.Value,
                 EngineType = parsedEngineType,
-                InterrailId = 2,
-                TopSpeed = locomotive.TopSpeed,
+                InterrailId = locomotive.InterrailId.Value,
+                TopSpeed = locomotive.TopSpeed.Value,
                 Picture = locomotive.Picture,
                 Description = locomotive.Description,
-                Price = locomotive.Price
+                Price = locomotive.Price.Value
             };
 
             context.Locomotives.Add(dbLocomotive);
@@ -99,6 +112,8 @@
 
             var locomotive = mapper.Map<LocomotiveFormModel>(dbLocomotive);
 
+            locomotive.Interrails = context.Interrails.ToList();
+
             return View(locomotive);
         }
 
@@ -113,6 +128,7 @@
 
             if (!ModelState.IsValid)
             {
+                newLocomotive.Interrails = context.Interrails.ToList();
                 return View(newLocomotive);
             }
 
@@ -124,14 +140,14 @@
                 return View(newLocomotive);
 
             locomotive.Model = newLocomotive.Model;
-            locomotive.Year = newLocomotive.Year;
-            locomotive.Series = newLocomotive.Series;
+            locomotive.Year = newLocomotive.Year.Value;
+            locomotive.Series = newLocomotive.Series.Value;
             locomotive.EngineType = parsedEngineType;
-            locomotive.InterrailId = 2;
-            locomotive.TopSpeed = newLocomotive.TopSpeed;
+            locomotive.InterrailId = newLocomotive.InterrailId.Value;
+            locomotive.TopSpeed = newLocomotive.TopSpeed.Value;
             locomotive.Picture = newLocomotive.Picture;
             locomotive.Description = newLocomotive.Description;
-            locomotive.Price = newLocomotive.Price;
+            locomotive.Price = newLocomotive.Price.Value;
 
             context.SaveChanges();
 

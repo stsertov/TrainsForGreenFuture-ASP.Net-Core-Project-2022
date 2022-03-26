@@ -21,16 +21,26 @@
                 <span asp-validation-for="Series" class="small text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="EngineType"></label>
+                <label asp-for="EngineType">Engine Type</label>
                 <select asp-for="EngineType" class="form-control">
-                        <option value="Electric">Electric</option>
-                        <option value="Hybrid">Hybrid</option>
-                        <option value="Diesel">Diesel</option>
+                        <option value="Electric">Electric engine</option>
+                        <option value="Hybrid">Hybrid engine</option>
+                        <option value="Diesel">Diesel engine</option>
                 </select>
                 <span asp-validation-for="EngineType" class="small text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="TopSpeed"></label>
+                <label asp-for="InterrailId">Interrail</label>
+                <select asp-for="InterrailId" class="form-control">
+                    @foreach (var interrail in @Model.Interrails)
+                    {
+                        <option value="@interrail.Id">@interrail.Length mm</option>
+                    }
+                </select>
+                <span asp-validation-for="InterrailId" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TopSpeed">Top Speed (kph)</label>
                 <input asp-for="TopSpeed" class="form-control" placeholder="What's the top speed...">
                 <span asp-validation-for="TopSpeed" class="small text-danger"></span>
             </div>

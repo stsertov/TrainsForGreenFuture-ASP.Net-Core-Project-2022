@@ -58,6 +58,9 @@
         {
             var data = services.GetRequiredService<TrainsDbContext>();
 
+            if (data.Interrails.Any())
+                return;
+
             data.Interrails.AddRange(new[]
             {
                 new Interrail { Length = 760 },
