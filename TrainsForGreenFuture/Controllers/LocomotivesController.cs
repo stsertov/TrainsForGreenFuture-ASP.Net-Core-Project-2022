@@ -4,6 +4,7 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using System.Linq;
+    using TrainsForGreenFuture.Areas.Identity.Pages.Account;
     using TrainsForGreenFuture.Infrastructure.Data;
     using TrainsForGreenFuture.Infrastructure.Data.Models;
     using TrainsForGreenFuture.Infrastructure.Data.Models.Enum;
@@ -83,6 +84,8 @@
             return View(locomotive);
         }
 
+
+        [Authorize(Roles = $"{AdministratorRole}, {EngineerRole}")]
         public IActionResult Edit(int id)
         {
             var dbLocomotive = context.Locomotives
@@ -134,7 +137,7 @@
         {
             if(!User.Identity.IsAuthenticated)
             {
-                return Redirect("/Identity/Account/Login");
+                return Redirect($"/Identity/Account/Login/?returnUrl=/Locomotives/Order/{id}");
             }
 
             var dbLocomotive = context.Locomotives
@@ -151,6 +154,7 @@
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult Order()
         {
 
@@ -161,14 +165,17 @@
         public IActionResult Delete(int id)
         {
 
-            var locomotive = context.Locomotives.FirstOrDefault(l => l.Id == id);
+            var locomotive = context.Locomotives
+                .FirstOrDefault(l => l.Id == id);
+
             if (locomotive != null)
             {
                 context.Locomotives.Remove(locomotive);
                 context.SaveChanges();
+                return Redirect("/Home/Trains");
             }
 
-            return Redirect("/Home/Trains");
+            return Redirect("/Locomotive/All");
         }
     }
 }
