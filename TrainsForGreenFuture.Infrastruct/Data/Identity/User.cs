@@ -3,7 +3,7 @@
 
     using System.ComponentModel.DataAnnotations;
     using Microsoft.AspNetCore.Identity;
-
+    using TrainsForGreenFuture.Infrastructure.Data.Models;
     using static DataConstants.User;
     public class User : IdentityUser
     {
@@ -18,5 +18,7 @@
 
         [StringLength(companyMaxLength, MinimumLength = companyMinLength)]
         public string Company { get; set; }
+
+        public IEnumerable<Order> Orders { get; set; }
     }
 }

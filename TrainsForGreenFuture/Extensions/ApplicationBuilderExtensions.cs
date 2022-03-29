@@ -84,7 +84,7 @@
             var db = services
                 .GetRequiredService<TrainsDbContext>();
 
-            if (db.Users.Any(x => x.UserName == username))
+            if (db.Users.Any(x => x.UserName == "sertov@sertov.com"))
                 return;
 
             var user = new User
@@ -128,7 +128,7 @@
             var db = services
                 .GetRequiredService<TrainsDbContext>();
 
-            if (db.Users.Any(x => x.UserName == username))
+            if (db.Users.Any(x => x.UserName == "engineer@engineer.com"))
                 return;
 
             var user = new User

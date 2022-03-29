@@ -14,6 +14,7 @@
 
             CreateMap<Locomotive, LocomotiveFormModel>()
                 .ForMember(lf => lf.EngineType, cfg => cfg.MapFrom(l => l.EngineType.ToString()));
+
         }
     }
 }

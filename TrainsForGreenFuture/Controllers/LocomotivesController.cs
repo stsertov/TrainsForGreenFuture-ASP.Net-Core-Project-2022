@@ -154,34 +154,7 @@
             return Redirect("/Locomotives/All");
         }
 
-        public IActionResult Order(int id)
-        {
-            if (!User.Identity.IsAuthenticated)
-            {
-                return Redirect($"/Identity/Account/Login/?returnUrl=/Locomotives/Order/{id}");
-            }
-
-            var dbLocomotive = context.Locomotives
-                .Include(l => l.Interrail)
-                .FirstOrDefault(l => !l.IsForRenovation && l.Id == id);
-
-            var locomotive = mapper.Map<LocomotiveViewModel>(dbLocomotive);
-
-            if (locomotive == null)
-            {
-                return Redirect("/Locomotives/All");
-            }
-
-            return View(locomotive);
-        }
-
-        [HttpPost]
-        [Authorize]
-        public IActionResult Order()
-        {
-
-            return Redirect("/Home/Trains");
-        }
+        
 
         [Authorize(Roles = AdministratorRole)]
         public IActionResult Delete(int id)

@@ -46,6 +46,8 @@
             public const int yearMaxValue = 2025;
             public const int seriesMinValue = 32000;
             public const int seriesMaxValue = 11000;
+            public const int topSpeedMinValue = 140;
+            public const int topSpeedMaxValue = 650;
             public const int trainCarsMin = 3;
             public const int trainCarsMax = 35;
             public const int pictureMaxLength = 600;
@@ -75,6 +77,12 @@
             public const int passwordMaxLength = 100;
             public const int companyMinLength = 5;
             public const int companyMaxLength = 35;
+        }
+
+        public class Order
+        {
+            public const int countMinValue = 1;
+            public const int countMaxValue = 50;
         }
     }
 }

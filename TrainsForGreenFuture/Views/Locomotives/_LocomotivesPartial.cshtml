@@ -8,7 +8,7 @@
                 <img class="card-img-top" src="@locomotive.Picture" alt="@locomotive.Model @locomotive.Series - @locomotive.Year (@locomotive.EngineType)">
                 <div class="card-body text-center">
                     <h5 class="card-title text-center">@locomotive.Year  @locomotive.Model @locomotive.Series (@locomotive.EngineType)</h5>
-                    <a asp-controller="Locomotives" asp-action="Order" asp-route-id="@locomotive.Id" class="btn btn-primary">Order</a>
+                    <a asp-controller="Orders" asp-action="OrderLocomotive" asp-route-id="@locomotive.Id" class="btn btn-primary">Order</a>
                     <a asp-controller="Locomotives" asp-action="Details" asp-route-id="@locomotive.Id" class="btn btn-info">More</a>
                     @if (User.IsAdmin() || User.IsEngineer())
                     {

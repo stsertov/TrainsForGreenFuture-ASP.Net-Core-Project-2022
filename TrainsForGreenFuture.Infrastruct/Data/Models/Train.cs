@@ -26,7 +26,7 @@
 
         public Category Category { get; set; }
 
-        public LuxuryLevel? LuxuryLevel { get; set; }
+        public LuxuryLevel LuxuryLevel { get; set; }
 
         [Range(trainCarsMin, trainCarsMax)]
         public int TrainCarCount { get; set; }
@@ -37,6 +37,10 @@
         [ForeignKey(nameof(Interrail))]
         public int InterrailId { get; set; }
         public Interrail Interrail { get; set; }
+
+
+        [Range(topSpeedMinValue, topSpeedMaxValue)]
+        public int TopSpeed { get; set; }
 
         [Required]
         [StringLength(pictureMaxLength)]
