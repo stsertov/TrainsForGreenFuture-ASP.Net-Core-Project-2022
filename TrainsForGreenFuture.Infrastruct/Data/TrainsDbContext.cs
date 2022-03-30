@@ -21,6 +21,7 @@
         public DbSet<Category> Categories { get; set; }
 
         public DbSet<Interrail> Interrails { get; set; }
+
         public DbSet<Order> Orders { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)

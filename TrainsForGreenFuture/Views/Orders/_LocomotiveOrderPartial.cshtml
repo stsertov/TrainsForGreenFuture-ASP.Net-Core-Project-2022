@@ -1,0 +1,8 @@
+﻿@model OrderViewModel
+
+
+@{
+  var fullPrice = (Model.AdditionalInterrailTax + Model.Locomotive.Price) * Model.Count;
+}
+
+    <h3>@Model.OrderDate | @Model.Count | @Model.Locomotive.Series @Model.Locomotive.Model @Model.OrderType (s) Full Price: €@String.Format("{0:n}", @fullPrice)</h3>

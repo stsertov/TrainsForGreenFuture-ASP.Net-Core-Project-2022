@@ -10,6 +10,7 @@
     using TrainsForGreenFuture.Models.Locomotives;
     using TrainsForGreenFuture.Models.Orders;
     using static Areas.RolesConstants;
+
     [Authorize]
     public class OrdersController : Controller
     {
@@ -23,7 +24,18 @@
         }
 
         public IActionResult MyOrders()
-            => View();
+        {
+            var dbOrders = context.Orders
+                .Include(o => o.User)
+                .Include(o => o.Locomotive)
+                .Where(o => o.UserId == User.Id())
+                .OrderByDescending(o => o.OrderDate)
+                .ToList();
+
+            var orders = mapper.Map<List<OrderViewModel>>(dbOrders);
+
+            return View(orders);
+        }
 
         public IActionResult OrderLocomotive(int id)
         {
@@ -52,7 +64,6 @@
         }
 
         [HttpPost]
-        [Authorize]
         public IActionResult OrderLocomotive(OrderLocomotiveFormModel order)
         {
             var dbLocomotive = context.Locomotives
@@ -61,7 +72,7 @@
 
             if (dbLocomotive == null)
             {
-                ModelState.AddModelError("Invalid data", "You should type valid paramters.");
+                ModelState.AddModelError("Invalid data", "You should type valid parameters.");
             }
 
             if (!ModelState.IsValid)
@@ -87,7 +98,7 @@
             });
             context.SaveChanges();
 
-            return Redirect("/Home/Trains");
+            return Redirect("/Orders/MyOrders");
         }
 
         [Authorize(Roles = $"{AdministratorRole}, {EngineerRole}")]
