@@ -22,10 +22,12 @@
         public IActionResult All()
             => View(service.AllLocomotives());
 
+        [Authorize(Roles = AdministratorRole)]
         public IActionResult Add()
             => View(new LocomotiveFormModel { Interrails = service.AllInterrails() });
 
         [HttpPost]
+        [Authorize(Roles = AdministratorRole)]
         public IActionResult Add(LocomotiveFormModel locomotive)
         {
             if (!Enum.TryParse(locomotive.EngineType, out EngineType parsedEngineType))
@@ -76,14 +78,12 @@
         public IActionResult Edit(int id)
         {
 
-            var dbLocomotive = service.Details(id);
+            var locomotive = service.FormDetails(id);
 
-            if (dbLocomotive == null)
+            if (locomotive == null)
             {
                 return Redirect("/Locomotives/All");
             }
-
-            var locomotive = mapper.Map<LocomotiveFormModel>(dbLocomotive);
 
             locomotive.Interrails = service.AllInterrails();
 

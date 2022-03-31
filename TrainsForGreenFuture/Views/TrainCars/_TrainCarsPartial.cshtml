@@ -7,7 +7,7 @@
             <div class="card mb-3">
                 <img class="card-img-top" src="@trainCar.Picture" alt="@trainCar.Model @trainCar.Series - @trainCar.Year (@trainCar.CategoryName)">
                 <div class="card-body text-center">
-                    <h5 class="card-title text-center">@trainCar.Year  @trainCar.Model @trainCar.Series (@trainCar.)</h5>
+                    <h5 class="card-title text-center">@trainCar.Year  @trainCar.Model @trainCar.Series (@trainCar.CategoryName)</h5>
                     <a asp-controller="Orders" asp-action="OrderTrainCar" asp-route-id="@trainCar.Id" class="btn btn-primary">Order</a>
                     <a asp-controller="TrainCars" asp-action="Details" asp-route-id="@trainCar.Id" class="btn btn-info">More</a>
                     @if (User.IsAdmin() || User.IsEngineer())

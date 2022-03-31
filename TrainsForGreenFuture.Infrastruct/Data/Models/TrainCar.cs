@@ -25,14 +25,10 @@
         public Category Category { get; set; }
 
         [Range(seatCountMin, seatCountMax)]
-        public int? SeatCount { get; set; }
+        public int SeatCount { get; set; }
 
-        [Range(weightMinValue, weightMaxValue)]
-        public int? MaxWeightCapacity { get; set; }
+        public LuxuryLevel LuxuryLevel { get; set; }
 
-        public LuxuryLevel? LuxuryLevel { get; set; }
-
-        public CargoType? CargoType { get; set; }
 
         [ForeignKey(nameof(Interrail))]
         public int InterrailId { get; set; }

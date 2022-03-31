@@ -34,6 +34,8 @@
 
         public LocomotiveViewModel Details(int id);
 
+        public LocomotiveFormModel FormDetails(int id);
+
         public bool Remove(int id);
     }
 }

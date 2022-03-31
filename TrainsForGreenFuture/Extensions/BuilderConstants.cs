@@ -2,7 +2,7 @@
 {
     public class BuilderConstants
     {
-        // series 77000 - 100 000
+        // series 77 000 - 100 000
         public class Corvus
         {
             public const string Model = "Corvus";
@@ -40,6 +40,33 @@
             public const decimal Price = 4000000m;
         }
 
+        //33 000 - 60 000
+        public class Snorlax
+        {
+            public const string Model = "Snorlax";
+            public const int Year = 2021;
+            public const int Series = 59921;
+            public const string Category = "Sleeper";
+            public const int SeatCount = 30;
+            public const string LuxuryLevel = "Luxury";
+            public const int InterrailLength = 1435;
+            public const string Picture = "https://bit.ly/3iQE6hp";
+            public const string Description = "Our most luxury sleepr model. The beds are so good it's like you're laying on clouds. Also this train car has small cafeteria place in it.";
+            public const decimal Price = 7200000m;
+        }
 
+        public class SoftUniTrainer
+        {
+            public const string Model = "SU Trainer Car";
+            public const int Year = 2022;
+            public const int Series = 33508;
+            public const string Category = "Education";
+            public const int SeatCount = 55;
+            public const string LuxuryLevel = "Luxury";
+            public const int InterrailLength = 1435;
+            public const string Picture = "https://bit.ly/3NAg5cJ";
+            public const string Description = "Even SoftUni are using our services for their mobile educational program.";
+            public const decimal Price = 5800000m;
+        }
     }
 }

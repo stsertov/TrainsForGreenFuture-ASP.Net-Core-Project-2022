@@ -118,6 +118,19 @@
 
             return locomotive;
         }
+        public LocomotiveFormModel FormDetails(int id)
+        {
+            var dbLocomotive = GetLocomotive(id);
+
+            if (dbLocomotive == null)
+            {
+                return null;
+            }
+
+            var locomotive = mapper.Map<LocomotiveFormModel>(dbLocomotive);
+
+            return locomotive;
+        }
 
         public bool Remove(int id)
         {

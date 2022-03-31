@@ -11,13 +11,10 @@
 
         public string CategoryName { get; set; }
 
-        public int? SeatCount { get; set; }
-
-        public int? MaxWeightCapacity { get; set; }
+        public int SeatCount { get; set; }
 
         public string LuxuryLevel { get; set; }
 
-        public string CargoType { get; set; }
 
         public int InterraiLength { get; set; }
 

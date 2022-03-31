@@ -1,4 +1,4 @@
-﻿@model LocomotiveFormModel
+﻿@model TrainCarFormModel
 
 <div class="row">
     <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
@@ -7,7 +7,7 @@
         <form method="post">
             <div class="form-group">
                 <label asp-for="Model"></label>
-                <input asp-for="Model" class="form-control" placeholder="Write the model of the machine...">
+                <input asp-for="Model" class="form-control" placeholder="Write the model of the train car...">
                 <span asp-validation-for="Model" class="small text-danger"></span>
             </div>
             <div class="form-group">
@@ -21,13 +21,28 @@
                 <span asp-validation-for="Series" class="small text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="EngineType">Engine Type</label>
-                <select asp-for="EngineType" class="form-control">
-                        <option value="Electric">Electric engine</option>
-                        <option value="Hybrid">Hybrid engine</option>
-                        <option value="Diesel">Diesel engine</option>
+                <label asp-for="CategoryId">Category</label>
+                <select asp-for="CategoryId" class="form-control">
+                    @foreach (var category in @Model.Categories)
+                    {
+                        <option value="@category.Id">@category.Name</option>
+                    }
                 </select>
-                <span asp-validation-for="EngineType" class="small text-danger"></span>
+                <span asp-validation-for="CategoryId" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SeatCount">Seats</label>
+                <input asp-for="SeatCount" class="form-control" placeholder="">
+                <span asp-validation-for="SeatCount" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LuxuryLevel">Luxury Level</label>
+                <select asp-for="LuxuryLevel" class="form-control">
+                        <option value="Low">Low</option>
+                        <option value="Normal">Normal</option>
+                        <option value="Luxury">Luxury</option>
+                </select>
+                <span asp-validation-for="LuxuryLevel" class="small text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="InterrailId">Interrail</label>
@@ -40,18 +55,13 @@
                 <span asp-validation-for="InterrailId" class="small text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="TopSpeed">Top Speed (kph)</label>
-                <input asp-for="TopSpeed" class="form-control" placeholder="What's the top speed...">
-                <span asp-validation-for="TopSpeed" class="small text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="Picture"></label>
-                <input asp-for="Picture" class="form-control" placeholder="Put a link to your machine...">
+                <input asp-for="Picture" class="form-control" placeholder="Put a link to your train car...">
                 <span asp-validation-for="Picture" class="small text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Description"></label>
-                <textarea asp-for="Description" rows="4" class="form-control" placeholder="Give brief info about the machine."></textarea>
+                <textarea asp-for="Description" rows="4" class="form-control" placeholder="Give brief info about the train car."></textarea>
                 <span asp-validation-for="Description" class="small text-danger"></span>
             </div>            
             <div class="form-group">

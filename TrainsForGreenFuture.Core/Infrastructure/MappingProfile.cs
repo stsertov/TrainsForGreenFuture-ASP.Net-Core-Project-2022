@@ -1,6 +1,7 @@
 ﻿namespace TrainsForGreenFuture.Infrastructure
 {
     using AutoMapper;
+    using TrainsForGreenFuture.Core.Models.Categories;
     using TrainsForGreenFuture.Core.Models.Interrails;
     using TrainsForGreenFuture.Core.Models.Locomotives;
     using TrainsForGreenFuture.Core.Models.Orders;
@@ -18,8 +19,11 @@
 
             CreateMap<Interrail, InterrailServiceModel>();
 
+            CreateMap<Category, CategoryServiceModel>();
+
             CreateMap<Locomotive, LocomotiveFormModel>()
-                .ForMember(lf => lf.EngineType, cfg => cfg.MapFrom(l => l.EngineType.ToString()));
+                .ForMember(lf => lf.EngineType, cfg => cfg.MapFrom(l => l.EngineType.ToString()))
+                .ForMember(lf => lf.InterrailId, cfg => cfg.MapFrom(l => l.Interrail.Id));
 
 
             CreateMap<Order, OrderViewModel>()
@@ -30,8 +34,10 @@
             CreateMap<TrainCar, TrainCarViewModel>()
                 .ForMember(tc => tc.CategoryName, cfg => cfg.MapFrom(t => t.Category.Name))
                 .ForMember(tc => tc.LuxuryLevel, cfg => cfg.MapFrom(t => t.LuxuryLevel == null ? null : t.LuxuryLevel.ToString()))
-                .ForMember(tc => tc.CargoType, cfg => cfg.MapFrom(t => t.CargoType == null ? null : t.CargoType.ToString()))
                 .ForMember(tc => tc.InterraiLength, cfg => cfg.MapFrom(t => t.Interrail.Length));
+
+            CreateMap<TrainCar, TrainCarFormModel>()
+                .ForMember(tcf => tcf.LuxuryLevel, cfg => cfg.MapFrom(tc => tc.LuxuryLevel.ToString()));
         }
     }
 }

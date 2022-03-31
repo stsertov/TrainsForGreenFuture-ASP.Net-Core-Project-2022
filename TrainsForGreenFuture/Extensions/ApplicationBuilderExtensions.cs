@@ -23,6 +23,7 @@
             SeedAdminUser(services);
             SeedEngineerUser(services);
             SeedLocomotives(services);
+            SeedTrainCars(services);
             return app;
         }
 
@@ -46,7 +47,7 @@
             data.Categories.AddRange(new[]
             {
                 new Category { Name = "Passenger" },
-                new Category { Name = "Cargo" },
+                new Category { Name = "Education" },
                 new Category { Name = "Sleeper"},
                 new Category { Name = "Restaurant"}
             });
@@ -179,6 +180,54 @@
 
             dbContext.Locomotives.AddRange(locomotives);
             dbContext.SaveChanges();
+        }
+
+        public static void SeedTrainCars(IServiceProvider services)
+        {
+            var dbContext = services.GetRequiredService<TrainsDbContext>();
+
+            if(dbContext.TrainCars.Any())
+            {
+                return;
+            }
+
+            var snorlaxCategory = dbContext.Categories.FirstOrDefault(c => c.Name == Snorlax.Category);
+            var softuniCategory = dbContext.Categories.FirstOrDefault(c => c.Name == SoftUniTrainer.Category);
+            var defaultInterrail = dbContext.Interrails.FirstOrDefault(i => i.Length == 1435);
+
+            var trainCars = new List<TrainCar>()
+            {
+                new TrainCar()
+                {
+                    Model = Snorlax.Model,
+                    Year = Snorlax.Year,
+                    Series = Snorlax.Series,
+                    Category = snorlaxCategory,
+                    SeatCount = Snorlax.SeatCount,
+                    LuxuryLevel = Enum.Parse<LuxuryLevel>(Snorlax.LuxuryLevel),
+                    Interrail = defaultInterrail,
+                    Picture = Snorlax.Picture,
+                    Description = Snorlax.Description,
+                    Price = Snorlax.Price
+                },
+                new TrainCar()
+                {
+                    Model = SoftUniTrainer.Model,
+                    Year = SoftUniTrainer.Year,
+                    Series = SoftUniTrainer.Series,
+                    Category = softuniCategory,
+                    SeatCount = SoftUniTrainer.SeatCount,
+                    LuxuryLevel = Enum.Parse<LuxuryLevel>(SoftUniTrainer.LuxuryLevel),
+                    Interrail = defaultInterrail,
+                    Picture = SoftUniTrainer.Picture,
+                    Description = SoftUniTrainer.Description,
+                    Price = SoftUniTrainer.Price
+                }
+            };
+
+            dbContext.AddRange(trainCars);
+            dbContext.SaveChanges();
+
         }
         private static async Task ApplyRole(IServiceProvider services, string roleName)
         {
