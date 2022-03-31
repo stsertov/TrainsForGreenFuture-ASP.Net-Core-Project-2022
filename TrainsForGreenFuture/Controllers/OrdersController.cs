@@ -78,11 +78,19 @@
                 order.Count);
 
             return Redirect("/Orders/MyOrders");
-        }
+        }     
 
-        [Authorize(Roles = $"{AdministratorRole}, {EngineerRole}")]
-        public IActionResult Approve()
+        public IActionResult Pay(string id)
         {
+            
+
+            var IsPaidStatus = service.ChangePaidStatus(id);
+
+            if(IsPaidStatus)
+            {
+                return Redirect("/Orders/MyOrders");
+            }
+
             return Redirect("/Home");
         }
     }

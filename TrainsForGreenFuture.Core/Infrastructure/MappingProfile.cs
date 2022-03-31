@@ -22,7 +22,8 @@
 
 
             CreateMap<Order, OrderViewModel>()
-                .ForMember(o => o.OrderType, cfg => cfg.MapFrom(o => o.OrderType.ToString()));
+                .ForMember(o => o.OrderType, cfg => cfg.MapFrom(o => o.OrderType.ToString()))
+                .ForMember(o => o.Company, cfg => cfg.MapFrom(o => o.User.Company));
 
         }
     }

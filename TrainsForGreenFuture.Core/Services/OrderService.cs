@@ -21,6 +21,17 @@
             this.context = context;
             this.mapper = mapper;
         }
+
+        public IEnumerable<OrderViewModel> All()
+        {
+            var orders = context.Orders
+               .Include(o => o.User)
+               .Include(o => o.Locomotive)
+               .OrderByDescending(o => o.OrderDate)
+               .ToList();
+
+            return mapper.Map<List<OrderViewModel>>(orders);
+        }
         public IEnumerable<OrderViewModel> All(string userId)
         {
             var orders = context.Orders
@@ -32,6 +43,7 @@
 
             return mapper.Map<List<OrderViewModel>>(orders);
         }
+
 
         public string CreateLocomotiveOrder(
             string userId,
@@ -57,7 +69,42 @@
             return order.Id;
         }
 
+        public bool ChangeStatus(string orderId)
+        {
+            var order = GetOrder(orderId);
 
+            if(order == null)
+            {
+                return false; 
+            }
+
+            order.IsApproved = true;
+
+            context.SaveChanges();
+
+            return true;
+        }
+
+        public bool ChangePaidStatus(string orderId)
+        {
+            var order = GetOrder(orderId);
+
+            if (order == null ||
+                !order.IsApproved)
+            {
+                return false;
+            }
+
+            order.IsPaid = true;
+
+            context.SaveChanges();
+
+            return true;
+        }
+
+        private Order GetOrder(string orderId)
+            => context.Orders
+                .FirstOrDefault(o => o.Id == orderId);
     }
 }
 

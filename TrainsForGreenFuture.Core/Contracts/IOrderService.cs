@@ -4,7 +4,7 @@
 
     public interface IOrderService
     {
-
+        public IEnumerable<OrderViewModel> All();
         public IEnumerable<OrderViewModel> All(string userId);
 
         public string CreateLocomotiveOrder(
@@ -14,5 +14,8 @@
             decimal additionalInterrailtax,
             int count);
 
+        public bool ChangeStatus(string orderId);
+
+        public bool ChangePaidStatus(string orderId);
     }
 }

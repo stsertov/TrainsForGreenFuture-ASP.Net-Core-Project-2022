@@ -22,12 +22,15 @@
 
         public User User { get; set; }
        
+        [ForeignKey(nameof(Locomotive))]
         public int? LocomotiveId { get; set; }
         public Locomotive? Locomotive { get; set; }
        
+        [ForeignKey(nameof(TrainCar))]
         public int? TrainCarId { get; set; }
         public TrainCar? TrainCar { get; set; }
 
+        [ForeignKey(nameof(Train))]
         public int? TrainId { get; set; }
 
         public Train? Train { get; set; }
@@ -42,5 +45,9 @@
         public LuxuryLevel? LuxuryLevel { get; set; }
 
         public decimal AdditionalLuxuryLevelTax { get; set; }
+
+        public bool IsApproved { get; set; } = false;
+
+        public bool IsPaid { get; set; } = false;
     }
 }

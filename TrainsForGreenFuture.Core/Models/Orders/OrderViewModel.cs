@@ -8,6 +8,8 @@
 
         public string OrderType { get; set; }
 
+        public string Company { get; set; }
+
         public DateTime OrderDate { get; set; }
 
         public LocomotiveViewModel? Locomotive { get; set; }
@@ -23,6 +25,10 @@
         public LuxuryLevel? LuxuryLevel { get; set; }
 
         public decimal AdditionalLuxuryLevelTax { get; set; }
+
+        public bool IsApproved { get; set; }
+
+        public bool IsPaid { get; set; }
 
     }
 }

@@ -109,8 +109,10 @@
         {
             var dbLocomotive = GetLocomotive(id);
 
-            if(dbLocomotive == null)
+            if (dbLocomotive == null)
+            {
                 return null;
+            }
 
             var locomotive = mapper.Map<LocomotiveViewModel>(dbLocomotive);
 

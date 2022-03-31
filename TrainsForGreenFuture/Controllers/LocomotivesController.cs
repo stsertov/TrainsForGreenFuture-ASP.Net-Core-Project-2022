@@ -54,9 +54,7 @@
                 locomotive.Picture,
                 locomotive.Description,
                 locomotive.Price.Value);
-            
-            TempData["GlobalMessage"] = $"Locomotive {locomotive.Model} / {locomotive.Series} was added!";
-
+          
             return Redirect("/Locomotives/All");
         }
 

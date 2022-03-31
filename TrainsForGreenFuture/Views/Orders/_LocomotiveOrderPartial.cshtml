@@ -1,8 +1,32 @@
 ﻿@model OrderViewModel
 
-
 @{
-  var fullPrice = (Model.AdditionalInterrailTax + Model.Locomotive.Price) * Model.Count;
+    var fullPrice = (Model.AdditionalInterrailTax + Model.Locomotive.Price) * Model.Count;
+    var daysToDelivery = Math.Ceiling((Model.OrderDate.AddDays(Model.Count * 5) - DateTime.UtcNow).TotalDays);
+
 }
 
-    <h3>@Model.OrderDate | @Model.Count | @Model.Locomotive.Series @Model.Locomotive.Model @Model.OrderType (s) Full Price: €@String.Format("{0:n}", @fullPrice)</h3>
+<tr>
+    <td scope="col">@Model.OrderDate</td>
+    @if (@Model.IsPaid)
+    {
+        <td scope="col">@(daysToDelivery > 0 ? daysToDelivery : "Delivered")</td>
+    }
+    else
+    {
+        <td scope="col">Awaiting payment</td>
+    }
+    <td scope="col">@Model.OrderType</td>
+    <td scope="col">@Model.Locomotive.Model</td>
+    <td scope="col">@Model.Locomotive.Series</td>
+    <td scope="col">@Model.Locomotive.Year</td>
+    <td scope="col">@Model.Count</td>
+    <td scope="col">€@String.Format("{0:n}", @fullPrice)</td>
+    <td scope="col">@(Model.IsApproved ? "Received" : "Pending")</td>
+    <td scope="col">
+        @if (Model.IsApproved && !Model.IsPaid)
+        {
+            <a asp-area="" asp-controller="Orders" asp-action="Pay" asp-route-id="@Model.Id" class="btn btn-warning float-right ml-3">Pay</a>
+        }
+    </td>
+</tr>
