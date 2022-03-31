@@ -9,9 +9,10 @@
             <th scope="col">Customer/Company</th>
             <th scope="col">Id</th>
             <th scope="col">Category</th>
+            <th scope="col">Year</th>
             <th scope="col">Model</th>
             <th scope="col">Series</th>
-            <th scope="col">Year</th>
+            <th scope="col">Count</th>
             <th scope="col">Price</th>
             <th scope="col">Status</th>
             <th scope="col"></th>
@@ -26,9 +27,10 @@
                 <td scope="col">@order.Company</td>
                 <td scope="col">@order.Id</td>
                 <td scope="col">@order.OrderType</td>
+                <td scope="col">@order.Locomotive.Year</td>
                 <td scope="col">@order.Locomotive.Model</td>
                 <td scope="col">@order.Locomotive.Series</td>
-                <td scope="col">@order.Locomotive.Year</td>
+                <td scope="col">@order.Count</td>
                 <td scope="col">€@String.Format("{0:n}", @fullPrice)</td>
                 <td scope="col">@(order.IsPaid == true ? "Executed" : order.IsApproved ? "Received" : "Pending")</td>
               

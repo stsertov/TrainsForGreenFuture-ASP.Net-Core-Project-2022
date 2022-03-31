@@ -39,5 +39,7 @@
             public const string Description = "Leo is our hybrid locomotive. Both strong and eco it is good solution for far away travels where the electric net is not build yet.";
             public const decimal Price = 4000000m;
         }
+
+
     }
 }

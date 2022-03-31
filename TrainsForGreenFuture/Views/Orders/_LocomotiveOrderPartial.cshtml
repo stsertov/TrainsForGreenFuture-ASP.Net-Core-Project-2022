@@ -8,18 +8,12 @@
 
 <tr>
     <td scope="col">@Model.OrderDate</td>
-    @if (@Model.IsPaid)
-    {
-        <td scope="col">@(daysToDelivery > 0 ? daysToDelivery : "Delivered")</td>
-    }
-    else
-    {
-        <td scope="col">Awaiting payment</td>
-    }
+    <td scope="col">@(Model.IsPaid == true ? (daysToDelivery > 0 ? daysToDelivery + " day(s)": "Delivered") : "Awaiting payment")</td>
     <td scope="col">@Model.OrderType</td>
+    <td scope="col">@Model.Locomotive.Year</td>
     <td scope="col">@Model.Locomotive.Model</td>
     <td scope="col">@Model.Locomotive.Series</td>
-    <td scope="col">@Model.Locomotive.Year</td>
+    <td scope="col">@Model.InterrailLength</td>
     <td scope="col">@Model.Count</td>
     <td scope="col">€@String.Format("{0:n}", @fullPrice)</td>
     <td scope="col">@(Model.IsApproved ? "Received" : "Pending")</td>

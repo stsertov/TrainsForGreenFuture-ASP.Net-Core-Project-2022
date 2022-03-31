@@ -2,7 +2,7 @@
 {
     public enum LuxuryLevel
     {
-        Average = 1,
+        Low = 1,
         Normal = 2,
         Luxury = 3
 
