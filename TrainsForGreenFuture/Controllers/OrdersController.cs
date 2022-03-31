@@ -3,47 +3,36 @@
     using AutoMapper;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.EntityFrameworkCore;
+    using TrainsForGreenFuture.Core.Contracts;
+    using TrainsForGreenFuture.Core.Models.Orders;
     using TrainsForGreenFuture.Extensions;
-    using TrainsForGreenFuture.Infrastructure.Data;
-    using TrainsForGreenFuture.Infrastructure.Data.Models;
-    using TrainsForGreenFuture.Models.Locomotives;
-    using TrainsForGreenFuture.Models.Orders;
     using static Areas.RolesConstants;
 
     [Authorize]
     public class OrdersController : Controller
     {
-        private TrainsDbContext context;
+        private IOrderService service;
+        private ILocomotiveService locomotiveService;
         private IMapper mapper;
 
-        public OrdersController(TrainsDbContext context, IMapper mapper)
+        public OrdersController(
+            IOrderService service,
+            ILocomotiveService locomotiveService,
+            IMapper mapper)
         {
-            this.context = context;
+            this.service = service;
+            this.locomotiveService = locomotiveService;
             this.mapper = mapper;
         }
 
         public IActionResult MyOrders()
-        {
-            var dbOrders = context.Orders
-                .Include(o => o.User)
-                .Include(o => o.Locomotive)
-                .Where(o => o.UserId == User.Id())
-                .OrderByDescending(o => o.OrderDate)
-                .ToList();
-
-            var orders = mapper.Map<List<OrderViewModel>>(dbOrders);
-
-            return View(orders);
-        }
+            => View(service.All(User.Id()));
 
         public IActionResult OrderLocomotive(int id)
         {
-            var dbLocomotive = context.Locomotives
-                .Include(l => l.Interrail)
-                .FirstOrDefault(l => !l.IsForRenovation && l.Id == id);
+            var locomotive = locomotiveService.Details(id);
 
-            if (dbLocomotive == null)
+            if (locomotive == null)
             {
                 return RedirectToAction(
                     nameof(LocomotivesController.All),
@@ -51,52 +40,42 @@
                     .Replace(nameof(Controller), string.Empty));
             }
 
-
-            var order = new OrderLocomotiveFormModel
+            return View(new OrderLocomotiveFormModel
             {
                 Count = 1,
-                Interrails = context.Interrails.ToList(),
-                Locomotive = mapper.Map<LocomotiveViewModel>(dbLocomotive),
-                InterrailLength = dbLocomotive.Interrail.Length
-            };
-
-            return View(order);
+                Interrails = locomotiveService.AllInterrails(),
+                Locomotive = locomotive,
+                InterrailLength = locomotive.Interrail
+            });
         }
 
         [HttpPost]
         public IActionResult OrderLocomotive(OrderLocomotiveFormModel order)
         {
-            var dbLocomotive = context.Locomotives
-                .Include(l => l.Interrail)
-                .FirstOrDefault(l => !l.IsForRenovation && l.Id == order.LocomotiveId);
+            var locomotive = locomotiveService.Details(order.LocomotiveId.Value);
 
-            if (dbLocomotive == null)
+            if (locomotive == null)
             {
                 ModelState.AddModelError("Invalid data", "You should type valid parameters.");
             }
 
             if (!ModelState.IsValid)
             {
-                order.Interrails = context.Interrails.ToList();
+                order.Interrails = locomotiveService.AllInterrails();
                 return RedirectToAction(
                     nameof(LocomotivesController.All),
                     nameof(LocomotivesController)
                     .Replace(nameof(Controller), string.Empty));
             }
 
-            decimal additionalTax = order.InterrailLength == dbLocomotive.Interrail.Length ? 0m : 500000m;
+            decimal additionalTax = order.InterrailLength == locomotive.Interrail ? 0m : 500000m;
 
-            context.Orders.Add(new Order
-            {
-                OrderType = 0,
-                OrderDate = DateTime.UtcNow,
-                UserId = User.Id(),
-                Locomotive = dbLocomotive,
-                InterrailLength = order.InterrailLength,
-                AdditionalInterrailTax = additionalTax,
-                Count = order.Count
-            });
-            context.SaveChanges();
+            var orderId = service.CreateLocomotiveOrder(
+                User.Id(),
+                locomotive.Id,
+                order.InterrailLength,
+                additionalTax,
+                order.Count);
 
             return Redirect("/Orders/MyOrders");
         }

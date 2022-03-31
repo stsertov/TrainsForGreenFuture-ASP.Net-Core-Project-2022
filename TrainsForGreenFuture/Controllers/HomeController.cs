@@ -2,6 +2,7 @@
 {
     using Microsoft.AspNetCore.Mvc;
     using System.Diagnostics;
+    using TrainsForGreenFuture.Core.Contracts;
     using TrainsForGreenFuture.Infrastructure.Data;
     using TrainsForGreenFuture.Models;
     using TrainsForGreenFuture.Models.Home;
@@ -10,11 +11,15 @@
     {
         private readonly ILogger<HomeController> logger;
         private TrainsDbContext dbContext;
+        private ILocomotiveService locomotiveService;
 
-        public HomeController(ILogger<HomeController> logger, TrainsDbContext dbContext)
+        public HomeController(ILogger<HomeController> logger, 
+            TrainsDbContext dbContext,
+            ILocomotiveService locomotiveService)
         {
             this.logger = logger;
             this.dbContext = dbContext;
+            this.locomotiveService = locomotiveService;
         }
 
         public IActionResult Index()
@@ -27,14 +32,14 @@
                 new TrainsGenericViewModel
                 {
                     TypeName = "Locomotives", 
-                    ImageUrl = "https://bit.ly/3iyFDsz", 
-                    Count = dbContext.Locomotives.Count(), 
+                    ImageUrl = "https://bit.ly/3qQcMod", 
+                    Count = locomotiveService.AllLocomotives().Count(), 
                     UrlRef = "/Locomotives/All",
                     AddUrlRef = "/Locomotives/Add"},
                 new TrainsGenericViewModel
                 {
                     TypeName = "Train Cars",
-                ImageUrl = "https://bit.ly/3tEPiEk",
+                ImageUrl = "https://bit.ly/3NxLaOe",
                     Count = dbContext.TrainCars.Count(), 
                     UrlRef = "/TrainCars/All",
                     AddUrlRef = "/TrainCars/Add"
@@ -42,7 +47,7 @@
                 new TrainsGenericViewModel
                 {
                     TypeName = "Trains",
-                    ImageUrl = "https://bit.ly/35bwR0z",
+                    ImageUrl = "https://bit.ly/3JWAre5",
                     Count = dbContext.Trains.Count(), 
                     UrlRef = "/Trains/All",
                     AddUrlRef = "/Trains/Add"

@@ -1,7 +1,7 @@
-﻿namespace TrainsForGreenFuture.Models.Orders
+﻿namespace TrainsForGreenFuture.Core.Models.Orders
 {
+    using TrainsForGreenFuture.Core.Models.Locomotives;
     using TrainsForGreenFuture.Infrastructure.Data.Models.Enum;
-    using TrainsForGreenFuture.Models.Locomotives;
     public class OrderViewModel
     {
         public string Id { get; set; }
@@ -10,7 +10,7 @@
 
         public DateTime OrderDate { get; set; }
 
-        public LocomotiveViewModel Locomotive { get; set; }
+        public LocomotiveViewModel? Locomotive { get; set; }
 
         //To Add TrainCarViewModel
         //       TrainViewModel

@@ -1,4 +1,4 @@
-﻿namespace TrainsForGreenFuture.Models.Locomotives
+﻿namespace TrainsForGreenFuture.Core.Models.Locomotives
 {
     public class LocomotiveViewModel
     {

@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using TrainsForGreenFuture.Core.Contracts;
+using TrainsForGreenFuture.Core.Services;
 using TrainsForGreenFuture.Extensions;
 using TrainsForGreenFuture.Infrastructure.Data;
 using TrainsForGreenFuture.Infrastructure.Data.Identity;
@@ -28,6 +30,8 @@ builder.Services.AddDefaultIdentity<User>(options =>
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddTransient<IPasswordHasher<User>, PasswordHasher<User>>();
+builder.Services.AddTransient<ILocomotiveService, LocomotiveService>();
+builder.Services.AddTransient<IOrderService, OrderService>();
 
 builder.Services.AddMemoryCache();
 

@@ -1,9 +1,9 @@
 ﻿using TrainsForGreenFuture.Infrastructure.Data;
 
-namespace TrainsForGreenFuture.Models.Locomotives
+namespace TrainsForGreenFuture.Core.Models.Locomotives
 {
     using System.ComponentModel.DataAnnotations;
-    using TrainsForGreenFuture.Infrastructure.Data.Models;
+    using TrainsForGreenFuture.Core.Models.Interrails;
     using static DataConstants.Locomotive;
     public class LocomotiveFormModel
     {
@@ -44,6 +44,6 @@ namespace TrainsForGreenFuture.Models.Locomotives
 
         public bool IsForRenovation { get; init; }
 
-        public IEnumerable<Interrail>? Interrails { get; set; }
+        public IEnumerable<InterrailServiceModel>? Interrails { get; set; }
     }
 }

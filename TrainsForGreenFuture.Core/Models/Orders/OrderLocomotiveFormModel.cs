@@ -1,8 +1,8 @@
-﻿namespace TrainsForGreenFuture.Models.Orders
+﻿namespace TrainsForGreenFuture.Core.Models.Orders
 {
     using System.ComponentModel.DataAnnotations;
-    using TrainsForGreenFuture.Infrastructure.Data.Models;
-    using TrainsForGreenFuture.Models.Locomotives;
+    using TrainsForGreenFuture.Core.Models.Interrails;
+    using TrainsForGreenFuture.Core.Models.Locomotives;
 
     using static TrainsForGreenFuture.Infrastructure.Data.DataConstants.Order;
     public class OrderLocomotiveFormModel
@@ -17,6 +17,6 @@
         [Range(countMinValue, countMaxValue)]
         public int Count { get; set; }
 
-        public IEnumerable<Interrail>? Interrails { get; set; }
+        public IEnumerable<InterrailServiceModel>? Interrails { get; set; }
     }
 }
