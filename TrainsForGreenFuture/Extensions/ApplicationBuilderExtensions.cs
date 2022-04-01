@@ -21,7 +21,6 @@
             SeedCategories(services);
             SeedInterrails(services);
             SeedAdminUser(services);
-            SeedEngineerUser(services);
             SeedLocomotives(services);
             SeedTrainCars(services);
             return app;
@@ -115,51 +114,6 @@
                 .GetAwaiter()
                 .GetResult();
         }
-
-        public static void SeedEngineerUser(IServiceProvider services)
-        {
-            Task.Run(async () =>
-            await ApplyRole(services, EngineerRole))
-                .GetAwaiter()
-                .GetResult();
-
-            const string username = "engineer";
-            const string engineerPassword = "engineer11";
-
-            var db = services
-                .GetRequiredService<TrainsDbContext>();
-
-            if (db.Users.Any(x => x.UserName == "engineer@engineer.com"))
-                return;
-
-            var user = new User
-            {
-                Email = "engineer@engineer.com",
-                FirstName = username,
-                LastName = engineerPassword,
-                Company = "Trains For Green Future",
-                UserName = "engineer@engineer.com"
-            };
-
-            var passwordHash = services
-                .GetRequiredService<IPasswordHasher<User>>()
-                .HashPassword(user, engineerPassword);
-
-            user.PasswordHash = passwordHash;
-
-            db.Users.Add(user);
-            db.SaveChanges();
-
-            var userManager = services
-                .GetRequiredService<UserManager<User>>();
-
-            Task.Run(async () =>
-                await userManager
-                .AddToRoleAsync(user, EngineerRole))
-                .GetAwaiter()
-                .GetResult();
-        }
-
         public static void SeedLocomotives(IServiceProvider services)
         {
             var dbContext = services

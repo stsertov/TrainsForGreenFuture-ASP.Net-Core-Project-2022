@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <Folder Include="CustomAttributes\" />
+    <Folder Include="Models\Trains\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -26,7 +26,7 @@
         {
             var dbTrains = context.Locomotives
                 .Include(l => l.Interrail)
-                .Where(l => !l.IsForRenovation)
+                .Where(l => !l.IsForRenovation && !l.IsDeleted)
                 .ToList();
 
             var trains = mapper.Map<IEnumerable<LocomotiveViewModel>>(dbTrains);
@@ -141,7 +141,7 @@
                 return false;
             }
 
-            context.Locomotives.Remove(locomotive);
+            locomotive.IsDeleted = true;
             context.SaveChanges();
 
             return true;
@@ -150,7 +150,7 @@
         private Locomotive GetLocomotive(int id)
             => context.Locomotives
                 .Include(l => l.Interrail)
-                .FirstOrDefault(l => !l.IsForRenovation && l.Id == id);
+                .FirstOrDefault(l => !l.IsForRenovation && !l.IsDeleted && l.Id == id);
 
     }
 }

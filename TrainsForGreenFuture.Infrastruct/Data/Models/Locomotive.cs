@@ -41,5 +41,6 @@
         public decimal Price { get; set; }
 
         public bool IsForRenovation { get; set; } = false;
+        public bool IsDeleted { get; set; } = false;
     }
 }

@@ -28,6 +28,7 @@
             var trainCars = context.TrainCars
                 .Include(tc => tc.Category)
                 .Include(tc => tc.Interrail)
+                .Where(tc => !tc.IsForRenovation && !tc.IsDeleted)
                 .ToList();
 
             return mapper.Map<List<TrainCarViewModel>>(trainCars);
@@ -136,7 +137,7 @@
                 return false;
             }
 
-            context.TrainCars.Remove(trainCar);
+            trainCar.IsDeleted = true;
             context.SaveChanges();
 
             return true;
@@ -166,6 +167,6 @@
             => context.TrainCars
             .Include(tc => tc.Interrail)
             .Include(tc => tc.Category)
-            .FirstOrDefault(tc => tc.Id == trainCarId);
+            .FirstOrDefault(tc => tc.Id == trainCarId && !tc.IsDeleted);
     }
 }

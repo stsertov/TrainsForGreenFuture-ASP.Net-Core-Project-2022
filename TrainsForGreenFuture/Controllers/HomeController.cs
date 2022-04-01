@@ -12,14 +12,17 @@
         private readonly ILogger<HomeController> logger;
         private TrainsDbContext dbContext;
         private ILocomotiveService locomotiveService;
+        private ITrainCarService trainCarService;
 
         public HomeController(ILogger<HomeController> logger, 
             TrainsDbContext dbContext,
-            ILocomotiveService locomotiveService)
+            ILocomotiveService locomotiveService,
+            ITrainCarService trainCarService)
         {
             this.logger = logger;
             this.dbContext = dbContext;
             this.locomotiveService = locomotiveService;
+            this.trainCarService = trainCarService;
         }
 
         public IActionResult Index()
@@ -35,14 +38,14 @@
                     ImageUrl = "https://bit.ly/3qQcMod", 
                     Count = locomotiveService.AllLocomotives().Count(), 
                     UrlRef = "/Locomotives/All",
-                    AddUrlRef = "/Locomotives/Add"},
+                    AddUrlRef = "/Admin/Locomotives/Add"},
                 new TrainsGenericViewModel
                 {
                     TypeName = "Train Cars",
                 ImageUrl = "https://bit.ly/3NxLaOe",
-                    Count = dbContext.TrainCars.Count(), 
+                    Count = trainCarService.AllTrainCars().Count(),
                     UrlRef = "/TrainCars/All",
-                    AddUrlRef = "/TrainCars/Add"
+                    AddUrlRef = "/Admin/TrainCars/Add"
                 },
                 new TrainsGenericViewModel
                 {
@@ -50,7 +53,7 @@
                     ImageUrl = "https://bit.ly/3JWAre5",
                     Count = dbContext.Trains.Count(), 
                     UrlRef = "/Trains/All",
-                    AddUrlRef = "/Trains/Add"
+                    AddUrlRef = "/Admin/Trains/Add"
                 }
             };
 

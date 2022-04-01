@@ -10,13 +10,10 @@
                     <h5 class="card-title text-center">@trainCar.Year  @trainCar.Model @trainCar.Series (@trainCar.CategoryName)</h5>
                     <a asp-controller="Orders" asp-action="OrderTrainCar" asp-route-id="@trainCar.Id" class="btn btn-primary">Order</a>
                     <a asp-controller="TrainCars" asp-action="Details" asp-route-id="@trainCar.Id" class="btn btn-info">More</a>
-                    @if (User.IsAdmin() || User.IsEngineer())
+                    @if (User.IsAdmin())
                     {
-                        <a asp-controller="TrainCars" asp-action="Edit" asp-route-id="@trainCar.Id" class="btn btn-warning">Edit</a>
-                        @if (User.IsAdmin())
-                        {
-                            <a asp-controller="TrainCars" asp-action="Delete" asp-route-id="@trainCar.Id" class="btn btn-danger">Remove</a>
-                        }
+                        <a asp-area="Admin" asp-controller="TrainCars" asp-action="Edit" asp-route-id="@trainCar.Id" class="btn btn-warning">Edit</a>
+                        <a asp-area="Admin" asp-controller="TrainCars" asp-action="Delete" asp-route-id="@trainCar.Id" class="btn btn-danger">Remove</a>
                     }
                 </div>
             </div>
