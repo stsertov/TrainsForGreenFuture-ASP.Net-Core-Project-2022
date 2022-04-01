@@ -127,6 +127,20 @@
             return trainCar;
         }
 
+        public bool Remove(int id)
+        {
+            var trainCar = GetTrainCar(id);
+
+            if (trainCar == null)
+            {
+                return false;
+            }
+
+            context.TrainCars.Remove(trainCar);
+            context.SaveChanges();
+
+            return true;
+        }
 
         public IEnumerable<InterrailServiceModel> AllInterrails()
         {

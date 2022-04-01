@@ -1,7 +1,7 @@
 ﻿@model OrderViewModel
 
 @{
-    var fullPrice = (Model.AdditionalInterrailTax + Model.Locomotive.Price) * Model.Count;
+    var fullPrice = (Model.AdditionalInterrailTax + Model.AdditionalLuxuryLevelTax + Model.TrainCar.Price) * Model.Count;
     var daysToDelivery = Math.Ceiling((Model.OrderDate.AddDays(Model.Count * 5) - DateTime.UtcNow).TotalDays);
 
 }
@@ -10,12 +10,12 @@
     <td scope="col">@Model.OrderDate</td>
     <td scope="col">@(Model.IsPaid == true ? (daysToDelivery > 0 ? daysToDelivery + " day(s)": "Delivered") : "Awaiting payment")</td>
     <td scope="col">@Model.OrderType</td>
-    <td scope="col">@Model.Locomotive.Year</td>
-    <td scope="col">@Model.Locomotive.Model</td>
-    <td scope="col">@Model.Locomotive.Series</td>
-    <th scope="col"></th>
-    <th scope="col"></th>
-    <th scope="col"></th>
+    <td scope="col">@Model.TrainCar.Year</td>
+    <td scope="col">@Model.TrainCar.Model</td>
+    <td scope="col">@Model.TrainCar.Series</td>
+    <th scope="col">@Model.TrainCar.CategoryName</th>
+    <th scope="col">@Model.TrainCar.SeatCount</th>
+    <th scope="col">@Model.TrainCar.LuxuryLevel</th>
     <td scope="col">@Model.InterrailLength</td>
     <td scope="col">@Model.Count</td>
     <td scope="col">€@String.Format("{0:n}", @fullPrice)</td>

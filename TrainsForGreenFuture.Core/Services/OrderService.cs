@@ -11,7 +11,8 @@
 
     public class OrderService : IOrderService
     {
-        private const string orderType = "Locomotive";
+        private const string LocomotiveOrder = "Locomotive";
+        private const string TrainCarOrder = "TrainCar";
         private TrainsDbContext context;
         private IMapper mapper;
 
@@ -24,21 +25,14 @@
 
         public IEnumerable<OrderViewModel> All()
         {
-            var orders = context.Orders
-               .Include(o => o.User)
-               .Include(o => o.Locomotive)
-               .OrderByDescending(o => o.OrderDate)
-               .ToList();
+            var orders = GetAllOrders().ToList();
 
             return mapper.Map<List<OrderViewModel>>(orders);
         }
         public IEnumerable<OrderViewModel> All(string userId)
         {
-            var orders = context.Orders
-                .Include(o => o.User)
-                .Include(o => o.Locomotive)
+            var orders = GetAllOrders()
                 .Where(o => o.UserId == userId)
-                .OrderByDescending(o => o.OrderDate)
                 .ToList();
 
             return mapper.Map<List<OrderViewModel>>(orders);
@@ -54,7 +48,7 @@
         {
             var order = new Order
             {
-                OrderType = Enum.Parse<OrderType>(orderType),
+                OrderType = Enum.Parse<OrderType>(LocomotiveOrder),
                 OrderDate = DateTime.UtcNow,
                 UserId = userId,
                 LocomotiveId = locomotiveId,
@@ -68,14 +62,41 @@
 
             return order.Id;
         }
+        public string CreateTrainCarOrder(
+            string userId,
+            int trainCarId,
+            int interrailLength,
+            decimal additionalInterrailtax,
+            LuxuryLevel luxuryLevel,
+            decimal additionalLuxuryLeveltax,
+            int count)
+        {
+            var order = new Order
+            {
+                OrderType = Enum.Parse<OrderType>(TrainCarOrder),
+                OrderDate = DateTime.UtcNow,
+                UserId = userId,
+                TrainCarId = trainCarId,
+                InterrailLength = interrailLength,
+                AdditionalInterrailTax = additionalInterrailtax,
+                LuxuryLevel = luxuryLevel,
+                AdditionalLuxuryLevelTax = additionalInterrailtax,
+                Count = count
+            };
+
+            context.Orders.Add(order);
+            context.SaveChanges();
+
+            return order.Id;
+        }
 
         public bool ChangeStatus(string orderId)
         {
             var order = GetOrder(orderId);
 
-            if(order == null)
+            if (order == null)
             {
-                return false; 
+                return false;
             }
 
             order.IsApproved = true;
@@ -105,6 +126,15 @@
         private Order GetOrder(string orderId)
             => context.Orders
                 .FirstOrDefault(o => o.Id == orderId);
+
+        private IQueryable<Order> GetAllOrders()
+            => context.Orders
+                .Include(o => o.User)
+                .Include(o => o.Locomotive)
+                .Include(o => o.TrainCar)
+                .ThenInclude(tc => tc.Category)
+                .OrderByDescending(o => o.OrderDate)
+                .AsQueryable();
     }
 }
 

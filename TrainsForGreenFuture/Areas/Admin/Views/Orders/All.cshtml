@@ -11,7 +11,10 @@
             <th scope="col">Category</th>
             <th scope="col">Year</th>
             <th scope="col">Model</th>
-            <th scope="col">Series</th>
+            <th scope="col">Series</th>            
+            <th scope="col">Category</th>            
+            <th scope="col">Seats</th>
+            <th scope="col">Luxury level</th>
             <th scope="col">Count</th>
             <th scope="col">Price</th>
             <th scope="col">Status</th>
@@ -21,27 +24,14 @@
     <tbody>
         @foreach (var order in Model)
         {
-            var fullPrice = (order.AdditionalInterrailTax + order.Locomotive.Price) * order.Count;
-            <tr>
-                <td scope="col">@order.OrderDate</td>
-                <td scope="col">@order.Company</td>
-                <td scope="col">@order.Id</td>
-                <td scope="col">@order.OrderType</td>
-                <td scope="col">@order.Locomotive.Year</td>
-                <td scope="col">@order.Locomotive.Model</td>
-                <td scope="col">@order.Locomotive.Series</td>
-                <td scope="col">@order.Count</td>
-                <td scope="col">€@String.Format("{0:n}", @fullPrice)</td>
-                <td scope="col">@(order.IsPaid == true ? "Executed" : order.IsApproved ? "Received" : "Pending")</td>
-              
-                <td scope="col">
-                    @if (!order.IsApproved)
-                    {
-                        <a asp-area="Admin" asp-controller="Orders" asp-action="Approve" asp-route-id="@order.Id" class="btn btn-warning float-right ml-3">Approve</a>
-                    }
-                    @*<a asp-area="Admin" asp-controller="Cars" asp-action="ChangeVisibility" asp-route-id="@car.Id" class="btn btn-info float-right ml-3">@(car.IsPublic ? "Hide" : "Show")</a>*@
-                </td>
-            </tr>
+             if (order.OrderType == "Locomotive")
+            {
+                <partial name="_LocomotiveOrderPartial" model="@order" />
+            }
+            else if(order.OrderType == "TrainCar")
+            {
+                <partial name="_TrainCarOrderPartial" model="@order" />
+            }
         }
     </tbody>
 </table>

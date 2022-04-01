@@ -40,6 +40,8 @@
         public TrainCarViewModel Details(int trainCarId);
 
         public TrainCarFormModel FormDetails(int trainCarId);
+
+        public bool Remove(int id);
         public string GetCategoryName(int categoryId);
     }
 }

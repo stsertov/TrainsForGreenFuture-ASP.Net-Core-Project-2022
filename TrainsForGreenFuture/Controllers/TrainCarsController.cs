@@ -150,5 +150,18 @@
 
             return Redirect("/TrainCars/All");
         }
+
+        [Authorize(Roles = AdministratorRole)]
+        public IActionResult Delete(int id)
+        {
+            var isRemoved = service.Remove(id);
+
+            if (isRemoved)
+            {
+                return Redirect("/Home/Trains");
+            }
+
+            return Redirect("/TrainCars/All");
+        }
     }
 }

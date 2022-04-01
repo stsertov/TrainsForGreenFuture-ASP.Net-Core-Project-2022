@@ -8,7 +8,8 @@
 
 <tr>
     <td scope="col">@Model.OrderDate</td>
-    <td scope="col">@(Model.IsPaid == true ? (daysToDelivery > 0 ? daysToDelivery + " day(s)": "Delivered") : "Awaiting payment")</td>
+    <td scope="col">@Model.Company</td>
+    <td scope="col">@Model.Id</td>
     <td scope="col">@Model.OrderType</td>
     <td scope="col">@Model.Locomotive.Year</td>
     <td scope="col">@Model.Locomotive.Model</td>
@@ -16,14 +17,16 @@
     <th scope="col"></th>
     <th scope="col"></th>
     <th scope="col"></th>
-    <td scope="col">@Model.InterrailLength</td>
     <td scope="col">@Model.Count</td>
     <td scope="col">€@String.Format("{0:n}", @fullPrice)</td>
-    <td scope="col">@(Model.IsApproved ? "Received" : "Pending")</td>
+    <td scope="col">@(Model.IsPaid == true ? "Executed" : Model.IsApproved ? "Received" : "Pending")</td>
+
     <td scope="col">
-        @if (Model.IsApproved && !Model.IsPaid)
+        @if (!Model.IsApproved)
         {
-            <a asp-area="" asp-controller="Orders" asp-action="Pay" asp-route-id="@Model.Id" class="btn btn-warning float-right ml-3">Pay</a>
+            <a asp-area="Admin" asp-controller="Orders" asp-action="Approve" asp-route-id="@Model.Id" class="btn btn-warning float-right ml-3">Approve</a>
         }
+        @*<a asp-area="Admin" asp-controller="Cars" asp-action="ChangeVisibility" asp-route-id="@car.Id" class="btn btn-info float-right ml-3">@(car.IsPublic ? "Hide" : "Show")</a>*@
     </td>
 </tr>
+
