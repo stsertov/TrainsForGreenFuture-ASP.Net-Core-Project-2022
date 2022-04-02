@@ -44,8 +44,8 @@
             public const int modelMaxLength = 20;
             public const int yearMinValue = 1970;
             public const int yearMaxValue = 2025;
-            public const int seriesMinValue = 32000;
-            public const int seriesMaxValue = 11000;
+            public const int seriesMinValue = 11000;
+            public const int seriesMaxValue = 32000;
             public const int topSpeedMinValue = 140;
             public const int topSpeedMaxValue = 650;
             public const int trainCarsMin = 3;

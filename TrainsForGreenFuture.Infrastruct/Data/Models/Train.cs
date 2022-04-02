@@ -20,12 +20,6 @@
         [Range(seriesMinValue, seriesMaxValue)]
         public int Series { get; set; }
 
-
-        [ForeignKey(nameof(Category))]
-        public int CategoryId { get; set; }
-
-        public Category Category { get; set; }
-
         public LuxuryLevel LuxuryLevel { get; set; }
 
         [Range(trainCarsMin, trainCarsMax)]

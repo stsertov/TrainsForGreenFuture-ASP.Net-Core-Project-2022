@@ -15,7 +15,6 @@
 
         public string LuxuryLevel { get; set; }
 
-
         public int InterraiLength { get; set; }
 
         public string Picture { get; set; }

@@ -7,7 +7,8 @@
 
     public class TrainCarsController : AdminController
     {
-        ITrainCarService service;
+        private const string TrainCarAllRoute = "/TrainCars/All";
+        private ITrainCarService service;
 
         public TrainCarsController(ITrainCarService service)
         {
@@ -59,7 +60,7 @@
                 trainCar.Description,
                 trainCar.Price.Value);
 
-            return Redirect("/TrainCars/All");
+            return Redirect(TrainCarAllRoute);
         }
 
         public IActionResult Edit(int id)
@@ -69,7 +70,7 @@
 
             if (trainCar == null)
             {
-                return Redirect("/TrainCars/All");
+                return Redirect(TrainCarAllRoute);
             }
 
             trainCar.Interrails = service.AllInterrails();
@@ -124,7 +125,7 @@
                 return View(trainCar);
             }
 
-            return Redirect("/TrainCars/All");
+            return Redirect(TrainCarAllRoute);
         }
 
         public IActionResult Delete(int id)
@@ -136,7 +137,7 @@
                 return Redirect("/Home/Trains");
             }
 
-            return Redirect("/TrainCars/All");
+            return Redirect(TrainCarAllRoute);
         }
     }
 }

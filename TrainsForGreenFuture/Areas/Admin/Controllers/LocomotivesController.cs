@@ -7,6 +7,7 @@
 
     public class LocomotivesController : AdminController
     {
+        private const string AllLocomotivesRoute = "/Locomotives/All";
         private ILocomotiveService service;
 
         public LocomotivesController(ILocomotiveService service)
@@ -49,7 +50,7 @@
                 locomotive.Description,
                 locomotive.Price.Value);
 
-            return Redirect("/Locomotives/All");
+            return Redirect(AllLocomotivesRoute);
         }
 
         public IActionResult Edit(int id)
@@ -59,7 +60,7 @@
 
             if (locomotive == null)
             {
-                return Redirect("/Locomotives/All");
+                return Redirect(AllLocomotivesRoute);
             }
 
             locomotive.Interrails = service.AllInterrails();
@@ -100,7 +101,7 @@
                 return View(locomotive);
             }
 
-            return Redirect("/Locomotives/All");
+            return Redirect(AllLocomotivesRoute);
         }
 
         public IActionResult Delete(int id)
@@ -113,7 +114,7 @@
                 return Redirect("/Home/Trains");
             }
 
-            return Redirect("/Locomotive/All");
+            return Redirect(AllLocomotivesRoute);
         }
     }
 }

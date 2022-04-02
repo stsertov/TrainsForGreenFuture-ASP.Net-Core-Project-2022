@@ -1,0 +1,27 @@
+﻿@model IEnumerable<TrainViewModel>
+@{
+    ViewData["Title"] = "Trains";
+}
+<h1 class="text-center mt-2">Trains</h1>
+
+<div class="row">
+    @foreach (var train in Model)
+    {
+        <div class="col-md-4">
+            <div class="card mb-3">
+                <img class="card-img-top" src="@train.Picture" alt="@train.Model @train.Series - @train.Year (@train.EngineType)">
+                <div class="card-body text-center">
+                    <h5 class="card-title text-center">@train.Year  @train.Model @train.Series (@train.EngineType)</h5>
+                    <a asp-controller="Orders" asp-action="OrderTrain" asp-route-id="@train.Id" class="btn btn-primary">Order</a>
+                    <a asp-controller="Trains" asp-action="Details" asp-route-id="@train.Id" class="btn btn-info">More</a>
+                    @if (User.IsAdmin())
+                    {
+                        <a asp-area="Admin" asp-controller="Trains" asp-action="Edit" asp-route-id="@train.Id" class="btn btn-warning">Edit</a>
+                        <a asp-area="Admin" asp-controller="Trains" asp-action="Delete" asp-route-id="@train.Id" class="btn btn-danger">Remove</a>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>
+

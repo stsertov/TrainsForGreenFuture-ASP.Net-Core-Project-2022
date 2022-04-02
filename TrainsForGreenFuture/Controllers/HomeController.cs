@@ -3,26 +3,22 @@
     using Microsoft.AspNetCore.Mvc;
     using System.Diagnostics;
     using TrainsForGreenFuture.Core.Contracts;
-    using TrainsForGreenFuture.Infrastructure.Data;
     using TrainsForGreenFuture.Models;
     using TrainsForGreenFuture.Models.Home;
 
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> logger;
-        private TrainsDbContext dbContext;
         private ILocomotiveService locomotiveService;
         private ITrainCarService trainCarService;
+        private ITrainService trainService;
 
-        public HomeController(ILogger<HomeController> logger, 
-            TrainsDbContext dbContext,
-            ILocomotiveService locomotiveService,
-            ITrainCarService trainCarService)
+        public HomeController(ILocomotiveService locomotiveService,
+            ITrainCarService trainCarService,
+            ITrainService trainService)
         {
-            this.logger = logger;
-            this.dbContext = dbContext;
             this.locomotiveService = locomotiveService;
             this.trainCarService = trainCarService;
+            this.trainService = trainService;
         }
 
         public IActionResult Index()
@@ -34,9 +30,9 @@
             {
                 new TrainsGenericViewModel
                 {
-                    TypeName = "Locomotives", 
-                    ImageUrl = "https://bit.ly/3qQcMod", 
-                    Count = locomotiveService.AllLocomotives().Count(), 
+                    TypeName = "Locomotives",
+                    ImageUrl = "https://bit.ly/3qQcMod",
+                    Count = locomotiveService.AllLocomotives().Count(),
                     UrlRef = "/Locomotives/All",
                     AddUrlRef = "/Admin/Locomotives/Add"},
                 new TrainsGenericViewModel
@@ -51,7 +47,7 @@
                 {
                     TypeName = "Trains",
                     ImageUrl = "https://bit.ly/3JWAre5",
-                    Count = dbContext.Trains.Count(), 
+                    Count = trainService.AllTrains().Count(), 
                     UrlRef = "/Trains/All",
                     AddUrlRef = "/Admin/Trains/Add"
                 }

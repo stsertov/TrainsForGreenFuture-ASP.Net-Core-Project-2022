@@ -6,6 +6,7 @@
     using TrainsForGreenFuture.Core.Models.Locomotives;
     using TrainsForGreenFuture.Core.Models.Orders;
     using TrainsForGreenFuture.Core.Models.TrainCars;
+    using TrainsForGreenFuture.Core.Models.Trains;
     using TrainsForGreenFuture.Infrastructure.Data.Models;
 
     public class MappingProfile : Profile
@@ -38,6 +39,10 @@
 
             CreateMap<TrainCar, TrainCarFormModel>()
                 .ForMember(tcf => tcf.LuxuryLevel, cfg => cfg.MapFrom(tc => tc.LuxuryLevel.ToString()));
+
+            CreateMap<Train, TrainViewModel>()
+                .ForMember(tv => tv.LuxuryLevel, cfg => cfg.MapFrom(t => t.LuxuryLevel.ToString()))
+                .ForMember(tv => tv.EngineType, cfg => cfg.MapFrom(t => t.EngineType.ToString())); 
         }
     }
 }

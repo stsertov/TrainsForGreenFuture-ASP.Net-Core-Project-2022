@@ -12,7 +12,7 @@ using TrainsForGreenFuture.Infrastructure.Data;
 namespace TrainsForGreenFuture.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(TrainsDbContext))]
-    [Migration("20220401121422_TrainsDbTables")]
+    [Migration("20220402003118_TrainsDbTables")]
     partial class TrainsDbTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -398,9 +398,6 @@ namespace TrainsForGreenFuture.Infrastructure.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(500)
@@ -448,8 +445,6 @@ namespace TrainsForGreenFuture.Infrastructure.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
 
                     b.HasIndex("InterrailId");
 
@@ -612,19 +607,11 @@ namespace TrainsForGreenFuture.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("TrainsForGreenFuture.Infrastructure.Data.Models.Train", b =>
                 {
-                    b.HasOne("TrainsForGreenFuture.Infrastructure.Data.Models.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("TrainsForGreenFuture.Infrastructure.Data.Models.Interrail", "Interrail")
                         .WithMany()
                         .HasForeignKey("InterrailId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.Navigation("Category");
 
                     b.Navigation("Interrail");
                 });

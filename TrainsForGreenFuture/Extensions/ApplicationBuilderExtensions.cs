@@ -23,6 +23,7 @@
             SeedAdminUser(services);
             SeedLocomotives(services);
             SeedTrainCars(services);
+            SeedTrains(services);
             return app;
         }
 
@@ -182,6 +183,54 @@
             dbContext.AddRange(trainCars);
             dbContext.SaveChanges();
 
+        }
+
+
+        private static void SeedTrains(IServiceProvider services)
+        {
+            var dbContext = services.GetRequiredService<TrainsDbContext>();
+
+            if (dbContext.Trains.Any())
+            {
+                return;
+            }
+
+            var defaultInterrail = dbContext.Interrails.FirstOrDefault(i => i.Length == 1435);
+
+            var trains = new List<Train>()
+            {
+                new Train()
+                {
+                    Model = SonicSerpent.Model,
+                    Year = SonicSerpent.Year,
+                    Series = SonicSerpent.Series,
+                    LuxuryLevel = Enum.Parse<LuxuryLevel>(SonicSerpent.LuxuryLevel),
+                    TrainCarCount = SonicSerpent.TrainCarCount,
+                    EngineType = Enum.Parse<EngineType>(SonicSerpent.EngineType),
+                    Interrail = defaultInterrail,
+                    TopSpeed = SonicSerpent.TopSpeed,
+                    Picture = SonicSerpent.Picture,
+                    Description = SonicSerpent.Description,
+                    Price = SonicSerpent.Price
+                },
+                new Train()
+                {
+                    Model = Cragsman.Model,
+                    Year = Cragsman.Year,
+                    Series = Cragsman.Series,
+                    LuxuryLevel = Enum.Parse<LuxuryLevel>(Cragsman.LuxuryLevel),
+                    TrainCarCount = Cragsman.TrainCarCount,
+                    EngineType = Enum.Parse<EngineType>(Cragsman.EngineType),
+                    Interrail = defaultInterrail,
+                    TopSpeed = Cragsman.TopSpeed,
+                    Picture = Cragsman.Picture,
+                    Description = Cragsman.Description,
+                    Price = Cragsman.Price
+                }
+            };
+
+            dbContext.AddRange(trains);
+            dbContext.SaveChanges();
         }
         private static async Task ApplyRole(IServiceProvider services, string roleName)
         {

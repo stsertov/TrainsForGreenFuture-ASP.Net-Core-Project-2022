@@ -49,11 +49,6 @@
 
             builder.Entity<Train>(t =>
             {
-                t.HasOne(c => c.Category)
-               .WithMany()
-               .HasForeignKey(k => k.CategoryId)
-               .OnDelete(DeleteBehavior.Restrict);
-
                 t.HasOne(i => i.Interrail)
                 .WithMany()
                 .HasForeignKey(k => k.InterrailId)

@@ -39,6 +39,7 @@
 
         public decimal AdditionalInterrailTax { get; set; }
 
+
         [Range(countMinValue, countMaxValue)]
         public int Count { get; set; }
 

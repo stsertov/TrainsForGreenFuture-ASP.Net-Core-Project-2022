@@ -68,5 +68,37 @@
             public const string Description = "Even SoftUni are using our services for their mobile educational program.";
             public const decimal Price = 5800000m;
         }
+
+        // 11 000 - 32 000
+        public class SonicSerpent
+        {
+            public const string Model = "Sonic Serpent";
+            public const int Year = 2022;
+            public const int Series = 33508;
+            public const string LuxuryLevel = "Luxury";
+            public const int TrainCarCount = 12;
+            public const string EngineType = "Electric";
+            public const int InterrailLength = 1435;
+            public const int TopSpeed = 420;
+            public const string Picture = "https://bit.ly/3iZdieY";
+            public const string Description = "This is our fastest train. Luxury castle with bullet speed.";
+            public const decimal Price = 7200000m;
+        } 
+        public class Cragsman
+        {
+            public const string Model = "Cragsman";
+            public const int Year = 2020;
+            public const int Series = 27804;
+            public const string LuxuryLevel = "Normal";
+            public const int TrainCarCount = 7;
+            public const string EngineType = "Diesel";
+            public const int InterrailLength = 1435;
+            public const int TopSpeed = 180;
+            public const string Picture = "https://bit.ly/36TfvpQ";
+            public const string Description = "A bit slower but very strong train. It will get you up to the highest hills.";
+            public const decimal Price = 2700000m;
+        }
+
+
     }
 }

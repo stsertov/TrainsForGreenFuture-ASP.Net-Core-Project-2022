@@ -1,13 +1,11 @@
 ﻿namespace TrainsForGreenFuture.Controllers
 {
-    using AutoMapper;
     using Microsoft.AspNetCore.Mvc;
     using TrainsForGreenFuture.Core.Contracts;
     public class LocomotivesController : Controller
     {
         private ILocomotiveService service;
-        public LocomotivesController(IMapper mapper,
-            ILocomotiveService service)
+        public LocomotivesController(ILocomotiveService service)
         {
             this.service = service;
         }

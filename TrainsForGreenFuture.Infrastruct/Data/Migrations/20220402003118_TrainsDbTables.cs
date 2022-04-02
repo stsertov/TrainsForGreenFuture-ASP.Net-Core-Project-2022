@@ -257,7 +257,6 @@ namespace TrainsForGreenFuture.Infrastructure.Data.Migrations
                     Model = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     Year = table.Column<int>(type: "int", nullable: false),
                     Series = table.Column<int>(type: "int", nullable: false),
-                    CategoryId = table.Column<int>(type: "int", nullable: false),
                     LuxuryLevel = table.Column<int>(type: "int", nullable: false),
                     TrainCarCount = table.Column<int>(type: "int", nullable: false),
                     EngineType = table.Column<int>(type: "int", nullable: false),
@@ -272,12 +271,6 @@ namespace TrainsForGreenFuture.Infrastructure.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Trains", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Trains_Categories_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "Categories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Trains_Interrails_InterrailId",
                         column: x => x.InterrailId,
@@ -407,11 +400,6 @@ namespace TrainsForGreenFuture.Infrastructure.Data.Migrations
                 name: "IX_TrainCars_InterrailId",
                 table: "TrainCars",
                 column: "InterrailId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Trains_CategoryId",
-                table: "Trains",
-                column: "CategoryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Trains_InterrailId",
