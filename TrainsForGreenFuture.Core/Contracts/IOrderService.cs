@@ -23,6 +23,14 @@
             decimal additionalLuxuryLeveltax,
             int count);
 
+        public string CreateTrainOrder(
+           string userId,
+           int trainId,
+           int interrailLength,
+           decimal additionalInterrailtax,
+           LuxuryLevel luxuryLevel,
+           decimal additionalLuxuryLeveltax,
+           int count);
         public bool ChangeStatus(string orderId);
 
         public bool ChangePaidStatus(string orderId);

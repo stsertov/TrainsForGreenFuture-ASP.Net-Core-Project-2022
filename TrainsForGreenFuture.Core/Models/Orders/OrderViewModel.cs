@@ -2,6 +2,7 @@
 {
     using TrainsForGreenFuture.Core.Models.Locomotives;
     using TrainsForGreenFuture.Core.Models.TrainCars;
+    using TrainsForGreenFuture.Core.Models.Trains;
     using TrainsForGreenFuture.Infrastructure.Data.Models.Enum;
     public class OrderViewModel
     {
@@ -17,8 +18,8 @@
 
         public TrainCarViewModel? TrainCar { get; set; }
 
-        //To Add TrainCarViewModel
-        //       TrainViewModel
+        public TrainViewModel? Train { get; set; }
+
         public int InterrailLength { get; set; }
 
         public decimal AdditionalInterrailTax { get; set; }

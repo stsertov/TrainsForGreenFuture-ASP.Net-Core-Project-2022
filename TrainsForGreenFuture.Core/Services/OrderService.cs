@@ -13,6 +13,7 @@
     {
         private const string LocomotiveOrder = "Locomotive";
         private const string TrainCarOrder = "TrainCar";
+        private const string TrainOrder = "Train";
         private TrainsDbContext context;
         private IMapper mapper;
 
@@ -80,7 +81,34 @@
                 InterrailLength = interrailLength,
                 AdditionalInterrailTax = additionalInterrailtax,
                 LuxuryLevel = luxuryLevel,
-                AdditionalLuxuryLevelTax = additionalInterrailtax,
+                AdditionalLuxuryLevelTax = additionalLuxuryLeveltax,
+                Count = count
+            };
+
+            context.Orders.Add(order);
+            context.SaveChanges();
+
+            return order.Id;
+        }
+        public string CreateTrainOrder(
+            string userId,
+            int trainId,
+            int interrailLength,
+            decimal additionalInterrailtax,
+            LuxuryLevel luxuryLevel,
+            decimal additionalLuxuryLeveltax,
+            int count)
+        {
+            var order = new Order
+            {
+                OrderType = Enum.Parse<OrderType>(TrainOrder),
+                OrderDate = DateTime.UtcNow,
+                UserId = userId,
+                TrainId = trainId,
+                InterrailLength = interrailLength,
+                AdditionalInterrailTax = additionalInterrailtax,
+                LuxuryLevel = luxuryLevel,
+                AdditionalLuxuryLevelTax = additionalLuxuryLeveltax,
                 Count = count
             };
 
@@ -131,6 +159,7 @@
             => context.Orders
                 .Include(o => o.User)
                 .Include(o => o.Locomotive)
+                .Include(o => o.Train)
                 .Include(o => o.TrainCar)
                 .ThenInclude(tc => tc.Category)
                 .OrderByDescending(o => o.OrderDate)

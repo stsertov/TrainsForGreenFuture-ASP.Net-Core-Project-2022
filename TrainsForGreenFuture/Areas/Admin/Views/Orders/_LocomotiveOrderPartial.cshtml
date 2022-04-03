@@ -14,9 +14,9 @@
     <td scope="col">@Model.Locomotive.Year</td>
     <td scope="col">@Model.Locomotive.Model</td>
     <td scope="col">@Model.Locomotive.Series</td>
-    <th scope="col"></th>
-    <th scope="col"></th>
-    <th scope="col"></th>
+    <td scope="col"></td>
+    <td scope="col"></td>
+    <td scope="col"></td>
     <td scope="col">@Model.Count</td>
     <td scope="col">€@String.Format("{0:n}", @fullPrice)</td>
     <td scope="col">@(Model.IsPaid == true ? "Executed" : Model.IsApproved ? "Received" : "Pending")</td>
@@ -26,7 +26,6 @@
         {
             <a asp-area="Admin" asp-controller="Orders" asp-action="Approve" asp-route-id="@Model.Id" class="btn btn-warning float-right ml-3">Approve</a>
         }
-        @*<a asp-area="Admin" asp-controller="Cars" asp-action="ChangeVisibility" asp-route-id="@car.Id" class="btn btn-info float-right ml-3">@(car.IsPublic ? "Hide" : "Show")</a>*@
     </td>
 </tr>
 

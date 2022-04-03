@@ -32,6 +32,10 @@
             {
                 <partial name="_TrainCarOrderPartial" model="@order" />
             }
+            else if(order.OrderType == "Train")
+            {
+                <partial name="_TrainOrderPartial" model="@order" />
+            }
         }
     </tbody>
 </table>

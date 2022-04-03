@@ -7,25 +7,29 @@
     using TrainsForGreenFuture.Core.Models.Orders;
     using TrainsForGreenFuture.Extensions;
     using TrainsForGreenFuture.Infrastructure.Data.Models.Enum;
-    using static Areas.RolesConstants;
 
     [Authorize]
     public class OrdersController : Controller
     {
+        private const string MyOrdersRoute = "/Orders/MyOrders";
+        private const string AdminOrdersRoute = "/Admin/Orders/All";
         private IOrderService service;
         private ILocomotiveService locomotiveService;
         private ITrainCarService trainCarService;
+        private ITrainService trainService;
         private IMapper mapper;
 
         public OrdersController(
             IOrderService service,
             ILocomotiveService locomotiveService,
             ITrainCarService trainCarService,
+             ITrainService trainService,
             IMapper mapper)
         {
             this.service = service;
             this.locomotiveService = locomotiveService;
             this.trainCarService = trainCarService;
+            this.trainService = trainService;
             this.mapper = mapper;
         }
 
@@ -81,7 +85,12 @@
                 additionalTax,
                 order.Count);
 
-            return Redirect("/Orders/MyOrders");
+            if (User.IsAdmin())
+            {
+                return Redirect(AdminOrdersRoute);
+            }
+
+            return Redirect(MyOrdersRoute);
         }
 
         public IActionResult OrderTrainCar(int id)
@@ -116,7 +125,7 @@
                 ModelState.AddModelError("Invalid data", "You should type valid parameters.");
             }
 
-            if(!Enum.TryParse<LuxuryLevel>(order.LuxuryLevel, out var parsedLuxuryLevel))
+            if (!Enum.TryParse<LuxuryLevel>(order.LuxuryLevel, out var parsedLuxuryLevel))
             {
                 ModelState.AddModelError("Ivalid luxury level.", "We do not offer this luxury level.");
             }
@@ -132,7 +141,7 @@
 
             decimal additionalInterrailTax = order.InterrailLength == trainCar.InterraiLength ? 0m : 350000m;
 
-            decimal additionalLuxuryTax = (order.LuxuryLevel == "Low" && order.LuxuryLevel != trainCar.LuxuryLevel) ? -200000m : 
+            decimal additionalLuxuryTax = (order.LuxuryLevel == "Low" && order.LuxuryLevel != trainCar.LuxuryLevel) ? -200000m :
                 order.LuxuryLevel == trainCar.LuxuryLevel ? 0m : 600000m;
 
             var orderId = service.CreateTrainCarOrder(
@@ -144,17 +153,89 @@
                 additionalLuxuryTax,
                 order.Count);
 
-            return Redirect("/Orders/MyOrders");
+            if (User.IsAdmin())
+            {
+                return Redirect(AdminOrdersRoute);
+            }
+
+            return Redirect(MyOrdersRoute);
+        }
+
+        public IActionResult OrderTrain(int id)
+        {
+            var train = trainService.Details(id);
+
+            if (train == null)
+            {
+                return RedirectToAction(
+                    nameof(TrainsController.All),
+                    nameof(TrainsController)
+                    .Replace(nameof(Controller), string.Empty));
+            }
+
+            return View(new OrderTrainFormModel
+            {
+                Count = 1,
+                Interrails = trainService.AllInterrails(),
+                Train = train,
+                InterrailLength = train.InterrailLength,
+                LuxuryLevel = train.LuxuryLevel.ToString()
+            });
+        }
+
+        [HttpPost]
+        public IActionResult OrderTrain(OrderTrainFormModel order)
+        {
+            var train = trainService.Details(order.TrainId.Value);
+
+            if (train == null)
+            {
+                ModelState.AddModelError("Invalid data", "You should type valid parameters.");
+            }
+
+            if (!Enum.TryParse<LuxuryLevel>(order.LuxuryLevel, out var parsedLuxuryLevel))
+            {
+                ModelState.AddModelError("Ivalid luxury level.", "We do not offer this luxury level.");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                order.Interrails = trainCarService.AllInterrails();
+                return RedirectToAction(
+                    nameof(TrainsController.All),
+                    nameof(TrainsController)
+                    .Replace(nameof(Controller), string.Empty));
+            }
+
+            decimal additionalInterrailTax = order.InterrailLength == train.InterrailLength ? 0m : 350000m;
+
+            decimal additionalLuxuryTax = (order.LuxuryLevel == "Low" && order.LuxuryLevel != train.LuxuryLevel) ? -200000m :
+                order.LuxuryLevel == train.LuxuryLevel ? 0m : 600000m;
+
+            var orderId = service.CreateTrainOrder(
+                User.Id(),
+                train.Id,
+                order.InterrailLength,
+                additionalInterrailTax,
+                parsedLuxuryLevel,
+                additionalLuxuryTax,
+                order.Count);
+
+            return Redirect(MyOrdersRoute);
         }
 
         public IActionResult Pay(string id)
         {
-            
+
             var IsPaidStatus = service.ChangePaidStatus(id);
 
-            if(IsPaidStatus)
+            if (IsPaidStatus)
             {
-                return Redirect("/Orders/MyOrders");
+                if(User.IsAdmin())
+                {
+                    return Redirect(AdminOrdersRoute);
+                }
+                return Redirect(MyOrdersRoute);
             }
 
             return Redirect("/Home");
