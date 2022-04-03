@@ -42,7 +42,11 @@
 
             CreateMap<Train, TrainViewModel>()
                 .ForMember(tv => tv.LuxuryLevel, cfg => cfg.MapFrom(t => t.LuxuryLevel.ToString()))
-                .ForMember(tv => tv.EngineType, cfg => cfg.MapFrom(t => t.EngineType.ToString())); 
+                .ForMember(tv => tv.EngineType, cfg => cfg.MapFrom(t => t.EngineType.ToString()));
+
+            CreateMap<Train, TrainFormModel>()
+                .ForMember(tf => tf.LuxuryLevel, cfg => cfg.MapFrom(t => t.LuxuryLevel.ToString()))
+                .ForMember(tf => tf.EngineType, cfg => cfg.MapFrom(t => t.EngineType.ToString()));
         }
     }
 }

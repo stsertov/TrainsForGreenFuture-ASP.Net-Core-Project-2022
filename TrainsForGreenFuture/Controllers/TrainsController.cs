@@ -2,16 +2,13 @@
 {
     using Microsoft.AspNetCore.Mvc;
     using TrainsForGreenFuture.Core.Contracts;
-
     public class TrainsController : Controller
     {
         private ITrainService service;
-
         public TrainsController(ITrainService service)
         {
             this.service = service;
         }
-
         public IActionResult All()
            => View(service.AllTrains());
 

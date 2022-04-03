@@ -1,0 +1,80 @@
+﻿@model TrainFormModel
+
+<div class="row">
+    <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+        <h2 class="heading-margin text-center">@ViewBag.Title</h2>
+
+        <form method="post">
+            <div class="form-group">
+                <label asp-for="Model"></label>
+                <input asp-for="Model" class="form-control" placeholder="Write the model of the train...">
+                <span asp-validation-for="Model" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Year"></label>
+                <input asp-for="Year" class="form-control" placeholder="When was manufactured..">
+                <span asp-validation-for="Year" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Series"></label>
+                <input asp-for="Series" class="form-control" placeholder="Enter a series number...">
+                <span asp-validation-for="Series" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LuxuryLevel">Luxury Level</label>
+                <select asp-for="LuxuryLevel" class="form-control">
+                    <option value="Low">Low</option>
+                    <option value="Normal">Normal</option>
+                    <option value="Luxury">Luxury</option>
+                </select>
+                <span asp-validation-for="LuxuryLevel" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TrainCarCount">Count of Train Cars</label>
+                <input asp-for="TrainCarCount" class="form-control" placeholder="">
+                <span asp-validation-for="TrainCarCount" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EngineType">Luxury Level</label>
+                <select asp-for="EngineType" class="form-control">
+                    <option value="Diesel">Diesel</option>
+                    <option value="Electric">Electric</option>
+                    <option value="Hybrid">Hybrid</option>
+                </select>
+                <span asp-validation-for="EngineType" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InterrailId">Interrail</label>
+                <select asp-for="InterrailId" class="form-control">
+                    @foreach (var interrail in @Model.Interrails)
+                    {
+                        <option value="@interrail.Id">@interrail.Length mm</option>
+                    }
+                </select>
+                <span asp-validation-for="InterrailId" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TopSpeed">Top Speed (kph)</label>
+                <input asp-for="TopSpeed" class="form-control" placeholder="What's the top speed...">
+                <span asp-validation-for="TopSpeed" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Picture"></label>
+                <input asp-for="Picture" class="form-control" placeholder="Put a link to your train...">
+                <span asp-validation-for="Picture" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description"></label>
+                <textarea asp-for="Description" rows="4" class="form-control" placeholder="Give brief info about the train."></textarea>
+                <span asp-validation-for="Description" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price"></label>
+                <input asp-for="Price" class="form-control" placeholder="How much does it cost?">
+                <span asp-validation-for="Price" class="small text-danger"></span>
+            </div>
+            <input class="btn btn-primary mt-3" type="submit" value="Save" />
+            <a class="btn btn-default mt-3" value="Cancel"/>
+        </form>
+    </div>
+</div>
