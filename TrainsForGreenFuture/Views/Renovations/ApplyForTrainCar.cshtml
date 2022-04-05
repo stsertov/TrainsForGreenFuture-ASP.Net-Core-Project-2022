@@ -1,0 +1,83 @@
+﻿@model RenovationTrainCarApplyFormModel
+
+@{
+    ViewBag.Title = "Locomotive Renovation";
+}
+
+
+<div class="row">
+    <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+        <h2 class="heading-margin text-center">@ViewBag.Title</h2>
+        
+        <form method="post">
+            <div class="form-group">
+                <label asp-for="RenovationVolume">Renovation's type</label>
+                <select asp-for="RenovationVolume" class="form-control">
+                        <option value="Complete">Full renovation</option>
+                        <option value="Partial">Partail - only the important stuff</option>
+                        <option value="Cosmetic">Cosmetic - paintjobs and interior upgrades</option>
+                </select>
+                <span asp-validation-for="RenovationVolume" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Model"></label>
+                <input asp-for="Model" class="form-control" placeholder="Write the model of the machine...">
+                <span asp-validation-for="Model" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Year"></label>
+                <input asp-for="Year" class="form-control" placeholder="When was manufactured..">
+                <span asp-validation-for="Year" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Series"></label>
+                <input asp-for="Series" class="form-control" placeholder="Enter a series number...">
+                <span asp-validation-for="Series" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CategoryId">Category</label>
+                <select asp-for="CategoryId" class="form-control">
+                    @foreach (var category in @Model.Categories)
+                    {
+                        <option value="@category.Id">@category.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="CategoryId" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LuxuryLevel">Luxury level</label>
+                <select asp-for="LuxuryLevel" class="form-control">
+                        <option value="Low">Low</option>
+                        <option value="Normal">Normal</option>
+                        <option value="Luxury">Luxury</option>
+                </select>
+                <span asp-validation-for="LuxuryLevel" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InterrailId">Interrail</label>
+                <select asp-for="InterrailId" class="form-control">
+                    @foreach (var interrail in @Model.Interrails)
+                    {
+                        <option value="@interrail.Id">@interrail.Length mm</option>
+                    }
+                </select>
+                <span asp-validation-for="InterrailId" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Picture"></label>
+                <input asp-for="Picture" class="form-control" placeholder="Put a link to your machine...">
+                <span asp-validation-for="Picture" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description"></label>
+                <textarea asp-for="Description" rows="4" class="form-control" placeholder="Give brief info about the machine."></textarea>
+                <span asp-validation-for="Description" class="small text-danger"></span>
+            </div> 
+            <input class="btn btn-primary mt-3" type="submit" value="Apply" />
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

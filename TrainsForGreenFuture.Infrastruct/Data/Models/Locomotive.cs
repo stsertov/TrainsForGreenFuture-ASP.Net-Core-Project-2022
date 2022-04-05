@@ -28,7 +28,7 @@
         public Interrail Interrail { get; set; }
 
         [Range(topSpeedMinValue, topSpeedMaxValue)]
-        public int TopSpeed { get; set; }
+        public int? TopSpeed { get; set; }
 
         [Required]
         [StringLength(pictureMaxLength)]
@@ -38,7 +38,7 @@
         public string Description { get; set; }
 
         [Range(priceMinValue, priceMaxValue)]
-        public decimal Price { get; set; }
+        public decimal? Price { get; set; }
 
         public bool IsForRenovation { get; set; } = false;
         public bool IsDeleted { get; set; } = false;

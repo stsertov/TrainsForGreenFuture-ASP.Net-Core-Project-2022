@@ -38,9 +38,9 @@
         [Range(minPriceValue, maxPriceValue)]
         public decimal? Price { get; set; }
 
-        public string RenovatedPicture { get; set; }
+        public string? RenovatedPicture { get; set; }
 
-        public string Comment { get; set; }
+        public string? Comment { get; set; }
 
         public bool IsApproved { get; set; } = false;
 

@@ -6,26 +6,27 @@
 
 <h1 class="text-center mt-2">You can bring you old locomotives and train cars to life with our renovation services.</h1>
 
-<div class="row">
+@*<div class="row">
     @foreach (var renovation in @Model.Renovations)
     {
-        <div class="col-md-4">
-            <div class="card mb-3">
-                <img class="card-img-top" src="@renovation.Id" alt="@renovation.Id @renovation.Id - @renovation.Id (@renovation.Id)">
-                <div class="card-body text-center">
-                    <h5 class="card-title text-center">Year  Model Series (EngineType)</h5>
-                    <a asp-controller="Orders" asp-action="OrderLocomotive" asp-route-id="@renovation.Id" class="btn btn-primary">Order</a>
-                    <a asp-controller="Locomotives" asp-action="Details" asp-route-id="@renovation.Id" class="btn btn-info">More</a>
-                    @if (User.IsAdmin())
-                    {
-                        <a asp-area="Admin" asp-controller="Locomotives" asp-action="Edit" asp-route-id="@renovation.Id" class="btn btn-warning">Edit</a>
-                        <a asp-area="Admin" asp-controller="Locomotives" asp-action="Delete" asp-route-id="@renovation.Id class="btn btn-danger">Remove</a>
-                    }
-                </div>
-            </div>
-        </div>
+    <div class="col-md-4">
+    <div class="card mb-3">
+    <img class="card-img-top" src="@renovation.Id" alt="@renovation.Id @renovation.Id - @renovation.Id (@renovation.Id)">
+    <div class="card-body text-center">
+    <h5 class="card-title text-center">Year  Model Series (EngineType)</h5>
+    <a asp-controller="Orders" asp-action="OrderLocomotive" asp-route-id="@renovation.Id" class="btn btn-primary">Order</a>
+    <a asp-controller="Locomotives" asp-action="Details" asp-route-id="@renovation.Id" class="btn btn-info">More</a>
+    @if (User.IsAdmin())
+    {
+    <a asp-area="Admin" asp-controller="Locomotives" asp-action="Edit" asp-route-id="@renovation.Id" class="btn btn-warning">Edit</a>
+    <a asp-area="Admin" asp-controller="Locomotives" asp-action="Delete" asp-route-id="@renovation.Id class="btn btn-danger">Remove</a>
     }
-</div>
+    </div>
+    </div>
+    </div>
+    }
+    </div>*@
+
 
 <form method="get">
     <div class="row mt-2">
@@ -38,8 +39,14 @@
                 </select>
             </div>
         </div>
-            <div class="form-group col-md-4">
+        <div class="form-group col-md-4">
             <input class="btn btn-primary" type="submit" value="Sort" />
+            </div>
+        <div class="form-group col-md-3">
+            <a href="/Renovations/ApplyForLocomotive" class="btn btn-block btn-success" style="width: 200px; height: auto; float: right;">Renovate Locomotive</a>
+        </div>
+        <div class="form-group col-md-3">
+            <a href="/Renovations/ApplyForTrainCar" class="btn btn-block btn-success" style="width: 200px; height: auto; float: right;">Renovate Train Car</a>
         </div>
     </div>
 </form>
@@ -62,7 +69,7 @@
 
 <div class="row md-12 mb-6 mt-3">
     <div class="col-6">
-        <a class="btn btn-primary @(Model.CurrentPage == 1 ? "disabled" : string.Empty)" 
+        <a class="btn btn-primary @(Model.CurrentPage == 1 ? "disabled" : string.Empty)"
            asp-controller="Renovations"
            asp-action="All"
            asp-route-currentPage="@previousPage"
@@ -90,5 +97,21 @@
 
 @foreach (var renovation in @Model.Renovations)
 {
-
+    if (renovation.RenovationType == TrainsForGreenFuture.Infrastructure.Data.Models.Enum.RenovationType.Locomotive)
+    {
+        <div class="col-md-3 mt-2">
+            <div class="card mb-3">
+                <img class="card-img-top" src="@renovation.Locomotive.Picture" alt="@renovation.Locomotive.Model @renovation.Locomotive.Series - @renovation.Locomotive.Year (@renovation.RenovationVolume)">
+                <div class="card-body text-center">
+                    <h5 class="card-title text-center">@renovation.Locomotive.Model @renovation.Locomotive.Year @renovation.Locomotive.Series - (@renovation.RenovationVolume) renovation </h5>
+                    <a asp-controller="Renovations" asp-action="Details" asp-route-id="@renovation.Id" class="btn btn-info">Details</a>
+                    @if (User.IsAdmin())
+                    {
+                        <a asp-area="Admin" asp-controller="Renovations" asp-action="Review" asp-route-id="@renovation.Id" class="btn btn-warning">Review</a>
+                        <a asp-area="Admin" asp-controller="Renovations" asp-action="Delete" asp-route-id="@renovation.Id" class="btn btn-danger">Remove</a>
+                    }
+                </div>
+            </div>
+        </div>
+    }
 }

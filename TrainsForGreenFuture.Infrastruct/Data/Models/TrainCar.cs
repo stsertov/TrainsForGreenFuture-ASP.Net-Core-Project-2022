@@ -25,7 +25,7 @@
         public Category Category { get; set; }
 
         [Range(seatCountMin, seatCountMax)]
-        public int SeatCount { get; set; }
+        public int? SeatCount { get; set; }
 
         public LuxuryLevel LuxuryLevel { get; set; }
 
@@ -42,7 +42,7 @@
         public string Description { get; set; }
 
         [Range(priceMinValue, priceMaxValue)]
-        public decimal Price { get; set; }
+        public decimal? Price { get; set; }
 
         public bool IsForRenovation { get; set; } = false;
 
