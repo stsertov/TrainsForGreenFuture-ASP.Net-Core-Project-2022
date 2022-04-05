@@ -1,16 +1,39 @@
 ﻿namespace TrainsForGreenFuture.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Caching.Memory;
     using TrainsForGreenFuture.Core.Contracts;
+    using TrainsForGreenFuture.Core.Models.TrainCars;
+
     public class TrainCarsController : Controller
     {
+        private const string TrainCarCacheKey = "traincarsall";
         private ITrainCarService service;
-        public TrainCarsController(ITrainCarService service)
+        private IMemoryCache cache;
+        public TrainCarsController(ITrainCarService service,
+            IMemoryCache cache)
         {
             this.service = service;
+            this.cache = cache;
         }
         public IActionResult All()
-              => View(service.AllTrainCars());
+        {
+            var trainCars = cache.Get<IEnumerable<TrainCarViewModel>>(TrainCarCacheKey);
+
+            if (trainCars == null)
+            {
+                trainCars = service.AllTrainCars();
+
+                var cacheOptions = new MemoryCacheEntryOptions()
+                    .SetSlidingExpiration(TimeSpan.FromMinutes(5))
+                    .SetAbsoluteExpiration(TimeSpan.FromDays(5));
+
+                cache.Set(TrainCarCacheKey, trainCars, cacheOptions);
+            }
+
+            return View(trainCars);
+        }
+
         public IActionResult Details(int id)
         {
             var trainCar = service.Details(id);
@@ -21,6 +44,6 @@
             }
 
             return View(trainCar);
-        }     
+        }
     }
 }
