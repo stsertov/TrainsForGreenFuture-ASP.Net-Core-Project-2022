@@ -43,12 +43,14 @@
 
         public bool CancelRenovation(string id, string comment);
 
+        public RenovationDetailsViewModel Details(string id);
+
         public AllRenovationsViewModel AllRenovations(
            GlobalSorting sorting = GlobalSorting.DateCreated,
            int currentPage = 1,
            int renovationPerPage = int.MaxValue);
 
-        public RenovationDetailsViewModel Details(string id);
+        public IEnumerable<RenovationViewModel> ApiRenovations();
         public IEnumerable<InterrailServiceModel> AllInterrails();
         public IEnumerable<CategoryServiceModel> AllCategories();
     }

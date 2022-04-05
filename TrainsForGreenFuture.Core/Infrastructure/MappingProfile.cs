@@ -1,6 +1,7 @@
 ﻿namespace TrainsForGreenFuture.Infrastructure
 {
     using AutoMapper;
+    using TrainsForGreenFuture.Core.Models.Api.Renovations;
     using TrainsForGreenFuture.Core.Models.Categories;
     using TrainsForGreenFuture.Core.Models.Interrails;
     using TrainsForGreenFuture.Core.Models.Locomotives;
@@ -51,6 +52,9 @@
             CreateMap<Renovation, RenovationViewModel>();
 
             CreateMap<Renovation, RenovationDetailsViewModel>();
+
+            CreateMap<RenovationViewModel, RenovationResponseModel>()
+                .ForMember(rm => rm.RenovationVolume, cfg => cfg.MapFrom(r => r.RenovationVolume.ToString()));
         }
     }
 }

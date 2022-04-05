@@ -136,10 +136,10 @@
         {
             var renovation = context.Renovations.FirstOrDefault(r => r.Id == id);
 
-            if(renovation == null)
+            if (renovation == null)
             {
                 return false;
-            }    
+            }
 
             renovation.IsCancelled = true;
             renovation.Comment = comment;
@@ -152,7 +152,7 @@
             var dbRenovation = GetFullRenovationsQuery()
                 .FirstOrDefault(r => r.Id == id);
 
-            if(dbRenovation == null)
+            if (dbRenovation == null)
             {
                 return null;
             }
@@ -165,8 +165,9 @@
             int currentPage = 1,
             int renovationPerPage = int.MaxValue)
             => GetRenovation(GetFullRenovationsQuery(), sorting, currentPage, renovationPerPage);
-        
-            
+
+        public IEnumerable<RenovationViewModel> ApiRenovations()
+            => mapper.Map<List<RenovationViewModel>>(GetFullRenovationsQuery().Where(r => r.IsPaid).ToArray());
 
         public IEnumerable<InterrailServiceModel> AllInterrails()
             => mapper.Map<List<InterrailServiceModel>>(context.Interrails.ToArray());
