@@ -8,7 +8,7 @@
     {
         public string Id { get; set; }
 
-        public string OrderType { get; set; }
+        public OrderType OrderType { get; set; }
 
         public string Company { get; set; }
 

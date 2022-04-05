@@ -30,9 +30,11 @@ builder.Services.AddDefaultIdentity<User>(options =>
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddTransient<IPasswordHasher<User>, PasswordHasher<User>>();
+builder.Services.AddTransient<IStatisticsService, StatisticsService>();
 builder.Services.AddTransient<ILocomotiveService, LocomotiveService>();
 builder.Services.AddTransient<ITrainCarService, TrainCarService>();
 builder.Services.AddTransient<ITrainService, TrainService>();
+builder.Services.AddTransient<IRenovationService, RenovationService>();
 builder.Services.AddTransient<IOrderService, OrderService>();
 
 builder.Services.AddMemoryCache();

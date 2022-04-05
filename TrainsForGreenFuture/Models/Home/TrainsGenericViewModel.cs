@@ -11,5 +11,6 @@
         public string AddUrlRef { get; init; }
 
         public int Count { get; init; }
+
     }
 }

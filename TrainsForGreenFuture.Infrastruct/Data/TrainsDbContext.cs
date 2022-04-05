@@ -23,6 +23,7 @@
         public DbSet<Interrail> Interrails { get; set; }
 
         public DbSet<Order> Orders { get; set; }
+        public DbSet<Renovation> Renovations { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -79,6 +80,24 @@
 
             });
 
+            builder.Entity<Renovation>(r =>
+            {
+                r.HasOne(r => r.User)
+                .WithMany(u => u.Renovations)
+                .HasForeignKey(k => k.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+                r.HasOne(l => l.Locomotive)
+                .WithMany()
+                .HasForeignKey(k => k.LocomotiveId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+                r.HasOne(l => l.TrainCar)
+                .WithMany()
+                .HasForeignKey(k => k.TrainCarId)
+                .OnDelete(DeleteBehavior.Cascade);
+            });
+
             builder.Entity<Locomotive>()
                 .Property(b => b.Price).HasPrecision(12, 2);
 
@@ -93,6 +112,9 @@
 
             builder.Entity<Order>()
                 .Property(b => b.AdditionalLuxuryLevelTax).HasPrecision(12, 2);
+
+            builder.Entity<Renovation>()
+                .Property(b => b.Price).HasPrecision(12, 2);
 
 
             base.OnModelCreating(builder);

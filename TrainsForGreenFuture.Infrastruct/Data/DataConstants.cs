@@ -84,5 +84,12 @@
             public const int countMinValue = 1;
             public const int countMaxValue = 50;
         }
+        public class Renovation
+        {
+            public const int minDeadline = 3;
+            public const int maxDeadline = 24;
+            public const double minPriceValue = 1000000;
+            public const double maxPriceValue = 10000000;
+        }
     }
 }

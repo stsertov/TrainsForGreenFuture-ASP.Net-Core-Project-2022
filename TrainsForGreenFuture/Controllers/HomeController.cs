@@ -56,8 +56,6 @@
             return View(genericTrains);
         }
 
-        public IActionResult Renovation()
-            => View();
         public IActionResult Privacy() 
             => View();
 

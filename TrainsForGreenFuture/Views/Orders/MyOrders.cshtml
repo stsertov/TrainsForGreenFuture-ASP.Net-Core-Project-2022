@@ -1,4 +1,5 @@
-﻿@model IEnumerable<OrderViewModel>
+﻿@using TrainsForGreenFuture.Infrastructure.Data.Models.Enum
+@model IEnumerable<OrderViewModel>
 
 @{
     ViewBag.Title = "My Orders";
@@ -27,15 +28,16 @@
     <tbody>
         @foreach (var order in Model)
         {
-            if (order.OrderType == "Locomotive")
+            
+            if (order.OrderType == OrderType.Locomotive)
             {
                 <partial name="_LocomotiveOrderPartial" model="@order" />
             }
-            else if(order.OrderType == "TrainCar")
+            else if(order.OrderType == OrderType.TrainCar)
             {
                 <partial name="_TrainCarOrderPartial" model="@order" />
             }
-            else if(order.OrderType == "Train")
+            else if(order.OrderType == OrderType.Train)
             {
                 <partial name="_TrainOrderPartial" model="@order" />
             }
@@ -46,5 +48,5 @@
 
 @if (@Model.Count() == 0)
 {
-    <h2>There are no orders yet.</h2>
+    <h2 class="text-center">There are no orders yet.</h2>
 }

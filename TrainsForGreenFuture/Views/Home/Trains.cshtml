@@ -6,8 +6,27 @@
 <h1 class="text-center mt-2">Our Trains</h1>
 
 <div class="row mt-4 mb-6 ">
-
-        <partial name="_TrainsGenericPartial" model="@Model" />
-
+    @foreach (var train in @Model)
+    {
+        <div class="card col-6 col-lg-3 game-card">
+            <img class="card-img-top img-fluid card-image rounded" src="@train.ImageUrl"
+             alt="Responsive image"
+             data-toggle="tooltip"
+             data-placement="bottom" title="@train.TypeName">
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item text-center">@train.TypeName</li>
+                    <li class="list-group-item">
+                        <div class="col-sm" style="float: left;">Available: @train.Count</div>
+                    </li>
+                </ul>
+                <a href="@train.UrlRef" class="btn btn-block btn-primary" style="width: 120px; height: auto;">@train.TypeName</a>
+                @if (User.IsAdmin())
+                {
+                    <a href="@train.AddUrlRef" class="btn btn-block btn-info" style="width: 60px; height: auto;">Add</a>
+                }
+            </div>
+        </div>
+    }
 </div>
 

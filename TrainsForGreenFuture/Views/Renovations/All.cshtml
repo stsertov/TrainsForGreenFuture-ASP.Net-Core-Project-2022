@@ -1,0 +1,94 @@
+﻿@model AllRenovationsViewModel
+
+@{
+    ViewBag.Title = "Renovation";
+}
+
+<h1 class="text-center mt-2">You can bring you old locomotives and train cars to life with our renovation services.</h1>
+
+<div class="row">
+    @foreach (var renovation in @Model.Renovations)
+    {
+        <div class="col-md-4">
+            <div class="card mb-3">
+                <img class="card-img-top" src="@renovation.Id" alt="@renovation.Id @renovation.Id - @renovation.Id (@renovation.Id)">
+                <div class="card-body text-center">
+                    <h5 class="card-title text-center">Year  Model Series (EngineType)</h5>
+                    <a asp-controller="Orders" asp-action="OrderLocomotive" asp-route-id="@renovation.Id" class="btn btn-primary">Order</a>
+                    <a asp-controller="Locomotives" asp-action="Details" asp-route-id="@renovation.Id" class="btn btn-info">More</a>
+                    @if (User.IsAdmin())
+                    {
+                        <a asp-area="Admin" asp-controller="Locomotives" asp-action="Edit" asp-route-id="@renovation.Id" class="btn btn-warning">Edit</a>
+                        <a asp-area="Admin" asp-controller="Locomotives" asp-action="Delete" asp-route-id="@renovation.Id class="btn btn-danger">Remove</a>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<form method="get">
+    <div class="row mt-2">
+        <div class="form-group col-lg-2">
+            <div class="form-group">
+                <select asp-for="Sorting" class="form-control">
+                    <option value="0" selected>Date Created</option>
+                    <option value="1">Status</option>
+                    <option value="2">Type</option>
+                </select>
+            </div>
+        </div>
+            <div class="form-group col-md-4">
+            <input class="btn btn-primary" type="submit" value="Sort" />
+        </div>
+    </div>
+</form>
+
+
+@if (User.IsAdmin())
+{
+    <a asp-area="Admin" asp-controller="Renovations" asp-action="All" class="btn btn-warning">Edit</a>
+}
+
+@{
+    var previousPage = Model.CurrentPage - 1;
+    if (previousPage < 1)
+    {
+        previousPage = 1;
+    }
+
+    var maxPage = Math.Ceiling((double)Model.TotalRenovations / AllRenovationsViewModel.RenovationsPerPage);
+}
+
+<div class="row md-12 mb-6 mt-3">
+    <div class="col-6">
+        <a class="btn btn-primary @(Model.CurrentPage == 1 ? "disabled" : string.Empty)" 
+           asp-controller="Renovations"
+           asp-action="All"
+           asp-route-currentPage="@previousPage"
+           asp-route-sorting="@((int)Model.Sorting)">Prev</a>
+    </div>
+
+    @{
+        var shouldButtonBeDisabled = Model.CurrentPage == maxPage ||
+        !Model.Renovations.Any();
+    }
+
+    <div class="col-6">
+        <a class="btn btn-primary @(shouldButtonBeDisabled ? "disabled" : string.Empty)" style="float: right;"
+           asp-controller="Renovations"
+           asp-action="All"
+           asp-route-currentPage="@(Model.CurrentPage + 1)"
+           asp-route-sorting="@((int)Model.Sorting)">Next</a>
+    </div>
+</div>
+
+@if (!Model.Renovations.Any())
+{
+    <h2 class="text-center">No renovations for now!</h2>
+}
+
+@foreach (var renovation in @Model.Renovations)
+{
+
+}

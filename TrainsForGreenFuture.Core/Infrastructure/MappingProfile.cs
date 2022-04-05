@@ -5,6 +5,7 @@
     using TrainsForGreenFuture.Core.Models.Interrails;
     using TrainsForGreenFuture.Core.Models.Locomotives;
     using TrainsForGreenFuture.Core.Models.Orders;
+    using TrainsForGreenFuture.Core.Models.Renovations;
     using TrainsForGreenFuture.Core.Models.TrainCars;
     using TrainsForGreenFuture.Core.Models.Trains;
     using TrainsForGreenFuture.Infrastructure.Data.Models;
@@ -28,7 +29,6 @@
 
 
             CreateMap<Order, OrderViewModel>()
-                .ForMember(o => o.OrderType, cfg => cfg.MapFrom(o => o.OrderType.ToString()))
                 .ForMember(o => o.Company, cfg => cfg.MapFrom(o => o.User.Company));
 
 
@@ -47,6 +47,8 @@
             CreateMap<Train, TrainFormModel>()
                 .ForMember(tf => tf.LuxuryLevel, cfg => cfg.MapFrom(t => t.LuxuryLevel.ToString()))
                 .ForMember(tf => tf.EngineType, cfg => cfg.MapFrom(t => t.EngineType.ToString()));
+
+            CreateMap<Renovation, RenovationViewModel>();
         }
     }
 }

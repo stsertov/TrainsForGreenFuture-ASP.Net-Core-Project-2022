@@ -20,5 +20,6 @@
         public string Company { get; set; }
 
         public IEnumerable<Order> Orders { get; set; }
+        public IEnumerable<Renovation> Renovations { get; set; }
     }
 }
