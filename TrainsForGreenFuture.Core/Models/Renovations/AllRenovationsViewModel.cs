@@ -6,11 +6,11 @@ namespace TrainsForGreenFuture.Core.Models.Renovations
 
     public class AllRenovationsViewModel
     {
-        public const int RenovationsPerPage = 5;
+        public const int RenovationsPerPage = 4;
 
-        public GlobalSorting Sorting { get; init; }
+        public GlobalSorting Sorting { get; set; }
 
-        public int CurrentPage { get; init; } = 1;
+        public int CurrentPage { get; set; } = 1;
 
         public int TotalRenovations { get; set; }
 

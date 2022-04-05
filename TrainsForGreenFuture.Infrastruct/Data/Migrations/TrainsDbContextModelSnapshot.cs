@@ -544,11 +544,11 @@ namespace TrainsForGreenFuture.Infrastructure.Data.Migrations
                         .HasMaxLength(600)
                         .HasColumnType("nvarchar(600)");
 
-                    b.Property<decimal>("Price")
+                    b.Property<decimal?>("Price")
                         .HasPrecision(12, 2)
                         .HasColumnType("decimal(12,2)");
 
-                    b.Property<int>("SeatCount")
+                    b.Property<int?>("SeatCount")
                         .HasColumnType("int");
 
                     b.Property<int>("Series")

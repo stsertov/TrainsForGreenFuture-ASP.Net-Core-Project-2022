@@ -194,10 +194,10 @@ namespace TrainsForGreenFuture.Infrastructure.Data.Migrations
                     Series = table.Column<int>(type: "int", nullable: false),
                     EngineType = table.Column<int>(type: "int", nullable: false),
                     InterrailId = table.Column<int>(type: "int", nullable: false),
-                    TopSpeed = table.Column<int>(type: "int", nullable: false),
+                    TopSpeed = table.Column<int>(type: "int", nullable: true),
                     Picture = table.Column<string>(type: "nvarchar(600)", maxLength: 600, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
-                    Price = table.Column<decimal>(type: "decimal(12,2)", precision: 12, scale: 2, nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(12,2)", precision: 12, scale: 2, nullable: true),
                     IsForRenovation = table.Column<bool>(type: "bit", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -222,12 +222,12 @@ namespace TrainsForGreenFuture.Infrastructure.Data.Migrations
                     Year = table.Column<int>(type: "int", nullable: false),
                     Series = table.Column<int>(type: "int", nullable: false),
                     CategoryId = table.Column<int>(type: "int", nullable: false),
-                    SeatCount = table.Column<int>(type: "int", nullable: false),
+                    SeatCount = table.Column<int>(type: "int", nullable: true),
                     LuxuryLevel = table.Column<int>(type: "int", nullable: false),
                     InterrailId = table.Column<int>(type: "int", nullable: false),
                     Picture = table.Column<string>(type: "nvarchar(600)", maxLength: 600, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
-                    Price = table.Column<decimal>(type: "decimal(12,2)", precision: 12, scale: 2, nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(12,2)", precision: 12, scale: 2, nullable: true),
                     IsForRenovation = table.Column<bool>(type: "bit", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -277,6 +277,48 @@ namespace TrainsForGreenFuture.Infrastructure.Data.Migrations
                         principalTable: "Interrails",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Renovations",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    RenovationVolume = table.Column<int>(type: "int", nullable: false),
+                    RenovationType = table.Column<int>(type: "int", nullable: false),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    LocomotiveId = table.Column<int>(type: "int", nullable: true),
+                    TrainCarId = table.Column<int>(type: "int", nullable: true),
+                    Deadline = table.Column<int>(type: "int", nullable: true),
+                    Price = table.Column<decimal>(type: "decimal(12,2)", precision: 12, scale: 2, nullable: true),
+                    RenovatedPicture = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Comment = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsApproved = table.Column<bool>(type: "bit", nullable: false),
+                    IsPaid = table.Column<bool>(type: "bit", nullable: false),
+                    IsCancelled = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Renovations", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Renovations_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Renovations_Locomotives_LocomotiveId",
+                        column: x => x.LocomotiveId,
+                        principalTable: "Locomotives",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Renovations_TrainCars_TrainCarId",
+                        column: x => x.TrainCarId,
+                        principalTable: "TrainCars",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -392,6 +434,21 @@ namespace TrainsForGreenFuture.Infrastructure.Data.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Renovations_LocomotiveId",
+                table: "Renovations",
+                column: "LocomotiveId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Renovations_TrainCarId",
+                table: "Renovations",
+                column: "TrainCarId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Renovations_UserId",
+                table: "Renovations",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_TrainCars_CategoryId",
                 table: "TrainCars",
                 column: "CategoryId");
@@ -428,7 +485,13 @@ namespace TrainsForGreenFuture.Infrastructure.Data.Migrations
                 name: "Orders");
 
             migrationBuilder.DropTable(
+                name: "Renovations");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Trains");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
@@ -438,9 +501,6 @@ namespace TrainsForGreenFuture.Infrastructure.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "TrainCars");
-
-            migrationBuilder.DropTable(
-                name: "Trains");
 
             migrationBuilder.DropTable(
                 name: "Categories");

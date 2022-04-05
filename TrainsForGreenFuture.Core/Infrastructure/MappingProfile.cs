@@ -49,6 +49,8 @@
                 .ForMember(tf => tf.EngineType, cfg => cfg.MapFrom(t => t.EngineType.ToString()));
 
             CreateMap<Renovation, RenovationViewModel>();
+
+            CreateMap<Renovation, RenovationDetailsViewModel>();
         }
     }
 }

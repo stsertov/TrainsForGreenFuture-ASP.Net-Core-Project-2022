@@ -29,6 +29,26 @@
             string picture,
             string description);
 
+        public string CreateTrainCarRenovation(
+                string userId,
+                RenovationVolume renovationVolume,
+                string model,
+                int year,
+                int series,
+                int categoryId,
+                LuxuryLevel luxuryLevel,
+                int interrailId,
+                string picture,
+                string description);
+
+        public bool CancelRenovation(string id, string comment);
+
+        public AllRenovationsViewModel AllRenovations(
+           GlobalSorting sorting = GlobalSorting.DateCreated,
+           int currentPage = 1,
+           int renovationPerPage = int.MaxValue);
+
+        public RenovationDetailsViewModel Details(string id);
         public IEnumerable<InterrailServiceModel> AllInterrails();
         public IEnumerable<CategoryServiceModel> AllCategories();
     }

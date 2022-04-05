@@ -1,11 +1,13 @@
 ﻿namespace TrainsForGreenFuture.Controllers
 {
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using TrainsForGreenFuture.Core.Contracts;
     using TrainsForGreenFuture.Core.Models.Renovations;
     using TrainsForGreenFuture.Extensions;
     using TrainsForGreenFuture.Infrastructure.Data.Models.Enum;
 
+    using static TrainsForGreenFuture.Areas.Admin.AdminConstants;
     public class RenovationsController : Controller
     {
         private IRenovationService service;
@@ -15,7 +17,7 @@
             this.service = service;
         }
 
-        public IActionResult All(AllRenovationsViewModel renovations)
+        public IActionResult All([FromQuery] AllRenovationsViewModel renovations)
         {
             var renovationModel = new AllRenovationsViewModel();
 
@@ -39,10 +41,12 @@
         }
 
 
+        [Authorize]
         public IActionResult ApplyForLocomotive()
             => View(new RenovationLocomotiveApplyFormModel { Interrails = service.AllInterrails() });
 
         [HttpPost]
+        [Authorize]
         public IActionResult ApplyForLocomotive(RenovationLocomotiveApplyFormModel locomotive)
         {
             if (!Enum.TryParse<RenovationVolume>(locomotive.RenovationVolume, out var parsedRenovationVolume))
@@ -82,6 +86,7 @@
             return Redirect("/Renovations/All");
         }
 
+        [Authorize]
         public IActionResult ApplyForTrainCar()
             => View(new RenovationTrainCarApplyFormModel
             {
@@ -90,6 +95,7 @@
             });
 
         [HttpPost]
+        [Authorize]
         public IActionResult ApplyForTrainCar(RenovationTrainCarApplyFormModel trainCar)
         {
             if (!Enum.TryParse<RenovationVolume>(trainCar.RenovationVolume, out var parsedRenovationVolume))
@@ -115,19 +121,32 @@
             }
 
 
-            //service.CreateLocomotiveRenovation(
-            //    User.Id(),
-            //    parsedRenovationVolume,
-            //    locomotive.Model,
-            //    locomotive.Year.Value,
-            //    locomotive.Series.Value,
-            //    parsedEngineType,
-            //    locomotive.InterrailId.Value,
-            //    locomotive.Picture,
-            //    locomotive.Description);
+            service.CreateTrainCarRenovation(
+                User.Id(),
+                parsedRenovationVolume,
+                trainCar.Model,
+                trainCar.Year.Value,
+                trainCar.Series.Value,
+                trainCar.CategoryId.Value,
+                parsedLuxuryLevel,
+                trainCar.InterrailId.Value,
+                trainCar.Picture,
+                trainCar.Description);
 
 
             return Redirect("/Renovations/All");
+        }
+       
+        public IActionResult Details(string id)
+        {
+            var renovation = service.Details(id);
+
+            if(renovation == null)
+            {
+                return Redirect("/Home/Index");
+            }
+
+            return View(renovation);
         }
     }
 }

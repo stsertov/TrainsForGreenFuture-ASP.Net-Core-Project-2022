@@ -1,5 +1,30 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model RenovationDetailsViewModel
+
 @{
+    
 }
+
+@if (Model.RenovationType == RenovationType.Locomotive)
+{
+    ViewBag.Title = $"Details for {Model.Locomotive.Model}";
+
+    <div class="row">
+        <div class="column">
+            <img src="@Model.Locomotive.Picture">
+            <img src="@(Model.RenovatedPicture == null ? string.Empty : Model.RenovatedPicture)">
+        </div>
+    </div>
+}
+else if (Model.RenovationType == RenovationType.TrainCar)
+{
+    ViewBag.Title = $"Details for {Model.TrainCar.Model}";
+
+    <div class="row">
+        <div class="column">
+            <img src="@Model.TrainCar.Picture">
+            <img src="@(Model.RenovatedPicture == null ? string.Empty : Model.RenovatedPicture)">
+        </div>
+    </div>
+}
+
+

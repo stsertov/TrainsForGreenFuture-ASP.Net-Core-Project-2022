@@ -28,13 +28,7 @@
             int currentPage = 1,
             int renovationPerPage = int.MaxValue)
         {
-            var dbRenovations = context.Renovations
-                .Include(r => r.Locomotive)
-                .ThenInclude(l => l.Interrail)
-                .Include(r => r.TrainCar)
-                .ThenInclude(tc => tc.Category)
-                .Include(r => r.TrainCar)
-                .ThenInclude(tc => tc.Interrail)
+            var dbRenovations = GetFullRenovationsQuery()
                 .Where(r => r.UserId == userId)
                 .AsQueryable();
 
@@ -46,13 +40,7 @@
             int currentPage = 1,
             int renovationPerPage = int.MaxValue)
         {
-            var dbRenovations = context.Renovations
-                .Include(r => r.Locomotive)
-                .ThenInclude(l => l.Interrail)
-                .Include(r => r.TrainCar)
-                .ThenInclude(tc => tc.Category)
-                .Include(r => r.TrainCar)
-                .ThenInclude(tc => tc.Interrail)
+            var dbRenovations = GetFullRenovationsQuery()
                 .Where(r => r.IsPaid)
                 .AsQueryable();
 
@@ -100,6 +88,85 @@
 
             return renovation.Id;
         }
+        public string CreateTrainCarRenovation(
+                string userId,
+                RenovationVolume renovationVolume,
+                string model,
+                int year,
+                int series,
+                int categoryId,
+                LuxuryLevel luxuryLevel,
+                int interrailId,
+                string picture,
+                string description)
+        {
+            var trainCar = new TrainCar
+            {
+                Model = model,
+                Year = year,
+                Series = series,
+                CategoryId = categoryId,
+                LuxuryLevel = luxuryLevel,
+                InterrailId = interrailId,
+                Picture = picture,
+                Description = description,
+                IsForRenovation = true
+            };
+
+            context.TrainCars.Add(trainCar);
+            context.SaveChanges();
+
+            var renovation = new Renovation
+            {
+                RenovationVolume = renovationVolume,
+                RenovationType = RenovationType.TrainCar,
+                DateCreated = DateTime.UtcNow,
+                TrainCarId = trainCar.Id,
+                UserId = userId
+            };
+
+            context.Renovations.Add(renovation);
+
+            context.SaveChanges();
+
+            return renovation.Id;
+        }
+
+        public bool CancelRenovation(string id, string comment)
+        {
+            var renovation = context.Renovations.FirstOrDefault(r => r.Id == id);
+
+            if(renovation == null)
+            {
+                return false;
+            }    
+
+            renovation.IsCancelled = true;
+            renovation.Comment = comment;
+            context.SaveChanges();
+
+            return true;
+        }
+        public RenovationDetailsViewModel Details(string id)
+        {
+            var dbRenovation = GetFullRenovationsQuery()
+                .FirstOrDefault(r => r.Id == id);
+
+            if(dbRenovation == null)
+            {
+                return null;
+            }
+
+            return mapper.Map<RenovationDetailsViewModel>(dbRenovation);
+        }
+
+        public AllRenovationsViewModel AllRenovations(
+            GlobalSorting sorting = GlobalSorting.DateCreated,
+            int currentPage = 1,
+            int renovationPerPage = int.MaxValue)
+            => GetRenovation(GetFullRenovationsQuery(), sorting, currentPage, renovationPerPage);
+        
+            
 
         public IEnumerable<InterrailServiceModel> AllInterrails()
             => mapper.Map<List<InterrailServiceModel>>(context.Interrails.ToArray());
@@ -116,7 +183,7 @@
         {
             query = sorting switch
             {
-                GlobalSorting.Status => query.OrderByDescending(r => r.IsApproved).ThenByDescending(r => r.IsPaid),
+                GlobalSorting.Status => query.OrderBy(r => r.IsPaid).ThenBy(r => r.IsApproved).ThenBy(r => r.IsCancelled),
                 GlobalSorting.Type => query.OrderBy(r => r.RenovationType),
                 GlobalSorting.DateCreated or _ => query.OrderByDescending(r => r.DateCreated)
             };
@@ -132,8 +199,24 @@
             {
                 TotalRenovations = totalRenovations,
                 Sorting = sorting,
+                CurrentPage = currentPage,
                 Renovations = mapper.Map<List<RenovationViewModel>>(renovations)
             };
         }
+
+        private IQueryable<Renovation> GetFullRenovationsQuery()
+            => context.Renovations
+                .Include(r => r.TrainCar)
+                .ThenInclude(tc => tc.Category)
+                .Include(r => r.TrainCar)
+                .ThenInclude(tc => tc.Interrail)
+                .Include(r => r.Locomotive)
+                .ThenInclude(l => l.Interrail)
+                .Include(r => r.TrainCar)
+                .ThenInclude(tc => tc.Category)
+                .Include(r => r.TrainCar)
+                .ThenInclude(tc => tc.Interrail)
+                .AsQueryable();
+
     }
 }

@@ -1,0 +1,29 @@
+﻿@model RenovationViewModel
+
+@{
+    var status = "Pending";
+
+    if(Model.IsPaid)
+    {
+        status = "Fulfilled";
+    }
+    else if(Model.IsApproved)
+    {
+        status = "Awaiting payment";
+    }
+    else if(Model.IsCancelled)
+    {
+        status = "Cancelled";
+    }
+}
+
+<div class="col-md-3 mt-2">
+    <div class="card mb-3">
+        <img class="card-img-top" src="@Model.TrainCar.Picture" alt="@Model.TrainCar.Model @Model.TrainCar.Series - @Model.TrainCar.Year (@Model.RenovationVolume)">
+        <div class="card-body text-center">
+            <h5 class="card-title text-center">(@Model.TrainCar.Year) @Model.TrainCar.Model @Model.TrainCar.Series @Model.RenovationVolume renovation</h5>
+            <h6 class="card-title text-center">Status : @status</h6>
+            <a asp-area="" asp-controller="Renovations" asp-action="Details" asp-route-id="@Model.Id" class="btn btn-info">Details</a>
+        </div>
+    </div>
+</div>

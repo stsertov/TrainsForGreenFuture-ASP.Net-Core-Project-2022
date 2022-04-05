@@ -11,6 +11,9 @@
         if (User.IsAdmin())
         {
             <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="Admin" asp-controller="Renovations" asp-action="All">Renovations Administration</a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link text-dark" asp-area="Admin" asp-controller="Orders" asp-action="All">Orders Administration</a>
             </li>
         }

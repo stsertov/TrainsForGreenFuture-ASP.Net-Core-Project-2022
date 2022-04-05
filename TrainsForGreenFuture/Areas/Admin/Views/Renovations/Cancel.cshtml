@@ -1,0 +1,45 @@
+﻿@model RenovationDetailsViewModel
+@{
+    ViewBag.Title = $"Cancel an order";
+}
+
+<div class="row">
+
+    @if(Model.RenovationType == RenovationType.Locomotive)
+    {
+        <div class="col-md-6">
+        <img src="@Model.Locomotive.Picture" class="img-responsive" alt="@Model.Locomotive" width="630" height="auto">
+    </div>
+
+    <div class="col-md-6">
+          <form method="post">
+            <div class="form-group">
+                <label asp-for="Comment"></label>
+                <textarea asp-for="Comment" rows="4" class="form-control" placeholder="Explain why you are canceling the order..."> </textarea>
+                <span asp-validation-for="Comment" class="small text-danger"></span>
+            </div>
+            <input asp-area="Admin" asp-controller="Renovations" asp-action="Cancel" asp-route-id="@Model.Id"  class="btn btn-primary mt-3" type="submit" value="Confirm" />
+        </form>
+     @*   <a asp-area="Admin" asp-controller="Renovations" asp-action="Confirm" asp-route-id="@Model.Id" class="btn btn-primary " style="width: 200px; height: auto;">Confirm</a>*@
+    </div>
+    } 
+    @if(Model.RenovationType == RenovationType.TrainCar)
+    {
+        <div class="col-md-6">
+        <img src="@Model.TrainCar.Picture" class="img-responsive" alt="@Model.TrainCar" width="630" height=auto>
+    </div>
+
+    <div class="col-md-6">
+          <form method="post">
+            <div class="form-group">
+                <label asp-for="Comment"></label>
+                <textarea asp-for="Comment" rows="4" class="form-control" placeholder="Explain why you are canceling the order..."> </textarea>
+                <span asp-validation-for="Comment" class="small text-danger"></span>
+            </div>
+            <input asp-area="Admin" asp-controller="Renovations" asp-action="Cancel" asp-route-id="@Model.Id"  class="btn btn-primary mt-3" type="submit" value="Confirm" />
+        </form>
+     @*   <a asp-area="Admin" asp-controller="Renovations" asp-action="Confirm" asp-route-id="@Model.Id" class="btn btn-primary " style="width: 200px; height: auto;">Confirm</a>*@
+    </div>
+    }
+    
+</div>

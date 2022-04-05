@@ -12,7 +12,7 @@ using TrainsForGreenFuture.Infrastructure.Data;
 namespace TrainsForGreenFuture.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(TrainsDbContext))]
-    [Migration("20220405163036_TrainsDbTables")]
+    [Migration("20220405194837_TrainsDbTables")]
     partial class TrainsDbTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -546,11 +546,11 @@ namespace TrainsForGreenFuture.Infrastructure.Data.Migrations
                         .HasMaxLength(600)
                         .HasColumnType("nvarchar(600)");
 
-                    b.Property<decimal>("Price")
+                    b.Property<decimal?>("Price")
                         .HasPrecision(12, 2)
                         .HasColumnType("decimal(12,2)");
 
-                    b.Property<int>("SeatCount")
+                    b.Property<int?>("SeatCount")
                         .HasColumnType("int");
 
                     b.Property<int>("Series")
