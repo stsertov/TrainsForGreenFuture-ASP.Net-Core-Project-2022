@@ -23,7 +23,14 @@
         <div class="card-body text-center">
             <h5 class="card-title text-center">(@Model.TrainCar.Year) @Model.TrainCar.Model @Model.TrainCar.Series @Model.RenovationVolume renovation</h5>
             <h6 class="card-title text-center">Status : @status</h6>
-            <a asp-area="" asp-controller="Renovations" asp-action="Details" asp-route-id="@Model.Id" class="btn btn-info">Details</a>
+            @if(User.Identity.IsAuthenticated)
+            {
+            <a asp-area="" asp-controller="Renovations" asp-action="MoreDetails" asp-route-id="@Model.Id" class="btn btn-info">Details</a>
+            }
+            else
+            {
+            <a asp-area="" asp-controller="Renovations" asp-action="Details" asp-route-id="@Model.Id" class="btn btn-info">Check</a>
+            }
         </div>
     </div>
 </div>

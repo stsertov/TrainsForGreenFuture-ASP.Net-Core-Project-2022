@@ -148,5 +148,37 @@
 
             return View(renovation);
         }
+
+        [Authorize]
+        public IActionResult Pay(string id)
+        {
+            var result = service.Pay(id, User.Id());
+
+            if (result)
+            {
+                return Redirect($"/Renovations/MoreDetails/{id}");
+            }
+
+            return BadRequest();
+        }
+
+        [Authorize]
+        public IActionResult MoreDetails(string id)
+        {
+            var renovation = service.Details(id);
+
+            if(renovation == null)
+            {
+                return BadRequest();
+            }
+
+            if(renovation.UserId != User.Id())
+            {
+                return Unauthorized();
+            }
+
+
+            return View(renovation);
+        }
     }
 }

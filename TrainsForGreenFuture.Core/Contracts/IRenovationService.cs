@@ -41,10 +41,17 @@
                 string picture,
                 string description);
 
+        public bool UploadPicture(string id, string pictureUrl);
         public bool CancelRenovation(string id, string comment);
 
         public RenovationDetailsViewModel Details(string id);
+        public bool Update(
+            string id,
+            int deadline,
+            decimal price,
+            string comment);
 
+        public bool Pay(string id, string userId);
         public AllRenovationsViewModel AllRenovations(
            GlobalSorting sorting = GlobalSorting.DateCreated,
            int currentPage = 1,

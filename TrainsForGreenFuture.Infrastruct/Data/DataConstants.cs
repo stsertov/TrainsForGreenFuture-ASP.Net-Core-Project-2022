@@ -90,6 +90,9 @@
             public const int maxDeadline = 24;
             public const double minPriceValue = 1000000;
             public const double maxPriceValue = 10000000;
+            public const int commentMinLength = 10;
+            public const int commentMaxLength = 600;
+            public const int pictureMaxLength = 600;
         }
     }
 }

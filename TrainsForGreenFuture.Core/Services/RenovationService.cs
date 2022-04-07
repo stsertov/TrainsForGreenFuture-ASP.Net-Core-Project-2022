@@ -134,9 +134,16 @@
 
         public bool CancelRenovation(string id, string comment)
         {
-            var renovation = context.Renovations.FirstOrDefault(r => r.Id == id);
+            var renovation = context.Renovations
+                .FirstOrDefault(r => r.Id == id && !r.IsPaid && !r.IsApproved);
 
             if (renovation == null)
+            {
+                return false;
+            }
+
+            if(renovation.IsApproved ||
+               renovation.IsPaid)
             {
                 return false;
             }
@@ -158,6 +165,69 @@
             }
 
             return mapper.Map<RenovationDetailsViewModel>(dbRenovation);
+        }
+        public bool Update(
+            string id, 
+            int deadline,
+            decimal price, 
+            string comment)
+        {
+            var dbRenovation = context.Renovations
+                .FirstOrDefault(r => r.Id == id);
+
+            if(dbRenovation == null)
+            {
+                return false;
+            }
+
+            dbRenovation.Deadline = deadline;
+            dbRenovation.Price = price;
+            dbRenovation.Comment = comment;
+            dbRenovation.IsApproved = true;
+
+            if(dbRenovation.IsCancelled)
+            {
+                dbRenovation.IsCancelled = false;
+            }
+
+            context.SaveChanges();
+
+            return true;
+        }
+
+        public bool UploadPicture(string id, string pictureUrl)
+        {
+            var dbRenovation = context.Renovations
+                .FirstOrDefault(r => r.Id == id && r.IsPaid);
+
+            if (dbRenovation == null)
+            {
+                return false;
+            }
+
+            dbRenovation.RenovatedPicture = pictureUrl;
+            context.SaveChanges();
+
+            return true;
+        }
+
+        public bool Pay(string id, string userId)
+        {
+            var renovation = context.Renovations
+                .FirstOrDefault(r => r.Id == id && r.UserId == userId);
+
+            if(renovation == null)
+            {
+                return false;
+            }
+
+            if (!renovation.IsPaid)
+            {
+                renovation.IsPaid = true;
+                context.SaveChanges();
+            }
+
+            return true;
         }
 
         public AllRenovationsViewModel AllRenovations(
@@ -219,5 +289,6 @@
                 .ThenInclude(tc => tc.Interrail)
                 .AsQueryable();
 
+      
     }
 }

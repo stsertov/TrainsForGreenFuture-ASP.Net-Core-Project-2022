@@ -167,6 +167,6 @@
             => context.TrainCars
             .Include(tc => tc.Interrail)
             .Include(tc => tc.Category)
-            .FirstOrDefault(tc => tc.Id == trainCarId && !tc.IsDeleted);
+            .FirstOrDefault(tc => tc.Id == trainCarId && !tc.IsDeleted && !tc.IsForRenovation);
     }
 }

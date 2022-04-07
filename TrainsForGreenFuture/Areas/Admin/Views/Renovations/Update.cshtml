@@ -1,0 +1,25 @@
+﻿@model RenovationDetailsViewModel
+
+
+@if (Model.RenovationType == RenovationType.Locomotive)
+{
+
+    ViewBag.Title = $"More about {@Model.Locomotive.Model}";
+
+    <partial name="_RenovationUpdateLocomotiveFormPartial" model="@Model" />
+
+}
+
+
+
+@if(Model.RenovationType == RenovationType.TrainCar)
+{
+    ViewBag.Title = $"More about {@Model.TrainCar.Model}";
+
+    <partial name="_RenovationUpdateTrainCarFormPartial" model="@Model" />
+
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

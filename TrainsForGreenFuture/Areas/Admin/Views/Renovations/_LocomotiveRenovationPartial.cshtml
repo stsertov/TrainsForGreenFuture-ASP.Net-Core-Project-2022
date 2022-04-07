@@ -28,11 +28,15 @@
             {
                 if (!Model.IsPaid)
                 {
-                    <a asp-area="Admin" asp-controller="Renovations" asp-action="Review" asp-route-id="@Model.Id" class="btn btn-warning">Review</a>
-                    if (!Model.IsCancelled)
+                    <a asp-area="Admin" asp-controller="Renovations" asp-action="Update" asp-route-id="@Model.Id" class="btn btn-warning">Update</a>
+                    if (!Model.IsCancelled && !Model.IsApproved)
                     {
                         <a asp-area="Admin" asp-controller="Renovations" asp-action="Cancel" asp-route-id="@Model.Id" class="btn btn-danger">Cancel</a>
                     }
+                }
+                else
+                {
+                    <a asp-area="Admin" asp-controller="Renovations" asp-action="UploadPicture" asp-route-id="@Model.Id" class="btn btn-warning">Upload Picture</a>
                 }
             }
         </div>
