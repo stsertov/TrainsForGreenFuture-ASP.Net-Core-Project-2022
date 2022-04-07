@@ -88,6 +88,7 @@
 
             return renovation.Id;
         }
+
         public string CreateTrainCarRenovation(
                 string userId,
                 RenovationVolume renovationVolume,
@@ -142,18 +143,13 @@
                 return false;
             }
 
-            if(renovation.IsApproved ||
-               renovation.IsPaid)
-            {
-                return false;
-            }
-
             renovation.IsCancelled = true;
             renovation.Comment = comment;
             context.SaveChanges();
 
             return true;
         }
+
         public RenovationDetailsViewModel Details(string id)
         {
             var dbRenovation = GetFullRenovationsQuery()
@@ -166,6 +162,7 @@
 
             return mapper.Map<RenovationDetailsViewModel>(dbRenovation);
         }
+
         public bool Update(
             string id, 
             int deadline,
@@ -173,7 +170,7 @@
             string comment)
         {
             var dbRenovation = context.Renovations
-                .FirstOrDefault(r => r.Id == id);
+                .FirstOrDefault(r => r.Id == id && !r.IsPaid);
 
             if(dbRenovation == null)
             {
@@ -214,7 +211,7 @@
         public bool Pay(string id, string userId)
         {
             var renovation = context.Renovations
-                .FirstOrDefault(r => r.Id == id && r.UserId == userId);
+                .FirstOrDefault(r => r.Id == id && r.IsApproved && r.UserId == userId);
 
             if(renovation == null)
             {
@@ -287,8 +284,6 @@
                 .ThenInclude(tc => tc.Category)
                 .Include(r => r.TrainCar)
                 .ThenInclude(tc => tc.Interrail)
-                .AsQueryable();
-
-      
+                .AsQueryable();     
     }
 }

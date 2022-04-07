@@ -7,12 +7,11 @@
 
     public class RenovationsController : AdminController
     {
+        private const string RenovationsAllRoute = "/Admin/Renovations/All";
         private IRenovationService service;
 
         public RenovationsController(IRenovationService service)
-        {
-            this.service = service;
-        }
+            => this.service = service;
 
         public IActionResult All([FromQuery] AllRenovationsViewModel renovations)
             => View(service.AllRenovations(
@@ -26,7 +25,7 @@
 
             if(renovation == null)
             {
-                return Redirect("/Admin/Renovations/All");
+                return Redirect(RenovationsAllRoute);
             }
 
             return View(renovation);
@@ -52,7 +51,7 @@
                 return Redirect("/Home/Error");
             }
 
-            return Redirect("/Admin/Renovations/All");
+            return Redirect(RenovationsAllRoute);
         }
 
         public IActionResult UploadPicture(string id)
@@ -68,7 +67,7 @@
                 return Redirect("/Home/Error");
             }
 
-            return Redirect($"/Renovations/Details/{id}");
+            return Redirect($"{RenovationsAllRoute}/{id}");
         }
 
 
@@ -89,7 +88,7 @@
                 return BadRequest();
             }
 
-            return Redirect("/Admin/Renovations/All");
+            return Redirect(RenovationsAllRoute);
         }
     }
 }

@@ -5,10 +5,13 @@
 @if (Model.RenovationType == RenovationType.Locomotive)
 {
     ViewBag.Title = $"Details for {Model.Locomotive.Model}";
+
     <div class="row">
         <div class="col-md-6">
             <h3>Old:</h3>
             <img src="@Model.Locomotive.Picture" class="img-responsive" width="630" height="auto">
+            <p>Renovation Type : @Model.RenovationVolume</p>
+            <p>(@Model.Locomotive.Year) @Model.Locomotive.Model @Model.Locomotive.Series </p>
         </div>
         <div class="col-md-6">
             <h3>Renovated:</h3>
@@ -21,6 +24,24 @@
             {
                 <img src="@Model.RenovatedPicture" class="img-responsive" width="630" height="auto">
             }
+
+            @if (Model.IsApproved)
+            {
+                <p>Deadline : @Model.Deadline months</p>
+                <p>Price : €@String.Format("{0:n}", @Model.Price)</p>
+            }
+        </div>
+    </div>
+
+    var areaName = string.Empty;
+    if (User.IsAdmin())
+    {
+        areaName = "Admin";
+    }
+
+    <div class="row md-12 mb-6 mt-3">
+        <div class="col-12">
+            <a asp-area="@areaName" asp-controller="Renovations" asp-action="All" asp-route-id="" class="btn btn-danger mt-3" style="width: 200px; height: auto; float: right;">Back</a>
         </div>
     </div>
 }
@@ -32,6 +53,8 @@ else if (Model.RenovationType == RenovationType.TrainCar)
         <div class="col-md-6">
             <h3>Old:</h3>
             <img src="@Model.TrainCar.Picture" class="img-responsive" width="630" height="auto">
+            <p>Renovation Type : @Model.RenovationVolume</p>
+            <p>(@Model.TrainCar.Year) @Model.TrainCar.Model @Model.TrainCar.Series </p>
         </div>
         <div class="col-md-6">
             @if (Model.RenovatedPicture == null)
@@ -43,6 +66,26 @@ else if (Model.RenovationType == RenovationType.TrainCar)
             {
                 <img src="@Model.RenovatedPicture" class="img-responsive" width="630" height="auto">
             }
+
+            @if (Model.IsApproved)
+            {
+                <p>Deadline : @Model.Deadline months</p>
+                <p>Price : €@String.Format("{0:n}", @Model.Price)</p>
+            }
+        </div>
+    </div>
+
+
+    var areaName = string.Empty;
+    if (User.IsAdmin())
+    {
+        areaName = "Admin";
+    }
+
+
+    <div class="row md-12 mb-6 mt-3">
+        <div class="col-12">
+            <a asp-area="@areaName" asp-controller="Renovations" asp-action="All" asp-route-id="" class="btn btn-danger mt-3" style="width: 200px; height: auto; float: right;">Back</a>
         </div>
     </div>
 }

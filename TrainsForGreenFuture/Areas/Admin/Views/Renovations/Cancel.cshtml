@@ -19,6 +19,7 @@
                     <span asp-validation-for="Comment" class="small text-danger"></span>
                 </div>
                 <input asp-area="Admin" asp-controller="Renovations" asp-action="Cancel" asp-route-id="@Model.Id" class="btn btn-primary mt-3" type="submit" value="Confirm" />
+                <a asp-area="Admin" asp-controller="Renovations" asp-action="All" asp-route-id="" class="btn btn-danger mt-3" style="width: 200px; height: auto;">Back</a>
             </form>
         </div>
     }
@@ -36,6 +37,7 @@
                     <span asp-validation-for="Comment" class="small text-danger"></span>
                 </div>
                 <input asp-area="Admin" asp-controller="Renovations" asp-action="Cancel" asp-route-id="@Model.Id" class="btn btn-primary mt-3" type="submit" value="Confirm" />
+                <a asp-area="Admin" asp-controller="Renovations" asp-action="All" asp-route-id="" class="btn btn-danger mt-3" style="width: 200px; height: auto;">Back</a>
             </form>
         </div>
     }

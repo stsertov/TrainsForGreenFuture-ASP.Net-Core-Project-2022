@@ -20,5 +20,6 @@
         <h2>Price : €@String.Format("{0:n}", @Model.Price)</h2>
         <br />
         <a asp-controller="Orders" asp-action="OrderTrainCar" asp-route-id="@Model.Id" class="btn btn-primary " style="width: 200px; height: auto;">Order Now</a>
+        <a asp-area="" asp-controller="TrainCars" asp-action="All" asp-route-id="" class="btn btn-danger" style="width: 200px; height: auto;">Back</a>
     </div>
 </div>

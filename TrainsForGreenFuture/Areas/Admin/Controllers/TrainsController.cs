@@ -11,9 +11,8 @@
         private ITrainService service;
 
         public TrainsController(ITrainService service)
-        {
-            this.service = service;
-        }
+            => this.service = service;
+        
 
         public IActionResult Add()
             => View(new TrainFormModel
@@ -27,20 +26,18 @@
 
             if (!Enum.TryParse(train.LuxuryLevel, out LuxuryLevel parsedLuxuryType))
             {
-                ModelState.AddModelError(train.LuxuryLevel, "We do not offer this type of train.");
+                ModelState.AddModelError("Invalid luxury level.", "We do not offer this luxury level.");
             }
             
             if (!Enum.TryParse(train.EngineType, out EngineType parsedEngineType))
             {
-                ModelState.AddModelError(train.LuxuryLevel, "We do not offer this type of engine.");
+                ModelState.AddModelError(train.EngineType, "We do not offer this type of engine.");
             }
 
             if (!service.AllInterrails().Any(i => i.Id == train.InterrailId))
             {
                 ModelState.AddModelError("Invalid Interrail", "Interrail is invalid.");
-            }
-
-           
+            }          
 
             if (!ModelState.IsValid)
             {
@@ -66,7 +63,6 @@
 
         public IActionResult Edit(int id)
         {
-
             var train = service.FormDetails(id);
 
             if (train == null)
@@ -84,12 +80,12 @@
         {
             if (!Enum.TryParse(train.LuxuryLevel, out LuxuryLevel parsedLuxuryType))
             {
-                ModelState.AddModelError(train.LuxuryLevel, "We do not offer this type of train car.");
+                ModelState.AddModelError("Invalid luxury level.", "We do not offer this luxury level.");
             }
 
             if (!Enum.TryParse(train.EngineType, out EngineType parsedEngineType))
             {
-                ModelState.AddModelError(train.LuxuryLevel, "We do not offer this type of train car.");
+                ModelState.AddModelError(train.EngineType, "We do not offer this type of engine.");
             }
 
             if (!service.AllInterrails().Any(i => i.Id == train.InterrailId))

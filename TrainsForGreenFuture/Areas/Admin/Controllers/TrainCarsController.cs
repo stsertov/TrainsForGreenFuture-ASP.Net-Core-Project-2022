@@ -11,9 +11,8 @@
         private ITrainCarService service;
 
         public TrainCarsController(ITrainCarService service)
-        {
-            this.service = service;
-        }
+            => this.service = service;
+        
 
         public IActionResult Add()
             => View(new TrainCarFormModel
@@ -28,7 +27,7 @@
 
             if (!Enum.TryParse(trainCar.LuxuryLevel, out LuxuryLevel parsedLuxuryType))
             {
-                ModelState.AddModelError(trainCar.LuxuryLevel, "We do not offer this type of train car.");
+                ModelState.AddModelError("Invalid luxury level.", "We do not offer this luxury level.");
             }
 
             if (!service.AllInterrails().Any(i => i.Id == trainCar.InterrailId))
@@ -84,7 +83,7 @@
         {
             if (!Enum.TryParse(trainCar.LuxuryLevel, out LuxuryLevel parsedLuxuryType))
             {
-                ModelState.AddModelError(trainCar.LuxuryLevel, "We do not offer this type of train car.");
+                ModelState.AddModelError("Invalid luxury level.", "We do not offer this luxury level.");
             }
 
             if (!service.AllInterrails().Any(i => i.Id == trainCar.InterrailId))

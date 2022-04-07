@@ -11,6 +11,7 @@
             <img src="@Model.Locomotive.Picture" class="img-responsive" width="630" height="auto">
             <p>Renovation Type : @Model.RenovationVolume</p>
             <p>(@Model.Locomotive.Year) @Model.Locomotive.Model @Model.Locomotive.Series </p>
+            <p>@Model.Locomotive.Description</p>
         </div>
         <div class="col-md-6">
             <h3>Renovated:</h3>
@@ -23,12 +24,12 @@
             {
                 <img src="@Model.RenovatedPicture" class="img-responsive" width="630" height="auto">
             }
-           @* <img src="@(Model.RenovatedPicture == string.Empty ? Model.Locomotive.Picture : Model.RenovatedPicture) class="img-responsive" width="630" height="auto">*@
-
+           
             @if (Model.IsApproved)
             {
-                <p>Deadline : @Model.Deadline</p>
-                <p>Price : @Model.Price</p>
+                <p>Deadline : @Model.Deadline months</p>
+                <p>Price : €@String.Format("{0:n}", @Model.Price)</p>
+                <p>@Model.Comment</p>
             }
         </div>
     </div>
@@ -43,6 +44,7 @@ else if (Model.RenovationType == RenovationType.TrainCar)
             <img src="@Model.TrainCar.Picture" class="img-responsive" width="630" height="auto">
             <p>Renovation Type : @Model.RenovationVolume</p>
             <p>(@Model.TrainCar.Year) @Model.TrainCar.Model @Model.TrainCar.Series </p>
+            <p>@Model.TrainCar.Description</p>
         </div>
         <div class="col-md-6">
             @if (Model.RenovatedPicture == null)
@@ -56,14 +58,20 @@ else if (Model.RenovationType == RenovationType.TrainCar)
             }
             @if (Model.IsApproved)
             {
-                <p>Deadline : @Model.Deadline</p>
-                <p>Price : @Model.Price</p>
+                <p>Deadline : @Model.Deadline months</p>
+                <p>Price : €@String.Format("{0:n}", @Model.Price)</p>
+                <p>@Model.Comment</p>
             }
         </div>
     </div>
 }
 
-@if (!Model.IsPaid && Model.IsApproved && User.Identity.IsAuthenticated)
-{
-    <a asp-area="" asp-controller="Renovations" asp-action="Pay" asp-route-id="@Model.Id" class="btn btn-warning float-right ml-3">Pay</a>
-}
+<div class="row md-12 mb-6 mt-3">
+    <div class="col-12">
+        @if (!Model.IsPaid && Model.IsApproved && User.Identity.IsAuthenticated)
+        {
+            <a asp-area="" asp-controller="Renovations" asp-action="Pay" asp-route-id="@Model.Id" class="btn btn-warning float-right ml-3" style="width: 200px; height: auto;">Pay</a>
+        }
+        <a asp-area="" asp-controller="Renovations" asp-action="All" asp-route-id="" class="btn btn-danger ml-3" style="width: 200px; height: auto; float: right;">Back</a>
+    </div>
+</div>

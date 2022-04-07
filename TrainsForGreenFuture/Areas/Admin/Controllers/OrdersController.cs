@@ -8,9 +8,8 @@
         private IOrderService service;
 
         public OrdersController(IOrderService service)
-        {
-            this.service = service;
-        }
+            => this.service = service;
+        
         public IActionResult All()
         {
             var orders = service.All();

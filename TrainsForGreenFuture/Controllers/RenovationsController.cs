@@ -13,9 +13,8 @@
         private IRenovationService service;
 
         public RenovationsController(IRenovationService service)
-        {
-            this.service = service;
-        }
+            => this.service = service;
+        
 
         public IActionResult All([FromQuery] AllRenovationsViewModel renovations)
         {
@@ -176,7 +175,6 @@
             {
                 return Unauthorized();
             }
-
 
             return View(renovation);
         }

@@ -11,9 +11,8 @@
         private ILocomotiveService service;
 
         public LocomotivesController(ILocomotiveService service)
-        {
-            this.service = service;
-        }
+            => this.service = service;
+        
 
         public IActionResult Add()
         {

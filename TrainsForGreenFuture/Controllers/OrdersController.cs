@@ -127,7 +127,7 @@
 
             if (!Enum.TryParse<LuxuryLevel>(order.LuxuryLevel, out var parsedLuxuryLevel))
             {
-                ModelState.AddModelError("Ivalid luxury level.", "We do not offer this luxury level.");
+                ModelState.AddModelError("Invalid luxury level.", "We do not offer this luxury level.");
             }
 
             if (!ModelState.IsValid)
@@ -195,7 +195,7 @@
 
             if (!Enum.TryParse<LuxuryLevel>(order.LuxuryLevel, out var parsedLuxuryLevel))
             {
-                ModelState.AddModelError("Ivalid luxury level.", "We do not offer this luxury level.");
+                ModelState.AddModelError("Invalid luxury level.", "We do not offer this luxury level.");
             }
 
             if (!ModelState.IsValid)
