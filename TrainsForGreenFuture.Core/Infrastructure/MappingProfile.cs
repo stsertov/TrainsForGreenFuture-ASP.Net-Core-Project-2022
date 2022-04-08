@@ -1,4 +1,4 @@
-﻿namespace TrainsForGreenFuture.Infrastructure
+﻿namespace TrainsForGreenFuture.Core.Infrastructure
 {
     using AutoMapper;
     using TrainsForGreenFuture.Core.Models.Api.Renovations;

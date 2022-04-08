@@ -8,9 +8,9 @@
     public class TrainCarsController : AdminController
     {
         private const string TrainCarAllRoute = "/TrainCars/All";
-        private ITrainCarService service;
+        private TrainDbContext service;
 
-        public TrainCarsController(ITrainCarService service)
+        public TrainCarsController(TrainDbContext service)
             => this.service = service;
         
 

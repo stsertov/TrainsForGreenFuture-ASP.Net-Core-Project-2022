@@ -15,14 +15,14 @@
         private const string AdminOrdersRoute = "/Admin/Orders/All";
         private IOrderService service;
         private ILocomotiveService locomotiveService;
-        private ITrainCarService trainCarService;
+        private TrainDbContext trainCarService;
         private ITrainService trainService;
         private IMapper mapper;
 
         public OrdersController(
             IOrderService service,
             ILocomotiveService locomotiveService,
-            ITrainCarService trainCarService,
+            TrainDbContext trainCarService,
              ITrainService trainService,
             IMapper mapper)
         {

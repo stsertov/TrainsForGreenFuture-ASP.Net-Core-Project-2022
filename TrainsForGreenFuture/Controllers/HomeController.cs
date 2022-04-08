@@ -9,11 +9,11 @@
     public class HomeController : Controller
     {
         private ILocomotiveService locomotiveService;
-        private ITrainCarService trainCarService;
+        private TrainDbContext trainCarService;
         private ITrainService trainService;
 
         public HomeController(ILocomotiveService locomotiveService,
-            ITrainCarService trainCarService,
+            TrainDbContext trainCarService,
             ITrainService trainService)
         {
             this.locomotiveService = locomotiveService;

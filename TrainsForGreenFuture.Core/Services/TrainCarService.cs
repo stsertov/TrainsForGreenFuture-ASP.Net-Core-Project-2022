@@ -12,7 +12,7 @@
     using TrainsForGreenFuture.Infrastructure.Data.Models;
     using TrainsForGreenFuture.Infrastructure.Data.Models.Enum;
 
-    public class TrainCarService : ITrainCarService
+    public class TrainCarService : TrainDbContext
     {
         private TrainsDbContext context;
         private IMapper mapper;

@@ -9,9 +9,9 @@
     [Route("api/traincars")]
     public class TrainCarsApiController : ControllerBase
     {
-        private ITrainCarService service;
+        private TrainDbContext service;
         private IMapper mapper;
-        public TrainCarsApiController(ITrainCarService service,
+        public TrainCarsApiController(TrainDbContext service,
             IMapper mapper)
         {
             this.service = service;

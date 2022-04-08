@@ -5,7 +5,7 @@
     using TrainsForGreenFuture.Core.Models.TrainCars;
     using TrainsForGreenFuture.Infrastructure.Data.Models.Enum;
 
-    public interface ITrainCarService
+    public interface TrainDbContext
     {
         public IEnumerable<TrainCarViewModel> AllTrainCars();
 
