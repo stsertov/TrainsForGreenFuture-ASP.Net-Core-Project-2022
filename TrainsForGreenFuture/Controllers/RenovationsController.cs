@@ -6,8 +6,6 @@
     using TrainsForGreenFuture.Core.Models.Renovations;
     using TrainsForGreenFuture.Extensions;
     using TrainsForGreenFuture.Infrastructure.Data.Models.Enum;
-
-    using static TrainsForGreenFuture.Areas.Admin.AdminConstants;
     public class RenovationsController : Controller
     {
         private IRenovationService service;
@@ -63,6 +61,11 @@
                 ModelState.AddModelError("Invalid Interrail", "Interrail is invalid.");
             }
 
+            if(!Uri.IsWellFormedUriString(locomotive.Picture, UriKind.Absolute))
+            {
+                ModelState.AddModelError("Invalid Url", "Url is invalid.");
+            }
+
             if (!ModelState.IsValid)
             {
                 locomotive.Interrails = service.AllInterrails();
@@ -110,6 +113,11 @@
             if (!service.AllInterrails().Any(i => i.Id == trainCar.InterrailId))
             {
                 ModelState.AddModelError("Invalid Interrail", "Interrail is invalid.");
+            }
+
+            if (!Uri.IsWellFormedUriString(trainCar.Picture, UriKind.Absolute))
+            {
+                ModelState.AddModelError("Invalid Url", "Url is invalid.");
             }
 
             if (!ModelState.IsValid)

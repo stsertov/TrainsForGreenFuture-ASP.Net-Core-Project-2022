@@ -8,9 +8,9 @@
     public class TrainCarsController : Controller
     {
         private const string TrainCarCacheKey = "traincarsall";
-        private TrainDbContext service;
+        private ITrainCarService service;
         private IMemoryCache cache;
-        public TrainCarsController(TrainDbContext service,
+        public TrainCarsController(ITrainCarService service,
             IMemoryCache cache)
         {
             this.service = service;

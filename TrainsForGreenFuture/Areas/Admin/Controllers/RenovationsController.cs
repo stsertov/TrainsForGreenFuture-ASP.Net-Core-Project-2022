@@ -60,6 +60,12 @@
         [HttpPost]
         public IActionResult UploadPicture(string id, RenovationAdminPictureFormModel uploadPic)
         {
+
+            if(!Uri.IsWellFormedUriString(uploadPic.RenovationPicture, UriKind.Absolute))
+            {
+                return Redirect("/Home/Error");
+            }
+
             var result = service.UploadPicture(id, uploadPic.RenovationPicture);
 
             if(!result)

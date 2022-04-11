@@ -9,11 +9,11 @@
     public class HomeController : Controller
     {
         private ILocomotiveService locomotiveService;
-        private TrainDbContext trainCarService;
+        private ITrainCarService trainCarService;
         private ITrainService trainService;
 
         public HomeController(ILocomotiveService locomotiveService,
-            TrainDbContext trainCarService,
+            ITrainCarService trainCarService,
             ITrainService trainService)
         {
             this.locomotiveService = locomotiveService;
@@ -31,14 +31,14 @@
                 new TrainsGenericViewModel
                 {
                     TypeName = "Locomotives",
-                    ImageUrl = "https://bit.ly/3qQcMod",
+                    ImageUrl = "https://bit.ly/3LWqqxW",
                     Count = locomotiveService.AllLocomotives().Count(),
                     UrlRef = "/Locomotives/All",
                     AddUrlRef = "/Admin/Locomotives/Add"},
                 new TrainsGenericViewModel
                 {
                     TypeName = "Train Cars",
-                ImageUrl = "https://bit.ly/3NxLaOe",
+                ImageUrl = "https://bit.ly/3JHx8ql",
                     Count = trainCarService.AllTrainCars().Count(),
                     UrlRef = "/TrainCars/All",
                     AddUrlRef = "/Admin/TrainCars/Add"
@@ -46,7 +46,7 @@
                 new TrainsGenericViewModel
                 {
                     TypeName = "Trains",
-                    ImageUrl = "https://bit.ly/3JWAre5",
+                    ImageUrl = "https://bit.ly/3jrYXYJ",
                     Count = trainService.AllTrains().Count(), 
                     UrlRef = "/Trains/All",
                     AddUrlRef = "/Admin/Trains/Add"

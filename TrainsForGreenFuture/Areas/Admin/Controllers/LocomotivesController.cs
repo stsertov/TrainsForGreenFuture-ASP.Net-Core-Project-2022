@@ -32,6 +32,11 @@
                 ModelState.AddModelError("Invalid Interrail", "Interrail is invalid.");
             }
 
+            if (!Uri.IsWellFormedUriString(locomotive.Picture, UriKind.Absolute))
+            {
+                ModelState.AddModelError("Invalid Url", "Url is invalid.");
+            }
+
             if (!ModelState.IsValid)
             {
                 locomotive.Interrails = service.AllInterrails();
@@ -73,6 +78,11 @@
             if (!Enum.TryParse(locomotive.EngineType, out EngineType parsedEngineType))
             {
                 ModelState.AddModelError(locomotive.EngineType, "We do not offer this engine type.");
+            }
+
+            if (!Uri.IsWellFormedUriString(locomotive.Picture, UriKind.Absolute))
+            {
+                ModelState.AddModelError("Invalid Url", "Url is invalid.");
             }
 
             if (!ModelState.IsValid)

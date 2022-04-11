@@ -3,11 +3,7 @@
     using AutoMapper;
     using Microsoft.Extensions.DependencyInjection;
     using NUnit.Framework;
-    using System;
-    using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using TrainForGreenFuture.Test;
     using TrainsForGreenFuture.Core.Contracts;
     using TrainsForGreenFuture.Core.Infrastructure;
@@ -31,7 +27,7 @@
             serviceProvider = serviceCollection
                 .AddSingleton(sp => dbContext.CreateDb())
                 .AddSingleton<IMapper, Mapper>()
-                .AddSingleton<TrainDbContext, TrainCarService>(ls =>
+                .AddSingleton<ITrainCarService, TrainCarService>(ls =>
                 new TrainCarService(
                     ls.GetRequiredService<TrainsDbContext>(),
                     mapper))
@@ -45,7 +41,7 @@
         public void AllTrainCarsExceptDeletedAndForRenovation()
         {
             //Arrange
-            var service = serviceProvider.GetService<TrainDbContext>();
+            var service = serviceProvider.GetService<ITrainCarService>();
 
             //Act
             var trainCars = service.AllTrainCars().Count();
@@ -59,7 +55,7 @@
         public void CreateSuccessfullyTrainCars()
         {
             //Arrange
-            var service = serviceProvider.GetService<TrainDbContext>();
+            var service = serviceProvider.GetService<ITrainCarService>();
 
             //Act
             var successfulAddId = service.Create(
@@ -86,7 +82,7 @@
         public void EditsOnlyExistentTrainCars()
         {
             //Arrange
-            var service = serviceProvider.GetService<TrainDbContext>();
+            var service = serviceProvider.GetService<ITrainCarService>();
 
             //Act
             var successfulEdit = service.Edit(
@@ -152,7 +148,7 @@
         public void DetailsGivesAProperLocomotive()
         {
             //Arrange
-            var service = serviceProvider.GetService<TrainDbContext>();
+            var service = serviceProvider.GetService<ITrainCarService>();
 
             //Act
             var trainCar = service.Details(1);
@@ -172,7 +168,7 @@
         public void FormDetailsGivesAProperTrainCar()
         {
             //Arrange
-            var service = serviceProvider.GetService<TrainDbContext>();
+            var service = serviceProvider.GetService<ITrainCarService>();
 
             //Act
             var trainCar = service.FormDetails(2);
@@ -192,7 +188,7 @@
         public void RemoveIsRemovingValidTrainCars()
         {
             //Arrange
-            var service = serviceProvider.GetService<TrainDbContext>();
+            var service = serviceProvider.GetService<ITrainCarService>();
 
             //Act
             var realTrainCarResult = service.Remove(1);
@@ -209,7 +205,7 @@
         public void AllInterrailsArePresent()
         {
             //Arrange
-            var service = serviceProvider.GetService<TrainDbContext>();
+            var service = serviceProvider.GetService<ITrainCarService>();
 
             //Act
             var interrails = service.AllInterrails().Count();
@@ -223,7 +219,7 @@
         public void AllCategoriesArePresent()
         {
             //Arrange
-            var service = serviceProvider.GetService<TrainDbContext>();
+            var service = serviceProvider.GetService<ITrainCarService>();
 
             //Act
             var categories = service.AllCategories().Count();
@@ -237,7 +233,7 @@
         public void GetCategoryNameGivesProperName()
         {
             //Arrange
-            var service = serviceProvider.GetService<TrainDbContext>();
+            var service = serviceProvider.GetService<ITrainCarService>();
 
             //Act
             var category = service.GetCategoryName(3);

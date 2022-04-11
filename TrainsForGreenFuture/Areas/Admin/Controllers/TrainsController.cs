@@ -37,7 +37,12 @@
             if (!service.AllInterrails().Any(i => i.Id == train.InterrailId))
             {
                 ModelState.AddModelError("Invalid Interrail", "Interrail is invalid.");
-            }          
+            }
+
+            if (!Uri.IsWellFormedUriString(train.Picture, UriKind.Absolute))
+            {
+                ModelState.AddModelError("Invalid Url", "Url is invalid.");
+            }
 
             if (!ModelState.IsValid)
             {
@@ -91,6 +96,11 @@
             if (!service.AllInterrails().Any(i => i.Id == train.InterrailId))
             {
                 ModelState.AddModelError("Invalid Interrail", "Interrail is invalid.");
+            }
+
+            if (!Uri.IsWellFormedUriString(train.Picture, UriKind.Absolute))
+            {
+                ModelState.AddModelError("Invalid Url", "Url is invalid.");
             }
 
             if (!ModelState.IsValid)

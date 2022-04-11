@@ -8,11 +8,11 @@
     public class TrainCarsController : AdminController
     {
         private const string TrainCarAllRoute = "/TrainCars/All";
-        private TrainDbContext service;
+        private ITrainCarService service;
 
-        public TrainCarsController(TrainDbContext service)
+        public TrainCarsController(ITrainCarService service)
             => this.service = service;
-        
+
 
         public IActionResult Add()
             => View(new TrainCarFormModel
@@ -38,6 +38,11 @@
             if (!service.AllCategories().Any(c => c.Id == trainCar.CategoryId))
             {
                 ModelState.AddModelError("Invalid Category", "Category is invalid.");
+            }
+
+            if (!Uri.IsWellFormedUriString(trainCar.Picture, UriKind.Absolute))
+            {
+                ModelState.AddModelError("Invalid Url", "Url is invalid.");
             }
 
             if (!ModelState.IsValid)
@@ -94,6 +99,11 @@
             if (!service.AllCategories().Any(c => c.Id == trainCar.CategoryId))
             {
                 ModelState.AddModelError("Invalid Category", "Category is invalid.");
+            }
+
+            if (!Uri.IsWellFormedUriString(trainCar.Picture, UriKind.Absolute))
+            {
+                ModelState.AddModelError("Invalid Url", "Url is invalid.");
             }
 
             if (!ModelState.IsValid)
