@@ -99,22 +99,28 @@
             });
 
             builder.Entity<Locomotive>()
-                .Property(b => b.Price).HasPrecision(12, 2);
+                .Property(b => b.Price)
+                .HasPrecision(12, 2);
 
             builder.Entity<TrainCar>()
-                .Property(b => b.Price).HasPrecision(12, 2);
+                .Property(b => b.Price)
+                .HasPrecision(12, 2);
 
             builder.Entity<Train>()
-                .Property(b => b.Price).HasPrecision(12, 2); 
+                .Property(b => b.Price)
+                .HasPrecision(12, 2); 
             
             builder.Entity<Order>()
-                .Property(b => b.AdditionalInterrailTax).HasPrecision(12, 2);
+                .Property(b => b.AdditionalInterrailTax)
+                .HasPrecision(12, 2);
 
             builder.Entity<Order>()
-                .Property(b => b.AdditionalLuxuryLevelTax).HasPrecision(12, 2);
+                .Property(b => b.AdditionalLuxuryLevelTax)
+                .HasPrecision(12, 2);
 
             builder.Entity<Renovation>()
-                .Property(b => b.Price).HasPrecision(12, 2);
+                .Property(b => b.Price)
+                .HasPrecision(12, 2);
 
 
             base.OnModelCreating(builder);

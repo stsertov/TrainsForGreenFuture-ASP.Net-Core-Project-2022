@@ -10,9 +10,6 @@
 
         public static bool IsAdmin(this ClaimsPrincipal user)
             => user.IsInRole(AdministratorRole);
-
-        public static bool IsEngineer(this ClaimsPrincipal user)
-            => user.IsInRole(EngineerRole);
     }
 }
 

@@ -24,7 +24,7 @@
             };
 
         private int LocomotivesCount()
-            => context.Locomotives.Count(l => !l.IsForRenovation);
+            => context.Locomotives.Count(l => !l.IsForRenovation && !l.IsDeleted);
 
         private int SoldLocomotivesCount()
             => context.Orders
@@ -35,7 +35,7 @@
 
 
         private int TrainCarsCount()
-            => context.TrainCars.Count(tc => !tc.IsForRenovation);
+            => context.TrainCars.Count(tc => !tc.IsForRenovation && !tc.IsDeleted);
 
         private int SoldTrainCarsCount()
             => context.Orders
@@ -46,7 +46,7 @@
 
 
         private int TrainsCount()
-           => context.Trains.Count(t => !t.IsForRenovation);
+           => context.Trains.Count(t => !t.IsForRenovation && !t.IsDeleted);
 
         private int SoldTrainsCount()
             => context.Orders
