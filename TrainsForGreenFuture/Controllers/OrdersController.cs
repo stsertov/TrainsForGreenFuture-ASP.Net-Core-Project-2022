@@ -1,4 +1,4 @@
-﻿namespace TrainsForGreenFuture.Controllers
+﻿ namespace TrainsForGreenFuture.Controllers
 {
     using AutoMapper;
     using Microsoft.AspNetCore.Authorization;
@@ -23,7 +23,7 @@
             IOrderService service,
             ILocomotiveService locomotiveService,
             ITrainCarService trainCarService,
-             ITrainService trainService,
+            ITrainService trainService,
             IMapper mapper)
         {
             this.service = service;
@@ -65,6 +65,11 @@
             if (locomotive == null)
             {
                 ModelState.AddModelError("Invalid data", "You should type valid parameters.");
+            }
+
+            if(!locomotiveService.AllInterrails().Select(i => i.Length).Contains(order.InterrailLength))
+            {
+                ModelState.AddModelError("Invalid interrail", "We do not offer this interrail length.");
             }
 
             if (!ModelState.IsValid)
@@ -128,6 +133,12 @@
             if (!Enum.TryParse<LuxuryLevel>(order.LuxuryLevel, out var parsedLuxuryLevel))
             {
                 ModelState.AddModelError("Invalid luxury level.", "We do not offer this luxury level.");
+            }
+
+
+            if (!trainCarService.AllInterrails().Select(i => i.Length).Contains(order.InterrailLength))
+            {
+                ModelState.AddModelError("Invalid interrail", "We do not offer this interrail length.");
             }
 
             if (!ModelState.IsValid)
@@ -196,6 +207,11 @@
             if (!Enum.TryParse<LuxuryLevel>(order.LuxuryLevel, out var parsedLuxuryLevel))
             {
                 ModelState.AddModelError("Invalid luxury level.", "We do not offer this luxury level.");
+            }
+
+            if (!trainService.AllInterrails().Select(i => i.Length).Contains(order.InterrailLength))
+            {
+                ModelState.AddModelError("Invalid interrail", "We do not offer this interrail length.");
             }
 
             if (!ModelState.IsValid)

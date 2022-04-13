@@ -3,7 +3,6 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Caching.Memory;
     using TrainsForGreenFuture.Core.Contracts;
-    using TrainsForGreenFuture.Core.Models.TrainCars;
     using TrainsForGreenFuture.Core.Models.Trains;
 
     public class TrainsController : Controller

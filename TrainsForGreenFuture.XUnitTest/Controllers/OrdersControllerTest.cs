@@ -1,25 +1,29 @@
-﻿namespace TrainsForGreenFuture.Test.Services
+﻿namespace TrainsForGreenFuture.XUnitTest.Controllers
 {
     using AutoMapper;
+    using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.DependencyInjection;
-    using NUnit.Framework;
+    using Moq;
     using System;
     using System.Linq;
     using TrainForGreenFuture.Test;
+    using TrainsForGreenFuture.Controllers;
     using TrainsForGreenFuture.Core.Contracts;
     using TrainsForGreenFuture.Core.Infrastructure;
+    using TrainsForGreenFuture.Core.Models.Orders;
     using TrainsForGreenFuture.Core.Services;
     using TrainsForGreenFuture.Infrastructure.Data;
     using TrainsForGreenFuture.Infrastructure.Data.Identity;
     using TrainsForGreenFuture.Infrastructure.Data.Models;
     using TrainsForGreenFuture.Infrastructure.Data.Models.Enum;
+    using Xunit;
 
-    public class OrderServiceTest
+    public class OrdersControllerTest
     {
-        private ServiceProvider serviceProvider;
-        private InMemoryDbContext dbContext;
+        OrdersController controller;
+        ServiceProvider serviceProvider;
+        InMemoryDbContext dbContext;
 
-        [SetUp]
         public void Setup()
         {
             dbContext = new InMemoryDbContext();
@@ -29,9 +33,21 @@
             serviceProvider = serviceCollection
                 .AddSingleton(sp => dbContext.CreateDb())
                 .AddSingleton<IMapper, Mapper>()
-                .AddSingleton<IOrderService, OrderService>(os =>
+                .AddSingleton<IOrderService, OrderService>(tcs =>
                 new OrderService(
-                    os.GetRequiredService<TrainsDbContext>(),
+                    tcs.GetRequiredService<TrainsDbContext>(),
+                    mapper))
+                .AddSingleton<ILocomotiveService, LocomotiveService>(tcs =>
+                new LocomotiveService(
+                    mapper,
+                    tcs.GetRequiredService<TrainsDbContext>()))
+                .AddSingleton<ITrainCarService, TrainCarService>(tcs =>
+                new TrainCarService(
+                    tcs.GetRequiredService<TrainsDbContext>(),
+                    mapper))
+                .AddSingleton<ITrainService, TrainService>(tcs =>
+                new TrainService(
+                    tcs.GetRequiredService<TrainsDbContext>(),
                     mapper))
                 .BuildServiceProvider();
 
@@ -39,129 +55,104 @@
             SeedData(context);
         }
 
-        [Test]
-
-        public void AllOrdersCountForAdminArea()
-        {
-            //Arrange
-            var service = serviceProvider.GetService<IOrderService>();
-
-            //Act
-            var result = service.All().Count();
-
-            //Assert
-            Assert.NotNull(result);
-            Assert.AreEqual(3, result);
-        }
-
-        [Test]
-        public void AllOrdersByUser()
-        {
-            //Arrange
-            var service = serviceProvider.GetService<IOrderService>();
-
-            //Act
-            var result = service.All("userId").Count();
-
-            //Assert
-            Assert.NotNull(result);
-            Assert.AreEqual(3, result);
-        }
-
-        [Test]
-
-        public void CreateLocomotiveOrderCreatesProperOrder()
-        {
-            //Arrange
-            var service = serviceProvider.GetService<IOrderService>();
-
-            //Act
-            var result = service.CreateLocomotiveOrder("userId", 1, 1435, 500000m, 3);
-            var ordersCount = service.All().Count();
-            var isPresent = service.All().Any(o => o.Id == result);
-
-            //Assert
-            Assert.NotNull(result);
-            Assert.AreEqual(4, ordersCount);
-            Assert.That(isPresent);
-        }
-
-        [Test]
-
-        public void CreateTrainCarOrderCreatesProperOrder()
-        {
-            //Arrange
-            var service = serviceProvider.GetService<IOrderService>();
-
-            //Act
-            var result = service.CreateTrainCarOrder("userId", 1, 1435, 500000m, (LuxuryLevel)0, 200000m, 3);
-            var ordersCount = service.All().Count();
-            var isPresent = service.All().Any(o => o.Id == result);
-
-            //Assert
-            Assert.NotNull(result);
-            Assert.AreEqual(4, ordersCount);
-            Assert.That(isPresent);
-        }
-
-        [Test]
-
-        public void CreateTrainOrderCreatesProperOrder()
-        {
-            //Arrange
-            var service = serviceProvider.GetService<IOrderService>();
-
-            //Act
-            var result = service.CreateTrainCarOrder("userId", 1, 1435, 500000m, (LuxuryLevel)0, 200000m, 3);
-            var ordersCount = service.All().Count();
-            var isPresent = service.All().Any(o => o.Id == result);
-
-            //Assert
-            Assert.NotNull(result);
-            Assert.AreEqual(4, ordersCount);
-            Assert.That(isPresent);
-        }
-
-        [Test]
-        public void ChangingStatusOfExistingOrdersOnly()
-        {
-            //Arrange
-            var service = serviceProvider.GetService<IOrderService>();
-
-            //Act
-            var success = service.ChangeStatus("locomotiveOrder");
-            var fail = service.ChangeStatus("notRealId");
-            var statusChanged = service.All().Any(o => o.IsApproved);
-
-            //Assert
-            Assert.IsTrue(success);
-            Assert.IsFalse(fail);
-            Assert.IsTrue(statusChanged);
-        }
-
-        [Test]
-        public void ChangingThePaidStatusOnlyOfTheApprovedOrders()
-        {
-            //Arrange
-            var service = serviceProvider.GetService<IOrderService>();
-
-            //Act
-            service.ChangeStatus("locomotiveOrder");
-            var success = service.ChangePaidStatus("locomotiveOrder");
-            var existentFail = service.ChangePaidStatus("trainCarOrder");
-            var nonExistentFail = service.ChangePaidStatus("notRealId");
-            var statusChanged = service.All().Any(o => o.IsPaid);
-
-            //Assert
-            Assert.IsTrue(success);
-            Assert.IsFalse(existentFail);
-            Assert.IsFalse(nonExistentFail);
-            Assert.IsTrue(statusChanged);
-        }
-
-        [TearDown]
         public void TearDown()
-           => dbContext.Dispose();
+            => dbContext.Dispose();
+
+        [Fact]
+        public void OrderLocomotivesCreatesProperOrder()
+        {
+            Setup();
+
+            //Arrange
+            var service = serviceProvider.GetService<IOrderService>();
+            var locomotiveService = serviceProvider.GetService<ILocomotiveService>();
+            controller = new OrdersController(
+                service,
+                locomotiveService,
+                Mock.Of<ITrainCarService>(),
+                Mock.Of<ITrainService>(),
+                Mock.Of<IMapper>());
+
+            //Act
+            var result = controller.OrderLocomotive(1);
+            var fakeResult = controller.OrderLocomotive(10);
+
+            //Assert
+            Assert.NotNull(result);
+            Assert.NotNull(fakeResult);
+
+            var viewResult = Assert.IsType<ViewResult>(result);
+            Assert.IsType<RedirectToActionResult>(fakeResult);
+
+            var modelResult = Assert.IsType<OrderLocomotiveFormModel>(viewResult.Model);
+            Assert.Equal(1, modelResult.Locomotive.Id);
+
+            TearDown();
+        }
+
+        [Fact]
+        public void OrderTrainCarsCreatesProperOrder()
+        {
+            Setup();
+
+            //Arrange
+            var service = serviceProvider.GetService<IOrderService>();
+            var trainCarService = serviceProvider.GetService<ITrainCarService>();
+            controller = new OrdersController(
+                service,
+                Mock.Of<ILocomotiveService>(),
+                trainCarService,
+                Mock.Of<ITrainService>(),
+                Mock.Of<IMapper>());
+
+            //Act
+            var result = controller.OrderTrainCar(1);
+            var fakeResult = controller.OrderTrainCar(10);
+
+            //Assert
+            Assert.NotNull(result);
+            Assert.NotNull(fakeResult);
+
+            var viewResult = Assert.IsType<ViewResult>(result);
+            Assert.IsType<RedirectToActionResult>(fakeResult);
+
+            var modelResult = Assert.IsType<OrderTrainCarFormModel>(viewResult.Model);
+            Assert.Equal(1, modelResult.TrainCar.Id);
+
+            TearDown();
+        }
+
+        [Fact]
+        public void OrderTrainsCreatesProperOrder()
+        {
+            Setup();
+
+            //Arrange
+            var service = serviceProvider.GetService<IOrderService>();
+            var trainService = serviceProvider.GetService<ITrainService>();
+            controller = new OrdersController(
+                service,
+                Mock.Of<ILocomotiveService>(),
+                Mock.Of<ITrainCarService>(),
+                trainService,
+                Mock.Of<IMapper>());
+
+            //Act
+            var result = controller.OrderTrain(1);
+            var fakeResult = controller.OrderTrain(10);
+
+            //Assert
+            Assert.NotNull(result);
+            Assert.NotNull(fakeResult);
+
+            var viewResult = Assert.IsType<ViewResult>(result);
+            Assert.IsType<RedirectToActionResult>(fakeResult);
+
+            var modelResult = Assert.IsType<OrderTrainFormModel>(viewResult.Model);
+            Assert.Equal(1, modelResult.Train.Id);
+
+            TearDown();
+        }
 
         private void SeedData(TrainsDbContext context)
         {
@@ -220,7 +211,7 @@
                 {
                     new Order
                     {
-                         Id = "locomotiveOrder",
+                        Id = "locomotiveOrder",
                         OrderType = (OrderType)0,
                         OrderDate = DateTime.UtcNow,
                         User = user,
@@ -229,6 +220,19 @@
                         AdditionalInterrailTax = 500000m,
                         Count = 3,
                         IsApproved = false,
+                        IsPaid = false
+                    },
+                    new Order
+                    {
+                        Id = "ApprovedLocomotiveOrder",
+                        OrderType = (OrderType)0,
+                        OrderDate = DateTime.UtcNow,
+                        User = user,
+                        Locomotive = locomotive,
+                        InterrailLength = 1520,
+                        AdditionalInterrailTax = 500000m,
+                        Count = 3,
+                        IsApproved = true,
                         IsPaid = false
                     },
                     new Order
@@ -259,7 +263,7 @@
                         IsApproved = false,
                         IsPaid = false
                     }
-            }); 
+            });
 
             context.SaveChanges();
         }
