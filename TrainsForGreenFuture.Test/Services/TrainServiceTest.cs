@@ -3,6 +3,7 @@
     using AutoMapper;
     using Microsoft.Extensions.DependencyInjection;
     using NUnit.Framework;
+    using System;
     using System.Linq;
     using TrainForGreenFuture.Test;
     using TrainsForGreenFuture.Core.Contracts;

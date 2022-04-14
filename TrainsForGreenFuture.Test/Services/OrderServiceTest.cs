@@ -167,7 +167,16 @@
         {
             var interrail = new Interrail { Length = 1435 };
             var category = new Category { Name = "SomeCategory" };
-            var user = new User { Id = "userId", FirstName = "user", LastName = "user", Company = "User user", Email = "user@user.com", PasswordHash = "hashedPassword", };
+            var user = new User 
+            { 
+                Id = "userId", 
+                FirstName = "user", 
+                LastName = "user", 
+                Company = "User user", 
+                Email = "user@user.com",
+                PasswordHash = "hashedPassword", 
+            };
+
             var locomotive = new Locomotive
             {
                 Model = "Lyudmila Orwell",

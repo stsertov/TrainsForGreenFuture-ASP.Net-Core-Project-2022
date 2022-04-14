@@ -14,7 +14,7 @@
             => this.service = service;
         
 
-        public IActionResult All([FromQuery] AllRenovationsViewModel renovations)
+        public IActionResult All([FromQuery] AllRenovationsViewModel renovationsInput)
         {
             var renovationModel = new AllRenovationsViewModel();
 
@@ -22,15 +22,15 @@
             {
                 renovationModel = service.All(
                     User.Id(),
-                    renovations.Sorting,
-                    renovations.CurrentPage,
+                    renovationsInput.Sorting,
+                    renovationsInput.CurrentPage,
                     AllRenovationsViewModel.RenovationsPerPage);
             }
             else
             {
                 renovationModel = service.AllFinished(
-                    renovations.Sorting,
-                    renovations.CurrentPage,
+                    renovationsInput.Sorting,
+                    renovationsInput.CurrentPage,
                     AllRenovationsViewModel.RenovationsPerPage);
             }
 

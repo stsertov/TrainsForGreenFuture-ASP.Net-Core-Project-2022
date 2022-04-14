@@ -28,7 +28,7 @@
 
         private int SoldLocomotivesCount()
             => context.Orders
-            .Where(l => l.IsPaid)
+            .Where(l => l.IsApproved && l.IsPaid)
             .ToArray()
             .Where(l => l.OrderType.ToString() == "Locomotive")
             .Sum(l => l.Count);
@@ -39,7 +39,7 @@
 
         private int SoldTrainCarsCount()
             => context.Orders
-            .Where(l => l.IsPaid)
+            .Where(l => l.IsApproved && l.IsPaid)
             .ToArray()
             .Where(tc => tc.OrderType.ToString() == "TrainCar")
             .Sum(tc => tc.Count);
@@ -50,7 +50,7 @@
 
         private int SoldTrainsCount()
             => context.Orders
-            .Where(l => l.IsPaid)
+            .Where(l => l.IsApproved && l.IsPaid)
             .ToArray()
             .Where(t => t.OrderType.ToString() == "Train")
             .Sum(t => t.Count);

@@ -14,6 +14,7 @@
     using TrainsForGreenFuture.Infrastructure.Data;
     using TrainsForGreenFuture.Models.Home;
     using Xunit;
+    using Microsoft.Extensions.Caching.Memory;
 
     public class HomeControllerTest
     {
@@ -57,10 +58,12 @@
         {
             //Arrange
             Setup();
+            IMemoryCache cache = new MemoryCache(new MemoryCacheOptions());
             controller = new HomeController(
                 Mock.Of<ILocomotiveService>(), 
                 Mock.Of<ITrainCarService>(), 
-                Mock.Of<ITrainService>());
+                Mock.Of<ITrainService>(),
+                cache);
 
             //Act
             var result = controller.Index();
@@ -79,7 +82,8 @@
             controller = new HomeController(
                 Mock.Of<ILocomotiveService>(),
                 Mock.Of<ITrainCarService>(),
-                Mock.Of<ITrainService>());
+                Mock.Of<ITrainService>(),
+                Mock.Of<IMemoryCache>());
 
             //Act
             var result = controller.Trains();
